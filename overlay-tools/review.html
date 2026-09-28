@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eurth overlay review</title>
+<style>
+  html, body { margin: 0; height: 100%; font: 14px system-ui, sans-serif; background: #14141f; color: #e6e6e6; }
+  #viewport { position: absolute; inset: 0 400px 0 0; overflow: hidden; cursor: grab; }
+  #viewport.draw, #viewport.flagging { cursor: crosshair; }
+  #viewport.paint, #viewport.paint #regions path { cursor: cell; }
+  #world { position: absolute; transform-origin: 0 0; width: 8000px; height: 4000px; }
+  #world img, #world svg { position: absolute; left: 0; top: 0; width: 8000px; height: 4000px; user-select: none; }
+  #regions path { fill: transparent; stroke: rgba(0, 0, 0, .35); stroke-width: .6; vector-effect: non-scaling-stroke; cursor: pointer; }
+  #regions path.owned { fill-opacity: .5; }
+  #regions path.current { fill-opacity: .75; stroke: #fff; stroke-width: 1.5; }
+  #regions path:hover { stroke: #fff; stroke-width: 2; }
+  #regions path.picked { stroke: #ffea00; stroke-width: 3; }
+  #regions path.focus { stroke: #fff; stroke-width: 2.5; }
+  #viewport.flagging #regions { pointer-events: none; }
+  #lines { pointer-events: none; }
+  #lines polyline { fill: none; stroke: #ff00d4; stroke-width: 2.5; vector-effect: non-scaling-stroke; }
+  #lines polyline.draft { stroke: #ffea00; stroke-dasharray: 6 4; }
+  #lines rect { fill: rgba(255, 234, 0, .15); stroke: #ffea00; stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  #lines rect.flagbox { fill: none; stroke: #fff; stroke-dasharray: 3 2; }
+  #side { position: absolute; top: 0; right: 0; bottom: 0; width: 400px; box-sizing: border-box; padding: 14px;
+          background: #1d1d2e; border-left: 1px solid #333; overflow-y: auto; }
+  h1 { font-size: 16px; margin: 0 0 10px; }
+  h2 { font-size: 13px; margin: 18px 0 6px; color: #9aa; text-transform: uppercase; letter-spacing: .05em; }
+  button, input, select { font: inherit; padding: 6px 10px; border-radius: 5px; border: 1px solid #555; background: #2a2a40; color: #eee; }
+  button { cursor: pointer; } button:hover { background: #3a3a58; }
+  button.primary { background: #a32222; border-color: #c33; }
+  button.on { background: #8a7a00; border-color: #cb0; }
+  button:disabled { opacity: .45; cursor: default; }
+  input, select { width: 100%; box-sizing: border-box; margin: 4px 0; }
+  .row { display: flex; gap: 6px; margin-top: 6px; align-items: center; } .row > * { flex: 1; }
+  #tip { position: fixed; pointer-events: none; background: rgba(0, 0, 0, .85); padding: 4px 8px; border-radius: 4px; display: none; z-index: 10; }
+  pre { white-space: pre-wrap; font: 12px ui-monospace, Consolas, monospace; background: #12121c; padding: 8px; border-radius: 5px; max-height: 320px; overflow: auto; }
+  .muted { color: #99a; font-size: 12.5px; line-height: 1.45; }
+  #status { position: fixed; left: 14px; bottom: 14px; max-width: 60vw; background: rgba(0, 0, 0, .85); color: #ffd76a;
+            padding: 7px 12px; border-radius: 5px; z-index: 10; }
+  #status:empty { display: none; }
+
+  .chips { display: flex; gap: 4px; margin: 4px 0; }
+  .chips button { flex: 1; padding: 3px 6px; font-size: 12.5px; }
+  #nationRows { max-height: 236px; overflow-y: auto; border: 1px solid #333; border-radius: 5px; background: #171724; }
+  #nationRows div { display: flex; align-items: center; gap: 8px; padding: 3px 6px; cursor: pointer; }
+  #nationRows div:hover { background: #2a2a40; }
+  #nationRows div.sel { background: #3a3a58; }
+  #nationRows span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #nationRows small { margin-left: auto; color: #99a; white-space: nowrap; }
+  #nationRows small.none { color: #ffb36a; }
+  .flag { width: 40px; height: 26px; flex: none; background: url(/background.png) no-repeat; image-rendering: pixelated; }
+  .flag.empty { background: #12121c; border: 1px dashed #444; box-sizing: border-box; }
+  .sw { width: 22px; height: 16px; border-radius: 3px; border: 1px solid #000; flex: none; }
+  .sw.empty { background: repeating-linear-gradient(45deg, #333 0 4px, #222 4px 8px); }
+
+  #editor { border: 1px solid #3a3a58; border-radius: 6px; padding: 10px; margin-top: 12px; background: #202034; }
+  #editor h3 { margin: 0; font-size: 15px; }
+  #editor h4 { margin: 12px 0 4px; font-size: 12px; color: #9aa; text-transform: uppercase; letter-spacing: .05em; }
+  #colorChoices { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+  #colorChoices button { display: flex; align-items: center; gap: 6px; padding: 4px 8px; flex: none; }
+  #colorChoices button.chosen { border-color: #fff; box-shadow: 0 0 0 1px #fff; }
+  #colorChoices input[type=color] { width: 44px; height: 30px; padding: 2px; margin: 0; flex: none; }
+  label.f { display: grid; grid-template-columns: 92px 1fr; align-items: center; column-gap: 6px; margin-top: 2px; }
+  label.f > span { color: #bbc; font-size: 12.5px; }
+  label.f em { grid-column: 2; font-style: normal; font-size: 11.5px; margin: -2px 0 3px; }
+  label.f input.dirty { border-color: #cb0; }
+  .src-manual { color: #7fd48a; } .src-primary { color: #8fb4ff; } .src-secondary { color: #ffb36a; } .src-empty { color: #778; }
+</style>
+</head>
+<body>
+<div id="viewport"><div id="world">
+  <img src="/background.png" alt="" draggable="false">
+  <div id="regionsHost"></div>
+  <svg id="lines" viewBox="0 0 8000 4000"></svg>
+</div></div>
+<div id="tip"></div>
+<div id="status"></div>
+
+<div id="side">
+  <h1>Nation overlay review</h1>
+  <p class="muted">Pick a nation, then give it territory, a colour and stats. Scroll to zoom, drag to pan.
+    Stats and colours save straight to nations.js; territory and borders need <b>Rebuild</b>.</p>
+
+  <h2>Nations</h2>
+  <input id="search" placeholder="Search name, key or capital…" autocomplete="off">
+  <div class="chips">
+    <button data-filter="all" class="on">All</button>
+    <button data-filter="none">No territory yet</button>
+    <button data-filter="map">On the map</button>
+  </div>
+  <div id="nationRows"></div>
+  <div class="row"><button id="newBtn">+ New nation</button></div>
+
+  <div id="editor" hidden>
+    <div class="row" style="margin-top:0"><h3 id="edTitle"></h3><button id="closeBtn" style="flex:none">Close</button></div>
+    <div id="edSub" class="muted"></div>
+
+    <div id="existingOnly">
+      <h4>Territory</h4>
+      <div class="muted" id="territoryText"></div>
+      <div class="row"><button id="paintBtn">Click regions to assign</button><button id="jumpBtn">Show on map</button></div>
+
+      <h4>Highlight colour</h4>
+      <div class="row" style="margin-top:0">
+        <b class="flag" id="edFlag" style="flex:none"></b>
+        <button id="flagBtn">Mark its flag on the map</button>
+      </div>
+      <div id="colorChoices" style="margin-top:8px"></div>
+    </div>
+
+    <h4>Stats</h4>
+    <div id="fields"></div>
+    <div class="row"><button id="saveBtn" class="primary">Save stats</button><button id="resetBtn">Undo typing</button></div>
+    <div class="muted" style="margin-top:6px">
+      <span class="src-manual">■ yours (manual, always wins)</span> ·
+      <span class="src-primary">■ primary</span> ·
+      <span class="src-secondary">■ secondary</span>
+    </div>
+  </div>
+
+  <h2>Selected region</h2>
+  <div id="picked" class="muted">Nothing selected.</div>
+  <input id="nationInput" list="nationList" placeholder="Type a nation…" autocomplete="off">
+  <datalist id="nationList"></datalist>
+  <div class="row"><button id="assignBtn" class="primary">Assign</button><button id="unassignBtn">Unassign</button></div>
+
+  <h2>Missing border</h2>
+  <p class="muted">If a nation leaks into its neighbour, draw the missing border: turn on drawing, click
+    along the line (start and end on an existing border or the coast), then Save and Rebuild.</p>
+  <div class="row"><button id="drawBtn">Draw border</button><button id="saveLineBtn">Save line</button></div>
+  <div class="row"><button id="undoLineBtn">Remove last saved line</button></div>
+
+  <h2>Build</h2>
+  <button id="rebuildBtn" class="primary" style="width:100%">Rebuild overlays</button>
+  <pre id="report"></pre>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
+const viewport = $("viewport"), world = $("world"), tip = $("tip");
+const WIKI = "https://iiwiki.com/w/";
+const FIELDS = [
+  { id: "shortName", label: "Short name", newOnly: true, hint: "Becomes the map key and the iiwiki page, e.g. Tavok" },
+  { id: "name", label: "Full name" },
+  { id: "capital", label: "Capital" },
+  { id: "population", label: "Population", number: true, hint: "e.g. 48,000,000 or 48 million" },
+  { id: "gdppc", label: "GDP per capita", number: true, hint: "A$" },
+  { id: "landArea", label: "Land area", number: true, hint: "km²" },
+  { id: "iiwikiLink", label: "iiwiki link" },
+];
+
+let S = null, picked = null, draft = [];
+let mode = "pan";          // pan | draw (border line) | flag (drag a box round a flag) | paint (click = assign to current)
+let current = null;        // nations.js key open in the editor, or NEW
+const NEW = Symbol("new nation");
+let filter = "all", flagDrag = null;
+let view = { x: 0, y: 0, k: 0.15 };
+
+// the nation's highlight color from nations.js; a hash color if it has none
+const color = (name) => {
+  if (S.colors[name]) return S.colors[name];
+  let h = 0; for (const c of name) h = (h * 31 + c.charCodeAt(0)) % 360;
+  return `hsl(${h}, 75%, 50%)`;
+};
+const applyView = () => world.style.transform = `translate(${view.x}px, ${view.y}px) scale(${view.k})`;
+const toMap = (e) => { const r = viewport.getBoundingClientRect(); return [(e.clientX - r.left - view.x) / view.k, (e.clientY - r.top - view.y) / view.k]; };
+const status = (t) => $("status").textContent = t;
+const regionIds = (n) => Object.keys(S.owner).filter((id) => S.owner[id] === n).map(Number);
+const onMap = (n) => S.manual.includes(n) || regionIds(n).length > 0;
+const flagStyle = (n) => {
+  const f = S.flags[n];
+  return f ? `style="background-position: ${-(f[0] + f[2] / 2 - 20)}px ${-(f[1] + f[3] / 2 - 13)}px"` : "";
+};
+
+async function post(url, body) {
+  const r = await fetch(url, { method: "POST", body: JSON.stringify(body || {}) });
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+// POST, take the new state, repaint. Returns the state, or null after showing the error.
+async function act(url, body, done) {
+  try { S = await post(url, body); paint(); if (done) status(done); return S; }
+  catch (err) { status("Failed: " + err.message); return null; }
+}
+
+function setMode(m) {
+  mode = mode === m ? "pan" : m; draft = []; flagDrag = null;
+  for (const c of ["draw", "flag", "paint"]) viewport.classList.toggle(c === "flag" ? "flagging" : c, mode === c);
+  $("drawBtn").classList.toggle("on", mode === "draw"); $("drawBtn").textContent = mode === "draw" ? "Cancel drawing" : "Draw border";
+  $("flagBtn").classList.toggle("on", mode === "flag"); $("flagBtn").textContent = mode === "flag" ? "Cancel (drag a box round the flag)" : "Mark its flag on the map";
+  $("paintBtn").classList.toggle("on", mode === "paint"); $("paintBtn").textContent = mode === "paint" ? "Done assigning" : "Click regions to assign";
+  paintLines();
+}
+
+function paintLines() {
+  const box = flagDrag && `<rect x="${Math.min(flagDrag[0], flagDrag[2])}" y="${Math.min(flagDrag[1], flagDrag[3])}" width="${Math.abs(flagDrag[2] - flagDrag[0])}" height="${Math.abs(flagDrag[3] - flagDrag[1])}"/>`;
+  const f = typeof current === "string" && S.flags[current];
+  $("lines").innerHTML = S.patches.map((l) => `<polyline points="${l.map((p) => p.join(",")).join(" ")}"/>`).join("")
+    + (draft.length ? `<polyline class="draft" points="${draft.map((p) => p.join(",")).join(" ")}"/>` : "")
+    + (f ? `<rect class="flagbox" x="${f[0] - 2}" y="${f[1] - 2}" width="${f[2] + 4}" height="${f[3] + 4}"/>` : "")
+    + (box || "");
+}
+
+function paint() {
+  const regionsById = Object.fromEntries(S.regions.map((r) => [r.id, r]));
+  for (const p of document.querySelectorAll("#regions path")) {
+    const id = +p.id.slice(1), nation = S.owner[id];
+    p.classList.toggle("owned", !!nation);
+    p.classList.toggle("current", !!nation && nation === current);
+    p.style.fill = nation ? color(nation) : "";
+    p.classList.toggle("picked", id === picked);
+    p.dataset.nation = nation || "";
+    p.dataset.area = regionsById[id] ? regionsById[id].area : "";
+  }
+  paintLines();
+  $("report").textContent = (S.problems.length ? "PROBLEMS:\n" + S.problems.join("\n") + "\n\n" : "") + S.report;
+  $("nationList").innerHTML = S.nations.map((n) => `<option value="${esc(n)}">`).join("");
+  $("picked").textContent = picked == null ? "Nothing selected."
+    : `Region ${picked} — ${S.owner[picked] || "unassigned"}`;
+  paintList(); paintEditor();
+}
+
+function paintList() {
+  const q = $("search").value.trim().toLowerCase();
+  const rows = S.nations.filter((n) => {
+    const d = S.data[n];
+    if (filter !== "all" && onMap(n) !== (filter === "map")) return false;
+    return !q || [n, d.name, d.capital].some((v) => v && v.toLowerCase().includes(q));
+  }).sort((a, b) => a.localeCompare(b));
+  $("nationRows").innerHTML = rows.map((n) => {
+    const count = regionIds(n).length;
+    const where = S.manual.includes(n) ? "hand-drawn" + (count ? ` + ${count}` : "") : count ? `${count} region${count > 1 ? "s" : ""}` : "no territory";
+    return `<div data-n="${esc(n)}" class="${n === current ? "sel" : ""}" title="${esc(S.data[n].name)}">
+      <b class="flag ${S.flags[n] ? "" : "empty"}" ${flagStyle(n)}></b>
+      <i class="sw ${S.colors[n] ? "" : "empty"}" style="${S.colors[n] ? "background:" + S.colors[n] : ""}"></i>
+      <span>${esc(n)}</span><small class="${onMap(n) ? "" : "none"}">${where}</small></div>`;
+  }).join("") || '<div class="muted" style="cursor:default">No match. Use “+ New nation” to create it.</div>';
+  const total = S.nations.filter((n) => !onMap(n)).length;
+  document.querySelector('[data-filter="none"]').textContent = `No territory yet (${total})`;
+}
+
+// ---- editor ---------------------------------------------------------------------------------
+const fmtNum = (v) => v == null ? "" : Number(v).toLocaleString("en-US", { maximumFractionDigits: 2 });
+function parseNum(text) {
+  const m = text.toLowerCase().replace(/[,\s]|a\$|km²|km2/g, "").match(/^(\d*\.?\d+)(k|m|million|bn|b|billion)?$/);
+  if (!m) return NaN;
+  const mult = { k: 1e3, m: 1e6, million: 1e6, b: 1e9, bn: 1e9, billion: 1e9 }[m[2]] || 1;
+  return Math.round(parseFloat(m[1]) * mult * 100) / 100;
+}
+const stored = (f) => current === NEW ? null : (S.data[current][f.id] ?? null);
+// what is typed in a field, as the value nations.js would hold (undefined = cannot be read)
+function typed(f) {
+  const text = $("f-" + f.id).value.trim();
+  if (!text) return null;
+  if (!f.number) return text;
+  const n = parseNum(text);
+  return Number.isNaN(n) ? undefined : n;
+}
+const changedFields = () => FIELDS.filter((f) => !f.newOnly && typed(f) !== stored(f));
+const isDirty = () => current != null && $("fields").children.length > 0 && (current === NEW
+  ? FIELDS.some((f) => $("f-" + f.id).value.trim()) : changedFields().length > 0);
+
+function source(f) {
+  if (current === NEW) return ["empty", f.hint || ""];
+  const d = S.data[current];
+  if ((S.manualFields[current] || []).includes(f.id)) return ["manual", "yours"];
+  if (d[f.id] == null) return ["empty", "no data" + (f.hint ? " · " + f.hint : "")];
+  if ((d.secondaryFields || []).includes(f.id)) return ["secondary", "secondary source"];
+  return ["primary", "primary data"];
+}
+
+function paintEditor(rebuildInputs) {
+  $("editor").hidden = current == null;
+  if (current == null) return;
+  const isNew = current === NEW, d = isNew ? {} : S.data[current];
+  $("edTitle").textContent = isNew ? "New nation" : current;
+  $("edSub").textContent = isNew ? "Fill in what you know, create it, then click its regions on the map." : d.name;
+  $("existingOnly").hidden = isNew;
+  $("saveBtn").textContent = isNew ? "Create nation" : "Save stats";
+
+  if (rebuildInputs || $("fields").dataset.for !== String(isNew ? "new" : current)) {
+    $("fields").dataset.for = String(isNew ? "new" : current);
+    $("fields").innerHTML = FIELDS.filter((f) => isNew || !f.newOnly).map((f) =>
+      `<label class="f"><span>${f.label}</span><input id="f-${f.id}" autocomplete="off"><em id="s-${f.id}"></em></label>`).join("");
+    for (const f of FIELDS) if ($("f-" + f.id)) $("f-" + f.id).value = f.number ? fmtNum(stored(f)) : stored(f) ?? "";
+  }
+  for (const f of FIELDS) {
+    if (!$("f-" + f.id)) continue;
+    const [cls, text] = source(f), bad = typed(f) === undefined;
+    const dirty = !isNew && !f.newOnly && typed(f) !== stored(f);
+    $("f-" + f.id).classList.toggle("dirty", dirty);
+    $("s-" + f.id).className = bad ? "src-secondary" : dirty ? "src-manual" : "src-" + cls;
+    $("s-" + f.id).textContent = bad ? "not a number" : dirty ? "edited — Save to keep (becomes yours)" : text;
+  }
+  if (isNew) {
+    const short = $("f-shortName").value.trim();
+    $("f-iiwikiLink").placeholder = short ? WIKI + short.replace(/ /g, "_") : "made from the short name";
+    $("f-name").placeholder = short || "defaults to the short name";
+    return;
+  }
+
+  const count = regionIds(current).length, hand = S.manual.includes(current);
+  $("territoryText").textContent = (hand ? "Hand-drawn shape" + (count ? ` plus ${count} region(s).` : ".") : count ? `${count} region(s) on the map.` : "No territory yet.")
+    + " Turn on assigning, then click regions to add them (click again to remove).";
+  $("edFlag").className = "flag" + (S.flags[current] ? "" : " empty");
+  $("edFlag").setAttribute("style", "flex:none;" + (flagStyle(current).slice(7, -1) || ""));
+  const options = S.flagColors[current] || [];
+  const mine = (d.color || "").toLowerCase();
+  $("colorChoices").innerHTML = options.map((o) =>
+    `<button data-color="${o.hex}" class="${o.hex === mine ? "chosen" : ""}" title="${Math.round(o.share * 100)}% of the flag">
+       <i class="sw" style="background:${o.hex}"></i>${o.hex}</button>`).join("")
+    + (options.length ? "" : '<span class="muted">Mark the flag to get its main colours, or pick any colour:</span>')
+    + `<input type="color" id="customColor" value="${mine || "#c0392b"}" title="Any other colour">`
+    + (mine && !options.some((o) => o.hex === mine) ? `<span class="muted">custom ${mine}</span>` : "")
+    + (mine ? '<button data-color="">None</button>' : "");
+}
+
+function openNation(n, jump) {
+  if (n === current) return;
+  if (isDirty() && !confirm("Discard the stats you typed but did not save?")) return;
+  current = n;
+  if (mode === "paint" || mode === "flag") setMode("pan");
+  if (typeof n === "string") $("nationInput").value = n;
+  paint(); paintEditor(true);
+  if (jump && typeof n === "string") jumpTo(n, true);
+}
+
+$("search").oninput = paintList;
+document.querySelector(".chips").onclick = (e) => {
+  if (!e.target.dataset.filter) return;
+  filter = e.target.dataset.filter;
+  document.querySelectorAll(".chips button").forEach((b) => b.classList.toggle("on", b === e.target));
+  paintList();
+};
+$("nationRows").onclick = (e) => { const d = e.target.closest("[data-n]"); if (d) openNation(d.dataset.n, true); };
+$("newBtn").onclick = () => { openNation(NEW); if (current === NEW) { $("f-shortName").value = $("search").value.trim(); paintEditor(); $("f-shortName").focus(); } };
+$("closeBtn").onclick = () => openNation(null);
+$("fields").oninput = () => paintEditor();
+$("fields").onkeydown = (e) => { if (e.key === "Enter") $("saveBtn").click(); };
+$("resetBtn").onclick = () => paintEditor(true);
+$("jumpBtn").onclick = () => jumpTo(current);
+$("paintBtn").onclick = () => setMode("paint");
+$("flagBtn").onclick = () => { setMode("flag"); if (mode === "flag") status("Drag a box round the nation's flag on the map. It snaps to the flag's outline."); };
+
+$("saveBtn").onclick = async () => {
+  if (FIELDS.some((f) => $("f-" + f.id) && typed(f) === undefined)) return status("Fix the number fields first.");
+  if (current === NEW) {
+    const shortName = $("f-shortName").value.trim();
+    if (!shortName) return status("Give the nation a short name.");
+    const fields = Object.fromEntries(FIELDS.filter((f) => !f.newOnly).map((f) => [f.id, typed(f)]));
+    const res = await act("/nation/create", { shortName, fields });
+    if (!res) return;
+    current = res.created; $("search").value = ""; filter = "all";
+    document.querySelectorAll(".chips button").forEach((b) => b.classList.toggle("on", b.dataset.filter === "all"));
+    $("nationInput").value = current; paint(); paintEditor(true); setMode("paint");
+    return status(`Created ${current}. Now click its regions on the map, then Rebuild.`);
+  }
+  const changed = changedFields();
+  if (!changed.length) return status("Nothing changed.");
+  const ok = await act("/nation/save", { key: current, fields: Object.fromEntries(changed.map((f) => [f.id, typed(f)])) },
+    `Saved ${changed.map((f) => f.label.toLowerCase()).join(", ")} for ${current}. Recorded as your manual data.`);
+  if (ok) paintEditor(true);
+};
+
+const saveColor = (hex) => act("/nation/save", { key: current, fields: { color: hex || null } },
+  hex ? `${current} is now ${hex}.` : `${current} has no colour (the app uses red).`);
+$("colorChoices").onclick = (e) => { const b = e.target.closest("[data-color]"); if (b) saveColor(b.dataset.color); };
+$("colorChoices").onchange = (e) => { if (e.target.id === "customColor") saveColor(e.target.value); };
+
+async function reloadRegions() {
+  const text = await fetch("/regions.svg?" + Date.now()).then((r) => r.text());
+  $("regionsHost").innerHTML = text;
+  $("regionsHost").querySelector("svg").id = "regions";
+}
+
+async function init() {
+  [S] = await Promise.all([fetch("/state").then((r) => r.json()), reloadRegions()]);
+  const r = viewport.getBoundingClientRect();
+  view.k = Math.max(r.width, 600) / 8000; view.y = Math.max(0, (r.height - 4000 * view.k) / 2);
+  applyView(); paint();
+}
+
+// pan / zoom / click
+let down = null;
+viewport.addEventListener("mousedown", (e) => {
+  down = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y, moved: false };
+  if (mode === "flag") { const [x, y] = toMap(e); flagDrag = [x, y, x, y]; }
+});
+window.addEventListener("mousemove", (e) => {
+  if (down) {
+    const dx = e.clientX - down.x, dy = e.clientY - down.y;
+    if (Math.abs(dx) + Math.abs(dy) > 5) down.moved = true;
+    if (flagDrag) { [flagDrag[2], flagDrag[3]] = toMap(e); paintLines(); }
+    else if (down.moved) { view.x = down.vx + dx; view.y = down.vy + dy; applyView(); }
+  }
+  const p = e.target.closest && e.target.closest("#regions path");
+  if (p && !down) {
+    tip.style.display = "block"; tip.style.left = e.clientX + 14 + "px"; tip.style.top = e.clientY + 14 + "px";
+    tip.textContent = (p.dataset.nation || "unassigned") + "  ·  region " + p.id.slice(1);
+  } else tip.style.display = "none";
+});
+window.addEventListener("mouseup", async (e) => {
+  if (!down) return;
+  const wasClick = !down.moved; down = null;
+  if (flagDrag) {
+    const [x0, y0, x1, y1] = flagDrag; flagDrag = null;
+    const box = [Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0), Math.abs(y1 - y0)];
+    if (box[2] < 8 || box[3] < 6) { paintLines(); return status("Drag a box round the whole flag."); }
+    const key = current;
+    if (await act("/flag", { key, box })) { setMode("pan"); status(`Flag saved for ${key}. Pick one of its colours.`); }
+    return;
+  }
+  if (!wasClick || !viewport.contains(e.target)) return;
+  if (mode === "draw") { draft.push(toMap(e).map(Math.round)); paint(); return; }
+  const p = e.target.closest("#regions path");
+  if (mode === "paint") {
+    if (!p) return;
+    const id = +p.id.slice(1), owner = S.owner[id];
+    if (owner && owner !== current && !confirm(`Region ${id} belongs to ${owner}. Give it to ${current}?`)) return;
+    picked = id;
+    await act("/assign", { region: id, nation: owner === current ? null : current },
+      owner === current ? `Removed region ${id} from ${current}. Rebuild when done.` : `Region ${id} → ${current}. Rebuild when done.`);
+    return;
+  }
+  picked = p ? +p.id.slice(1) : null;
+  if (p && p.dataset.nation && !isDirty()) openNation(p.dataset.nation);
+  if (p) $("nationInput").value = p.dataset.nation || (typeof current === "string" ? current : "");
+  paint();
+});
+viewport.addEventListener("wheel", (e) => {
+  e.preventDefault();
+  const r = viewport.getBoundingClientRect(), mx = e.clientX - r.left, my = e.clientY - r.top;
+  const k = Math.min(Math.max(view.k * (e.deltaY < 0 ? 1.2 : 1 / 1.2), 0.05), 12), f = k / view.k;
+  view = { k, x: mx - f * (mx - view.x), y: my - f * (my - view.y) }; applyView();
+}, { passive: false });
+window.addEventListener("keydown", (e) => { if (e.key === "Escape" && mode !== "pan") setMode(mode); });
+
+// actions
+async function doAssign(nation) {
+  if (picked == null) return status("Click a region first.");
+  if (nation && !S.nations.includes(nation)) return status(`"${nation}" is not a key in nations.js. Create it with “+ New nation”.`);
+  await act("/assign", { region: picked, nation }, "Saved. Press Rebuild to update the map.");
+}
+$("assignBtn").onclick = () => doAssign($("nationInput").value.trim());
+$("unassignBtn").onclick = () => doAssign(null);
+$("nationInput").addEventListener("keydown", (e) => { if (e.key === "Enter") $("assignBtn").click(); });
+
+$("drawBtn").onclick = () => setMode("draw");
+$("saveLineBtn").onclick = async () => {
+  if (draft.length < 2) return status("Click at least two points first.");
+  const points = draft;
+  if (await act("/patch", { points })) { setMode("pan"); status("Line saved. Press Rebuild to apply it."); }
+};
+$("undoLineBtn").onclick = () => act("/undo-patch", null, "Removed. Press Rebuild to apply.");
+
+$("rebuildBtn").onclick = async () => {
+  status("Rebuilding… (about 15 seconds)");
+  try { S = await post("/rebuild"); await reloadRegions(); picked = null; paint(); status("Rebuilt. Refresh the map app to see it."); }
+  catch (err) { status("Build failed: " + err.message); }
+};
+
+function jumpTo(n, quiet) {
+  if (!n) return;
+  const ids = regionIds(n);
+  const boxes = S.regions.filter((r) => ids.includes(r.id)).map((r) => r.bbox);
+  if (!boxes.length && S.flags[n]) boxes.push(S.flags[n]);
+  document.querySelectorAll("#regions path.focus").forEach((p) => p.classList.remove("focus"));
+  if (!boxes.length) { if (!quiet) status(n + (S.manual.includes(n) ? " uses its hand-drawn shape." : " has no regions yet.")); return; }
+  ids.forEach((id) => { const p = $("r" + id); if (p) p.classList.add("focus"); });
+  const x0 = Math.min(...boxes.map((b) => b[0])), y0 = Math.min(...boxes.map((b) => b[1]));
+  const x1 = Math.max(...boxes.map((b) => b[0] + b[2])), y1 = Math.max(...boxes.map((b) => b[1] + b[3]));
+  const r = viewport.getBoundingClientRect();
+  view.k = Math.min(r.width / ((x1 - x0) * 2.2), r.height / ((y1 - y0) * 2.2), 8);
+  view.x = r.width / 2 - ((x0 + x1) / 2) * view.k; view.y = r.height / 2 - ((y0 + y1) / 2) * view.k;
+  applyView();
+}
+
+init();
+</script>
+</body>
+</html>

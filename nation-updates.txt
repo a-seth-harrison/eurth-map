@@ -1,0 +1,197 @@
+Aurelia: 
+
+Tavok
+
+Population: 2 points (48 million)
+Economy 3 points ($39,500)
+Land Area: 1 point (248,153 km²)
+Mikochi
+
+GDP(c): 38,653.89
+SQKM: 192,532
+POP: 68,291,582
+Cruciastada
+
+GDP(c): 26,152.24
+SQKM: 553,881
+POP: 74,741,200
+Ionio
+
+GDP(c): 29,879
+SQKM: 314,212
+POP: 65,784,985
+Esonice
+
+GDP(c): 38,312
+SQKM: 442,875km2
+POP: 72,145,832
+Aldace
+
+GDP(c): 26,532
+SQKM: 411,365
+POP: 34,642,780
+Rhodellia
+
+GDP per capita: $59,500
+Population: 24,900,000
+Land: 89,200 km2
+Kolhar
+
+Pop: 51,596,834
+GDPpc: 21,337
+Map area: 239,930
+Mito (NPC)
+
+Population: 13,723,000
+Goankok (NPC)
+
+GDP per capita: $16,452
+Kirvina (NPC)
+
+GDP(c): 27,788
+SQKM: 180,000km
+POP: 14,003,548
+
+
+Alharu:
+
+Ymutz Mizlan
+
+Population: 60,000,000
+GDP per capita: 15,000 USD per capita
+Land area: 645,100 km^2
+Denawar
+
+Land area: 171,448.23
+Population: 31,546,774
+GDP: 23,750
+Aurora
+
+Land area: 91,636 km^2
+Population: 42,427,468
+GDPPC: $51,005
+Bamraland
+
+Population: 75,311,923 million
+Land: 699,908 km^2
+GDPPC: 7,915
+Arneland
+
+Population: 42,537,851
+GDP per capita: $28,911
+Land Area: 249,000 sqkm
+Verraine
+
+Population: 21 million
+Economy: $19,571 GDP per capita
+Land Area: 329,176 km^2
+Ralzawr
+
+Population: 12,815,308
+GDP per capita: $58,973
+Land Area: 1,500,000 km2
+Helsium
+
+Population: 48,700,000
+GDP (nominal): $59,000
+Land 250,000
+Sahra
+
+Land: 846,377 Km2
+Population: (40,000,000)
+GDP: 18,000
+
+
+Marenesia:
+
+Centennia Cardina
+
+Area (430,000 km2)
+GDP ($29,500)
+Population (34,000,000)
+
+
+Europa: 
+
+Sunseong
+
+Area (182,292km2)
+GDP ($29,369)
+Population (47.6 million)
+Tagmatium Rules
+
+Land (1,499,825 km2)
+Population (274,651,624)
+GDP(c) ($37,457) - total $10,287,625,880,168
+Orioni
+
+Land: 1,320,687
+Population: = (no change)
+GDPPC: 58,297.29
+Lenelia
+
+Land: 672515,59
+Population: = 59,800,000
+GDPPC: 58,297.29
+
+
+Argis: Ahrana
+
+Population: 100,000,000 (4pts)
+GDP: $19,999 (1pts)
+Land: 715,000 (3pts)
+Marchyydion
+
+Population: 39,724,000 (1 point)
+GDP: $19,000 (2 points)
+Land: 800,000 km² (3 points)
+Pentium
+
+Population: 95,456,345 (4 points)
+GDP: $37,542 (3 points)
+Land: 389,287 km² (2 points)
+Piekinigaje
+
+Population:14,572,581 (1 point)
+GDP: $37,825 (3 points)
+Land: 228,053 km² (1 point)
+Poja
+
+Population: 69,773,930 (3 points)
+GDP: $26,901 (2 points)
+Land: 504,767 km² (3 points)
+Stedoria
+
+Population: 26,409,216 (2 points)
+GDP: $21,161 (2 points)
+Land: 296,300 km² (2 points)
+Garindina
+
+Pop: 23,247,742 (1 point)
+GDPPC: 36,550$ (3 points)
+Land: 366,296 km^2 (2 Points)
+Baltica
+
+Population(2): 28,512,444
+GDP(2): 11,942
+Land( 2 ): 262k square kilometres.
+Welkija
+
+Population: 40 million (2 points)
+GDP: $26,000 (2 points)
+Land: 650,000 km² (3 points)
+Volhynia
+
+Population: 12.4 million
+GDP per capita: 23.2k
+Land area (1 but increased)
+Erisoria
+
+Population: 34,348,293 (2 points)
+GDP: 29,500 (2 points)
+Land: 488,900 (2 points)
+Iverica
+
+Population: 152,187,090
+GDP: $48,532
+Land: 563,257 Km2

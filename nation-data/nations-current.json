@@ -1,0 +1,1414 @@
+{
+  "Abantium": {
+    "capital": "Inhlokodolobha",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Abantium",
+    "landArea": 213180,
+    "name": "Abantium",
+    "population": 62000000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Adaptus": {
+    "capital": "Novumcastrum",
+    "gdppc": 30527,
+    "iiwikiLink": "https://iiwiki.com/w/Adaptus",
+    "landArea": 1326602,
+    "name": "Adaptus",
+    "population": 224540000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Afropa": {
+    "capital": "Dieudonné",
+    "gdppc": 6195,
+    "iiwikiLink": "https://iiwiki.com/w/Afropa",
+    "landArea": 413741,
+    "name": "Afropa",
+    "population": 15300000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Ahrana": {
+    "capital": "Moskovo",
+    "color": "#fecb07",
+    "gdppc": 19999,
+    "iiwikiLink": "https://iiwiki.com/w/Ahrana",
+    "landArea": 715000,
+    "name": "Ahrana",
+    "population": 100000000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Aldace": {
+    "capital": "Sotheris",
+    "color": "#f4ca14",
+    "gdppc": 26532,
+    "iiwikiLink": "https://iiwiki.com/w/Aldace",
+    "landArea": 411365,
+    "name": "Aldace",
+    "population": 34642780,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Alvernia": {
+    "capital": "Soncinia",
+    "gdppc": 15613,
+    "iiwikiLink": "https://iiwiki.com/w/Alvernia",
+    "landArea": 165016,
+    "name": "Alvernia",
+    "population": 9234678,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Andalla": {
+    "capital": "Arkhavn",
+    "gdppc": 23143,
+    "iiwikiLink": "https://iiwiki.com/w/Andalla",
+    "landArea": 72931,
+    "name": "Andalla",
+    "population": 28036248,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Arneland": {
+    "capital": "Port Pinella",
+    "color": "#bd0b31",
+    "gdppc": 28911,
+    "iiwikiLink": "https://iiwiki.com/w/Arneland",
+    "landArea": 249000,
+    "name": "Arneland",
+    "population": 42537851,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Aurora": {
+    "capital": "Tavares",
+    "color": "#ff8b00",
+    "gdppc": 51005,
+    "iiwikiLink": "https://iiwiki.com/w/Aurora",
+    "landArea": 91636,
+    "name": "Republic of Aurora",
+    "population": 42427468
+  },
+  "Ayubi": {
+    "capital": "Alhafa",
+    "gdppc": 68457,
+    "iiwikiLink": "https://iiwiki.com/w/Ayubi",
+    "landArea": 53751,
+    "name": "Ayubi",
+    "population": 1303569,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Bainbridge-Islands": {
+    "capital": "Honolulu",
+    "gdppc": 48033,
+    "iiwikiLink": "https://iiwiki.com/w/Bainbridge_Islands",
+    "landArea": 309613,
+    "name": "Bainbridge Islands",
+    "population": 18900000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Baltica": {
+    "capital": "Kauni",
+    "color": "#fdba0b",
+    "gdppc": 11942,
+    "iiwikiLink": "https://iiwiki.com/w/Baltica",
+    "landArea": 262000,
+    "name": "United Federation of Baltica",
+    "population": 28512444
+  },
+  "Bamraland": {
+    "capital": null,
+    "color": "#1f41b4",
+    "gdppc": 7915,
+    "iiwikiLink": "https://iiwiki.com/w/Bamraland",
+    "landArea": 699908,
+    "name": "Bamraland",
+    "population": 75311923
+  },
+  "Bashan": {
+    "capital": "En Gannim",
+    "gdppc": 24539,
+    "iiwikiLink": "https://iiwiki.com/w/Bashan",
+    "landArea": 239200,
+    "name": "Bashan",
+    "population": 8146286,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Burkini": {
+    "capital": "Cronulla",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Burkini",
+    "landArea": 1007,
+    "name": "Burkini",
+    "population": 55786,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Centennia-Cardina": {
+    "capital": "Verrone, the Stronghold City",
+    "color": "#ee5c6d",
+    "gdppc": 29500,
+    "iiwikiLink": "https://iiwiki.com/w/Centennia_Cardina",
+    "landArea": 430000,
+    "name": "Democratic Republic of Centennia Cardina",
+    "population": 34000000
+  },
+  "Charkov": {
+    "capital": "Kovchi",
+    "color": "#0064ac",
+    "gdppc": 14407,
+    "iiwikiLink": "https://iiwiki.com/w/Charkov",
+    "landArea": 245000,
+    "name": "Second Federal Democratic Republic of Charkov",
+    "population": 23378665
+  },
+  "Cherkessk": {
+    "capital": "Zexkhe",
+    "gdppc": 38500,
+    "iiwikiLink": "https://iiwiki.com/w/Cherkessk",
+    "landArea": 499351,
+    "name": "Cherkessk",
+    "population": 22500000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Cristina": {
+    "capital": "Cristina",
+    "gdppc": 47306,
+    "iiwikiLink": "https://iiwiki.com/w/Cristina",
+    "landArea": 1221,
+    "name": "Cristina",
+    "population": 7453682,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Cruciastada": {
+    "capital": null,
+    "color": "#480d27",
+    "gdppc": 26152.24,
+    "iiwikiLink": "https://iiwiki.com/w/Cruciastada",
+    "landArea": 553881,
+    "name": "Cruciastada",
+    "population": 74741200
+  },
+  "Damak-Var": {
+    "capital": "Avantine",
+    "gdppc": 5120,
+    "iiwikiLink": "https://iiwiki.com/w/Damak_Var",
+    "landArea": 529089,
+    "name": "Damak Var",
+    "population": 15500000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Deltannia": {
+    "capital": "Delta",
+    "gdppc": 12500,
+    "iiwikiLink": "https://iiwiki.com/w/Deltannia",
+    "landArea": 241838,
+    "name": "Deltannia",
+    "population": 5220000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Denawar": {
+    "capital": "Nanggan",
+    "color": "#05772a",
+    "gdppc": 23750,
+    "iiwikiLink": "https://iiwiki.com/w/Denawar",
+    "landArea": 171448.23,
+    "name": "Denawar",
+    "population": 31546774,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Dniester": {
+    "capital": "Minsk",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Dniester",
+    "landArea": 207600,
+    "name": "Dniester",
+    "population": 40203000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Dolchland": {
+    "capital": "Schlammburg",
+    "gdppc": 9903,
+    "iiwikiLink": "https://iiwiki.com/w/Dolchland",
+    "landArea": 328950,
+    "name": "Dolchland",
+    "population": 29283179,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Duchy-of-Verde": {
+    "capital": "Porto Verde",
+    "gdppc": 47956,
+    "iiwikiLink": "https://iiwiki.com/w/Duchy_of_Verde",
+    "landArea": 23262,
+    "name": "Duchy of Verde",
+    "population": 10009200,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Ealis": {
+    "capital": "Lysina",
+    "gdppc": 34000,
+    "iiwikiLink": "https://iiwiki.com/w/Ealis",
+    "landArea": 285661,
+    "name": "Ealis",
+    "population": 21085626,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Eemsmerschen": {
+    "capital": "Rendsborg",
+    "color": "#822436",
+    "gdppc": 17800,
+    "iiwikiLink": "https://iiwiki.com/w/Eemsmerschen",
+    "landArea": 670000,
+    "name": "Dolch Free State",
+    "population": 37998000
+  },
+  "Eidolmanta": {
+    "capital": "Taraxippus",
+    "gdppc": 10409,
+    "iiwikiLink": "https://iiwiki.com/w/Eidolmanta",
+    "landArea": 279687,
+    "name": "Eidolmanta",
+    "population": 35382902,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Erisoria": {
+    "capital": "Kaleendamen",
+    "color": "#f48314",
+    "gdppc": 29500,
+    "iiwikiLink": "https://iiwiki.com/w/Erisoria",
+    "landArea": 488900,
+    "name": "Erisoria",
+    "population": 34348293,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Esonice": {
+    "capital": "Maimedo",
+    "color": "#9f2bf2",
+    "gdppc": 38312,
+    "iiwikiLink": "https://iiwiki.com/w/Esonice",
+    "landArea": 442875,
+    "name": "Esonice",
+    "population": 72145832,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Euandria": {
+    "capital": "Charpesiciun",
+    "gdppc": 9335,
+    "iiwikiLink": "https://iiwiki.com/w/Euandria",
+    "landArea": 125665,
+    "name": "Euandria",
+    "population": 23389041,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Flaca-Vul": {
+    "capital": "Cavult Metropolis",
+    "color": "#0d406d",
+    "gdppc": 29653,
+    "iiwikiLink": "https://iiwiki.com/w/Flaca_Vul",
+    "landArea": 281239,
+    "name": "Most Serene Republic of Flaca Vul",
+    "population": 49836821
+  },
+  "Florentia": {
+    "capital": "Montcharmin",
+    "gdppc": 10666,
+    "iiwikiLink": "https://iiwiki.com/w/Florentia",
+    "landArea": 325000,
+    "name": "Florentia",
+    "population": 26223000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Gaellicia": {
+    "capital": "Penzance",
+    "gdppc": 10000,
+    "iiwikiLink": "https://iiwiki.com/w/Gaellicia",
+    "landArea": 269300,
+    "name": "Gaellicia",
+    "population": 28542321,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Galahinda": {
+    "capital": "Cascadia",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Galahinda",
+    "landArea": 17338,
+    "name": "Galahinda",
+    "population": 9517000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Galicia": {
+    "capital": "Porto D'Galo",
+    "gdppc": 33797,
+    "iiwikiLink": "https://iiwiki.com/w/Galicia",
+    "landArea": 75764,
+    "name": "Galicia",
+    "population": 18344760,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Gallambria": {
+    "capital": "Bromwich",
+    "gdppc": 49927,
+    "iiwikiLink": "https://iiwiki.com/w/Gallambria",
+    "landArea": 506052,
+    "name": "Gallambria",
+    "population": 57990240,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Garindina": {
+    "capital": "Parsa",
+    "color": "#7d0c0d",
+    "gdppc": 36550,
+    "iiwikiLink": "https://iiwiki.com/w/Garindina",
+    "landArea": 366296,
+    "name": "Garindina",
+    "population": 23247742,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Giokto": {
+    "capital": "Saipuo",
+    "gdppc": 30600,
+    "iiwikiLink": "https://iiwiki.com/w/Giokto",
+    "landArea": 31514,
+    "name": "Giokto",
+    "population": 10278427,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Girkmand": {
+    "capital": "Girk",
+    "gdppc": 41936,
+    "iiwikiLink": "https://iiwiki.com/w/Girkmand",
+    "landArea": 72444,
+    "name": "Girkmand",
+    "population": 6200000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Goankok": {
+    "capital": "Sisimto",
+    "color": "#00788c",
+    "gdppc": 16452,
+    "iiwikiLink": "https://iiwiki.com/w/Goankok",
+    "landArea": 33586,
+    "name": "Goankok",
+    "npc": true,
+    "population": 13646233,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Great-Anglia": {
+    "capital": "Godstone",
+    "gdppc": 38580,
+    "iiwikiLink": "https://iiwiki.com/w/Great_Anglia",
+    "landArea": 242495,
+    "name": "Great Anglia",
+    "population": 109734597,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Great-Media": {
+    "capital": "Mèdopolis",
+    "gdppc": 15123,
+    "iiwikiLink": "https://iiwiki.com/w/Great_Mèdia",
+    "landArea": 399550,
+    "name": "Great Mèdia",
+    "population": 23136456,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Helsium": {
+    "capital": "Xarsetti",
+    "color": "#b52a18",
+    "gdppc": 59000,
+    "iiwikiLink": "https://iiwiki.com/w/Helsium",
+    "landArea": 250000,
+    "name": "Helsium",
+    "population": 48700000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Hexanesa": {
+    "capital": "Gournaion",
+    "gdppc": 5065,
+    "iiwikiLink": "https://iiwiki.com/w/Hexanesa",
+    "landArea": 72790,
+    "name": "Hexanesa",
+    "population": 216510,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Ide-Jima": {
+    "capital": "Darhan",
+    "gdppc": 13687,
+    "iiwikiLink": "https://iiwiki.com/w/Ide_Jima",
+    "landArea": 930939,
+    "name": "Ide Jima",
+    "population": 152400000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Ionio": {
+    "capital": "San Foca",
+    "color": "#0e78e4",
+    "gdppc": 29879,
+    "iiwikiLink": "https://iiwiki.com/w/Ionio",
+    "landArea": 314212,
+    "name": "Federal Republic of Ionio",
+    "population": 65784985
+  },
+  "Iverica": {
+    "capital": "Intreimor",
+    "color": "#f8c91a",
+    "gdppc": 48532,
+    "iiwikiLink": "https://iiwiki.com/w/Iverica",
+    "landArea": 563257,
+    "name": "Iverica",
+    "population": 152187090,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Iwenland": {
+    "capital": "Zestrathaven",
+    "gdppc": 17000,
+    "iiwikiLink": "https://iiwiki.com/w/Iwenland",
+    "landArea": 2113,
+    "name": "Iwenland",
+    "population": 1200000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Kalnija": {
+    "capital": "Grobija",
+    "gdppc": 14777,
+    "iiwikiLink": "https://iiwiki.com/w/Kalnija",
+    "landArea": 53831,
+    "name": "Kalnija",
+    "population": 3231421,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Kirvina": {
+    "capital": "Achilleia",
+    "color": "#bfc5c3",
+    "gdppc": 27788,
+    "iiwikiLink": "https://iiwiki.com/w/Kirvina",
+    "landArea": 180000,
+    "name": "Kirvina",
+    "npc": true,
+    "population": 14003548,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Kiziauke": {
+    "capital": "Pachetan",
+    "color": "#b71137",
+    "gdppc": 39916,
+    "iiwikiLink": "https://iiwiki.com/w/Kíziáuke",
+    "landArea": 222000,
+    "name": "Kīzināpe Sintezan Socialist Republics",
+    "population": 48132950
+  },
+  "Kolhar": {
+    "capital": "Vakor",
+    "color": "#0a8700",
+    "gdppc": 21337,
+    "iiwikiLink": "https://iiwiki.com/w/Kolhar",
+    "landArea": 239930,
+    "name": "Kolhar",
+    "population": 51596834,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Kori-Chi": {
+    "capital": "Dākuōku",
+    "gdppc": 5400,
+    "iiwikiLink": "https://iiwiki.com/w/Kōri-Chi",
+    "landArea": 312187,
+    "name": "Kōri-Chi",
+    "population": 40000000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Kotowari": {
+    "capital": "Kotowari City",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Kotowari",
+    "landArea": 625596,
+    "name": "Kotowari",
+    "population": 52860000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Lenelia": {
+    "capital": "Font",
+    "color": "#fbc61f",
+    "gdppc": 27331,
+    "iiwikiLink": "https://iiwiki.com/w/Lenelia",
+    "landArea": 672516,
+    "name": "Lenelia",
+    "population": 59800000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Llalta": {
+    "capital": "Saint Christopher",
+    "gdppc": 37628,
+    "iiwikiLink": "https://iiwiki.com/w/Llalta",
+    "landArea": 3076,
+    "name": "Llalta",
+    "population": 3136,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Luterna": {
+    "capital": "Valiennes",
+    "gdppc": 17800,
+    "iiwikiLink": "https://iiwiki.com/w/Luterna",
+    "landArea": 220604,
+    "name": "Luterna",
+    "population": 22560000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Lysia": {
+    "capital": "Couer",
+    "gdppc": 19347,
+    "iiwikiLink": "https://iiwiki.com/w/Lysia",
+    "landArea": 466895,
+    "name": "Lysia",
+    "population": 20372959,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Manamana": {
+    "capital": "Manaca City",
+    "gdppc": 20092,
+    "iiwikiLink": "https://iiwiki.com/w/Manamana",
+    "landArea": 339988,
+    "name": "Manamana",
+    "population": 361225,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Marchyydion": {
+    "capital": "Caer Marchion",
+    "color": "#cb6625",
+    "gdppc": 19000,
+    "iiwikiLink": "https://iiwiki.com/w/Marchyydion",
+    "landArea": 800000,
+    "name": "Marchyydion",
+    "population": 39724000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Mekabiri": {
+    "capital": "Piri",
+    "gdppc": 12859,
+    "iiwikiLink": "https://iiwiki.com/w/Mekabiri",
+    "landArea": 522586,
+    "name": "Mekabiri",
+    "population": 9149522,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Miiros": {
+    "capital": "Orthen",
+    "gdppc": 59362,
+    "iiwikiLink": "https://iiwiki.com/w/Miiros",
+    "landArea": 580392,
+    "name": "Miiros",
+    "population": 5750000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Mikochi": {
+    "capital": "Umikyo",
+    "color": "#003f89",
+    "gdppc": 38653.89,
+    "iiwikiLink": "https://iiwiki.com/w/Mikochi",
+    "landArea": 192532,
+    "name": "Democratic People's Republic of Mikochi",
+    "population": 68291582
+  },
+  "Mito": {
+    "capital": "Kenkyō",
+    "color": "#890101",
+    "gdppc": 44829,
+    "iiwikiLink": "https://iiwiki.com/w/Mito",
+    "landArea": 59355,
+    "name": "Mito",
+    "npc": true,
+    "population": 13723000,
+    "secondaryFields": [
+      "capital",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Nanto": {
+    "capital": "Sawi",
+    "gdppc": 8453,
+    "iiwikiLink": "https://iiwiki.com/w/Nanto",
+    "landArea": 12612,
+    "name": "Nanto",
+    "population": 1174985,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Narva": {
+    "capital": "Mannarsto",
+    "gdppc": 25841,
+    "iiwikiLink": "https://iiwiki.com/w/Narva",
+    "landArea": 139886,
+    "name": "Narva",
+    "population": 8900435,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Neusrya": {
+    "capital": "Zhaber",
+    "gdppc": 17435,
+    "iiwikiLink": "https://iiwiki.com/w/Neusrya",
+    "landArea": 135418,
+    "name": "Neusrya",
+    "population": 43000000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Niederoestereich": {
+    "capital": "Ranke",
+    "gdppc": 59178,
+    "iiwikiLink": "https://iiwiki.com/w/Niederoestereich",
+    "landArea": 295393,
+    "name": "Niederoestereich",
+    "population": 14906117,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Nova-Occidentalis": {
+    "capital": "Treipoduri",
+    "color": "#1b1b1b",
+    "gdppc": 18450,
+    "iiwikiLink": "https://iiwiki.com/w/Nova_Occidentalis",
+    "landArea": 475000,
+    "name": "Nova Occidentalis",
+    "population": 73245000
+  },
+  "Orioni": {
+    "capital": "O'polis",
+    "color": "#010066",
+    "gdppc": 58297.29,
+    "iiwikiLink": "https://iiwiki.com/w/Orioni",
+    "landArea": 1320687,
+    "name": "Beautiful Empire of Orioni",
+    "population": 147478008
+  },
+  "Pentium": {
+    "capital": "Whedon's Row",
+    "color": "#27556f",
+    "gdppc": 37542,
+    "iiwikiLink": "https://iiwiki.com/w/Pentium",
+    "landArea": 389287,
+    "name": "Pentium",
+    "population": 95456345,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Piekinigaje": {
+    "capital": "Goresk",
+    "color": "#c0b446",
+    "gdppc": 37825,
+    "iiwikiLink": "https://iiwiki.com/w/Piekinigaje",
+    "landArea": 228053,
+    "name": "United Federal Republics of Piekinigaje",
+    "population": 14572581
+  },
+  "Poja": {
+    "capital": "Rugi",
+    "color": "#303097",
+    "gdppc": 26901,
+    "iiwikiLink": "https://iiwiki.com/w/Poja",
+    "landArea": 504767,
+    "name": "Poja",
+    "population": 69773930,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Prymont": {
+    "capital": "New Halsham",
+    "gdppc": 59772,
+    "iiwikiLink": "https://iiwiki.com/w/Prymont",
+    "landArea": 267100,
+    "name": "Prymont",
+    "population": 12011000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Qubdi": {
+    "capital": "Taqdir",
+    "gdppc": 7325,
+    "iiwikiLink": "https://iiwiki.com/w/Qubdi",
+    "landArea": 587062,
+    "name": "Qubdi",
+    "population": 203412021,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Ralzawr": {
+    "capital": "Yiywa",
+    "color": "#01356a",
+    "gdppc": 58973,
+    "iiwikiLink": "https://iiwiki.com/w/Ralzawr",
+    "landArea": 1500000,
+    "name": "Ralzawr",
+    "population": 12815308,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Red-Iberos": {
+    "capital": "Porto Premia",
+    "gdppc": 22957,
+    "iiwikiLink": "https://iiwiki.com/w/Red_Iberos",
+    "landArea": 839087,
+    "name": "Red Iberos",
+    "population": 26000000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Rhodellia": {
+    "capital": "Friedrichstadt",
+    "color": "#f5be51",
+    "gdppc": 59500,
+    "iiwikiLink": "https://iiwiki.com/w/Rhodellia",
+    "landArea": 89200,
+    "name": "Rhodellia",
+    "population": 24900000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Rohini": {
+    "capital": "Vali",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Rohini",
+    "landArea": 13713,
+    "name": "Rohini",
+    "population": 1691876,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Sa-Ma-Khom": {
+    "capital": "Ha Ninh",
+    "gdppc": 14000,
+    "iiwikiLink": "https://iiwiki.com/w/Sa_Ma_Khom",
+    "landArea": 446926,
+    "name": "Sa Ma Khom",
+    "population": 13000000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Sahra": {
+    "capital": "Ra",
+    "color": "#d5750e",
+    "gdppc": 18000,
+    "iiwikiLink": "https://iiwiki.com/w/Sahra",
+    "landArea": 846377,
+    "name": "Sahra",
+    "population": 40000000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Salvia": {
+    "capital": "Deopolis",
+    "gdppc": 38910,
+    "iiwikiLink": "https://iiwiki.com/w/Salvia",
+    "landArea": 389451,
+    "name": "Salvia",
+    "population": 23001900,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "San-Giorgio": {
+    "capital": "Sabato",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/San_Giorgio",
+    "landArea": 7975,
+    "name": "San Giorgio",
+    "population": 3046546,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "San-Jorge": {
+    "capital": "Santa Isabel",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/San_Jorge",
+    "landArea": 10584,
+    "name": "San Jorge",
+    "population": 2328572,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Sokhanistan": {
+    "capital": "Valakilea",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Sokhanistan",
+    "landArea": 528980,
+    "name": "Sokhanistan",
+    "population": 46537935,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Sporsia": {
+    "capital": "Ganris",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Sporsia",
+    "landArea": 274520,
+    "name": "Sporsia",
+    "population": 45130102,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Stedoria": {
+    "capital": "Kapojvar",
+    "color": "#102b5d",
+    "gdppc": 21161,
+    "iiwikiLink": "https://iiwiki.com/w/Stedoria",
+    "landArea": 296300,
+    "name": "Stedoria",
+    "population": 26409216,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Suminto": {
+    "capital": "Sumen Batuk",
+    "gdppc": 12800,
+    "iiwikiLink": "https://iiwiki.com/w/Suminto",
+    "landArea": 345000,
+    "name": "Suminto",
+    "population": 60000000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Sunseong": {
+    "capital": "Wonchon",
+    "color": "#008c45",
+    "gdppc": 29369,
+    "iiwikiLink": "https://iiwiki.com/w/Sunseong",
+    "landArea": 182292,
+    "name": "Kingdom of Sunseong",
+    "population": 47600000
+  },
+  "Sunset-Sea-Islands": {
+    "capital": "Sunset City",
+    "gdppc": 15000,
+    "iiwikiLink": "https://iiwiki.com/w/Sunset_Sea_Islands",
+    "landArea": 790000,
+    "name": "Sunset Sea Islands",
+    "population": 68870000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Suverina": {
+    "capital": "Chişinău",
+    "gdppc": 23767,
+    "iiwikiLink": "https://iiwiki.com/w/Suverina",
+    "landArea": 891853,
+    "name": "Suverina",
+    "population": 111815000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Tabaristan": {
+    "capital": "Saari",
+    "gdppc": 21000,
+    "iiwikiLink": "https://iiwiki.com/w/Tabaristan",
+    "landArea": 49118,
+    "name": "Tabaristan",
+    "population": 15984105,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Tagmatium": {
+    "capital": "Tagmatika",
+    "color": "#a547a5",
+    "gdppc": 37457,
+    "iiwikiLink": "https://iiwiki.com/w/Tagmatium",
+    "landArea": 1499825,
+    "name": "Greater Holy Empire of the Aromans",
+    "population": 274651624
+  },
+  "Tamurin": {
+    "capital": "Alaghon",
+    "gdppc": 37274,
+    "iiwikiLink": "https://iiwiki.com/w/Tamurin",
+    "landArea": 560523,
+    "name": "Tamurin",
+    "population": 80193963,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Tavok": {
+    "capital": "Tyyrik",
+    "color": "#0a3d2a",
+    "gdppc": 39500,
+    "iiwikiLink": "https://iiwiki.com/w/Tavok",
+    "landArea": 248153,
+    "name": "Republic of Tavok",
+    "population": 48000000
+  },
+  "Variota": {
+    "capital": "Ferrefaaierhafen",
+    "gdppc": 37914,
+    "iiwikiLink": "https://iiwiki.com/w/Variota",
+    "landArea": 391765,
+    "name": "Variota",
+    "population": 41910000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Vasqqa": {
+    "capital": "Vilvau",
+    "gdppc": 17230,
+    "iiwikiLink": "https://iiwiki.com/w/Vasqqa",
+    "landArea": 85111,
+    "name": "Vasqqa",
+    "population": 12129800,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Velaheria": {
+    "capital": "Bastaria",
+    "gdppc": 2600,
+    "iiwikiLink": "https://iiwiki.com/w/Velaheria",
+    "landArea": 313331,
+    "name": "Velaheria",
+    "population": 30403490,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Verraine": {
+    "capital": "Terre Littoral",
+    "color": "#a98702",
+    "gdppc": 19571,
+    "iiwikiLink": "https://iiwiki.com/w/Verraine",
+    "landArea": 329176,
+    "name": "Verraine",
+    "population": 21000000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Volhynia": {
+    "capital": "Prykarpattia",
+    "color": "#ce182a",
+    "gdppc": 23200,
+    "iiwikiLink": "https://iiwiki.com/w/Volhynia",
+    "landArea": 94330,
+    "name": "Volhynia",
+    "population": 12400000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Volsci": {
+    "capital": "Antium",
+    "gdppc": 9001,
+    "iiwikiLink": "https://iiwiki.com/w/Volsci",
+    "landArea": 1099762,
+    "name": "Volsci",
+    "population": 146520000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Vosarkia": {
+    "capital": "Ṡarsmēra",
+    "gdppc": 26916,
+    "iiwikiLink": "https://iiwiki.com/w/Vosarkia",
+    "landArea": 320199,
+    "name": "Vosarkia",
+    "population": 12315438,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Welkija": {
+    "capital": "Nowostolicna",
+    "color": "#417745",
+    "gdppc": 26000,
+    "iiwikiLink": "https://iiwiki.com/w/Welkija",
+    "landArea": 650000,
+    "name": "Socialist Commonwealth of Welkija",
+    "population": 40000000
+  },
+  "West-Anglia": {
+    "capital": "Plough",
+    "gdppc": 31880,
+    "iiwikiLink": "https://iiwiki.com/w/West_Anglia",
+    "landArea": 620828,
+    "name": "West Anglia",
+    "population": 27354000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Yien": {
+    "capital": "Wëngabiook",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Yien",
+    "landArea": 380079,
+    "name": "Yien",
+    "population": 6220000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "landArea"
+    ]
+  },
+  "Ymutz-Mizlan": {
+    "capital": "Ferrescan",
+    "color": "#23672c",
+    "gdppc": 15000,
+    "iiwikiLink": "https://iiwiki.com/w/Ymutz_Mizlan",
+    "landArea": 645100,
+    "name": "Ymutz Mizlan",
+    "population": 60000000,
+    "secondaryFields": [
+      "capital"
+    ]
+  },
+  "Yuropa": {
+    "capital": "Centridge City",
+    "gdppc": 4545,
+    "iiwikiLink": "https://iiwiki.com/w/Yuropa",
+    "landArea": 569161,
+    "name": "Yuropa",
+    "population": 61600000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Zekistan": {
+    "capital": "Manzarabad",
+    "gdppc": 8000,
+    "iiwikiLink": "https://iiwiki.com/w/Zekistan",
+    "landArea": 122176,
+    "name": "Zekistan",
+    "population": 12000000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  },
+  "Zuydland": {
+    "capital": "Fort Leeuwendael",
+    "gdppc": 18600,
+    "iiwikiLink": "https://iiwiki.com/w/Zuydland",
+    "landArea": 245000,
+    "name": "Zuydland",
+    "population": 22400000,
+    "secondaryFields": [
+      "capital",
+      "population",
+      "gdppc",
+      "landArea"
+    ]
+  }
+}

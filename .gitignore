@@ -1,0 +1,20 @@
+# Affinity project files and lock files (large binaries; kept in OneDrive)
+*.af
+*.af~lock~
+
+# Legacy hand-drawn Affinity SVG exports (~6 MB each, embedded raster; superseded by overlay-tools)
+Eurth-Geography-Map-Nation-Overlays*.svg
+
+# Community vector map (25 MB, embedded raster; reference only, see CLAUDE.md)
+Vector_Eurth_Map.svg
+
+# Python
+__pycache__/
+*.pyc
+
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Local environment files (tokens, dry-run switches); never committed
+.env
+.env.*

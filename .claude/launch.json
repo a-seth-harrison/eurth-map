@@ -1,0 +1,48 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "eurth-map",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "eurth-map",
+        "run",
+        "dev"
+      ],
+      "port": 5173,
+      "autoPort": true
+    },
+    {
+      "name": "eurth-map-orgs",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "../Interactive Map orgs/eurth-map/node_modules/vite/bin/vite.js",
+        "../Interactive Map orgs/eurth-map",
+        "--port",
+        "5174"
+      ],
+      "port": 5174
+    },
+    {
+      "name": "eurth-map-vercel",
+      "runtimeExecutable": "vercel",
+      "runtimeArgs": [
+        "dev",
+        "--cwd",
+        "eurth-map",
+        "--listen",
+        "3000"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "overlay-review",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "overlay-tools/review_server.py"
+      ],
+      "port": 5180
+    }
+  ]
+}

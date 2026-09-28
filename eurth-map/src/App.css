@@ -1,0 +1,792 @@
+/* Map container fills the screen */
+.map-container {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh; /* the part of the screen a phone browser's toolbars leave free */
+  position: relative;
+  overflow: hidden;
+}
+
+.map-viewport {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.map-viewport:active {
+  cursor: grabbing;
+}
+
+.map-transform {
+  transform-origin: 0 0;
+  position: relative;
+  width: 8000px;
+  height: 4000px;
+}
+
+/* One copy of the world: base map and image layers. MapViewer.jsx places three side by side */
+.map-world {
+  position: absolute;
+  top: 0;
+  width: 8000px;
+  height: 4000px;
+}
+
+.map-bg {
+  width: 8000px;
+  height: 4000px;
+  display: block;
+  user-select: none;
+}
+
+/* Spans the three world copies */
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: -8000px;
+  width: 24000px;
+  height: 4000px;
+}
+
+.map-overlay .overlay-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Make country paths interactive */
+.map-overlay .overlay-svg [data-nation] {
+  cursor: pointer;
+}
+
+.map-overlay .overlay-svg [data-nation] path {
+  /* Default highlight; nations with a `color` in nations.js get it as an inline fill (MapViewer.jsx) */
+  fill: #d81e1e;
+  pointer-events: all;
+}
+
+/* Opacity is set on the whole nation group (not per path) so overlapping paths don't darken */
+.map-overlay .overlay-svg [data-nation] {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.map-overlay .overlay-svg [data-nation].hovered {
+  opacity: 0.35;
+}
+
+.map-overlay .overlay-svg [data-nation].selected {
+  opacity: 0.5;
+}
+
+/* Image overlays and the legend, stacked on the base map */
+.map-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8000px;
+  height: 4000px;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Overlay switches: bottom left, stacked on the Flat map / Globe switch, clear of the nation panel */
+.layer-toggles {
+  position: fixed;
+  bottom: calc(var(--edge-bottom) + var(--control-h) + 15px);
+  left: var(--edge-left);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(20, 20, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 12px 14px;
+  font-size: 14px;
+}
+
+/* A button only on small screens, where it folds the list away (see the end of this file) */
+.layer-toggles-title {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  pointer-events: none;
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.layer-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.layer-toggles input {
+  accent-color: #ffd24a;
+}
+
+/* Measure mode */
+.map-container.measuring .map-viewport,
+.map-container.measuring .map-overlay .overlay-svg [data-nation] {
+  cursor: crosshair;
+}
+
+.measure-svg {
+  position: absolute;
+  top: 0;
+  left: -8000px;
+  width: 24000px;
+  height: 4000px;
+  pointer-events: none;
+}
+
+/* Stroke widths, radii and font sizes are set inline, divided by the zoom scale */
+.measure-halo {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.6);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.measure-line {
+  fill: none;
+  stroke: #ffd24a;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.measure-fill {
+  fill: rgba(255, 210, 74, 0.25);
+  stroke: none;
+}
+
+.measure-preview {
+  opacity: 0.7;
+}
+
+.measure-point {
+  fill: #ffd24a;
+  stroke: #1a1a1a;
+}
+
+.measure-label {
+  fill: #fff;
+  stroke: rgba(0, 0, 0, 0.85);
+  paint-order: stroke;
+  stroke-linejoin: round;
+  text-anchor: middle;
+  font-weight: 600;
+}
+
+.measure-controls {
+  position: fixed;
+  top: var(--edge-top);
+  left: var(--edge-left);
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.measure-controls button {
+  background: rgba(20, 20, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-size: 14px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.measure-controls button:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.measure-controls .measure-toggle.active {
+  background: #ffd24a;
+  border-color: #ffd24a;
+  color: #1a1a1a;
+}
+
+.measure-readout {
+  background: rgba(20, 20, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 12px 14px;
+  min-width: 200px;
+}
+
+.measure-units {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.measure-units button {
+  flex: 1;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 0;
+}
+
+.measure-units button + button {
+  border-left: none;
+}
+
+.measure-units button:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.measure-units button:last-child {
+  border-radius: 0 6px 6px 0;
+}
+
+.measure-units button.active {
+  background: #ffd24a;
+  border-color: #ffd24a;
+  color: #1a1a1a;
+}
+
+.measure-total {
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.measure-hint {
+  font-size: 13px;
+  color: #999;
+}
+
+.measure-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.measure-actions button {
+  padding: 4px 10px;
+  font-size: 13px;
+}
+
+/* Globe view */
+.globe-viewport {
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.map-container.measuring .globe-viewport canvas {
+  cursor: crosshair !important; /* globe.gl sets the cursor inline */
+}
+
+.globe-measure-point {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ffd24a;
+  border: 2px solid #1a1a1a;
+  pointer-events: none;
+}
+
+.globe-measure-label {
+  /* globe.gl owns this element's transform, so offset it with top */
+  position: relative;
+  top: -14px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 2px #000;
+  pointer-events: none;
+}
+
+.view-loading {
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+/* Flat map / Globe switch */
+.view-toggle {
+  position: fixed;
+  bottom: var(--edge-bottom);
+  left: var(--edge-left);
+  z-index: 150;
+  display: flex;
+}
+
+.view-toggle button {
+  background: rgba(20, 20, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #e0e0e0;
+  font-size: 14px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.view-toggle button:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.view-toggle button:last-child {
+  border-radius: 0 6px 6px 0;
+  border-left: none;
+}
+
+.view-toggle button.active {
+  background: #ffd24a;
+  border-color: #ffd24a;
+  color: #1a1a1a;
+}
+
+/* Tooltip next to the pointer: hovered nation and/or climate zone. HoverTooltip.jsx sets
+   left/top; on touch it sits above the finger after a long press */
+.hover-tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 160;
+}
+
+.tooltip-nation {
+  font-weight: 600;
+}
+
+.tooltip-climate,
+.climate-card-zone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.climate-swatch {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Climate card: the last zone read, with its Wikipedia page. Top centre, clear of the
+   measure controls (top left) and the nation panel (right) */
+.climate-card {
+  position: fixed;
+  top: var(--edge-top);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 150;
+  background: rgba(20, 20, 40, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.climate-card-zone {
+  font-weight: 600;
+}
+
+.climate-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: #999;
+}
+
+.climate-card-meta a {
+  color: #ffd24a;
+  text-decoration: none;
+}
+
+.climate-card-meta a:hover {
+  text-decoration: underline;
+}
+
+.climate-card-hint {
+  color: #999;
+  font-size: 13px;
+}
+
+/* Side panel for nation stats */
+.nation-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 340px;
+  max-width: 90vw;
+  height: 100vh;
+  height: 100dvh;
+  background: rgba(20, 20, 40, 0.95);
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 24px;
+  padding-right: max(24px, env(safe-area-inset-right));
+  z-index: 200;
+  overflow-y: auto;
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.panel-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #e0e0e0;
+  font-size: 24px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 4px 8px;
+}
+
+.panel-close:hover {
+  color: #fff;
+}
+
+.nation-panel h2 {
+  margin: 0 0 20px;
+  font-size: 22px;
+  color: #fff;
+  padding-right: 32px;
+}
+
+.nation-panel table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.nation-panel td {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nation-panel td:first-child {
+  color: #999;
+  width: 120px;
+  font-size: 13px;
+}
+
+.nation-panel td:last-child {
+  text-align: right;
+  font-size: 14px;
+}
+
+.iiwiki-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #7ca0ff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.iiwiki-link:hover {
+  text-decoration: underline;
+}
+
+/* Suggest an edit: a quiet button under the wiki link, and the form it opens */
+.suggest-edit {
+  display: block;
+  margin-top: 12px;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  color: #bbb;
+  font-size: 13px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.suggest-edit:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* A native <dialog>: it sits in the top layer above the panel, so the phone bottom sheet's
+   height cap does not apply to it and it scrolls on its own when the keyboard is up */
+.suggest-dialog {
+  margin: auto; /* centred; index.css zeroes every margin, which would pin it to the corner */
+  width: min(420px, calc(100vw - 32px));
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 20px 24px;
+  background: rgba(20, 20, 40, 0.98);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+}
+
+.suggest-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.suggest-dialog h3 {
+  margin: 0 0 4px;
+  font-size: 18px;
+  color: #fff;
+}
+
+.suggest-dialog label {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #999;
+}
+
+.suggest-unit {
+  color: #666;
+}
+
+.suggest-dialog input,
+.suggest-dialog textarea {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 4px;
+  padding: 8px 10px;
+  font: inherit;
+  font-size: 14px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+}
+
+.suggest-dialog textarea {
+  resize: vertical;
+}
+
+.suggest-dialog input.changed {
+  border-color: #7ca0ff;
+}
+
+.suggest-dialog input.invalid {
+  border-color: #ff8080;
+}
+
+.suggest-hint,
+.suggest-error {
+  display: block;
+  font-size: 12px;
+  margin: 4px 0 0;
+  color: #999;
+}
+
+.suggest-error {
+  color: #ff9c9c;
+}
+
+.suggest-hint a {
+  color: #7ca0ff;
+}
+
+/* Off-screen rather than display: none, so form-filling bots still see and fill it */
+.suggest-honeypot {
+  position: absolute;
+  left: -9999px;
+}
+
+.suggest-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.suggest-actions button {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-size: 14px;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+.suggest-actions button:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.suggest-actions .primary {
+  background: #ffd24a;
+  border-color: #ffd24a;
+  color: #1a1a1a;
+}
+
+.suggest-actions button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* Touch screens: every control is at least 44 px tall, and nothing depends on hover */
+@media (pointer: coarse) {
+  .measure-controls button,
+  .view-toggle button {
+    min-height: 44px;
+    padding: 8px 16px;
+    font-size: 15px;
+  }
+
+  .measure-readout {
+    min-width: 240px;
+  }
+
+  .layer-toggles {
+    gap: 0;
+    padding: 6px 14px;
+    font-size: 15px;
+  }
+
+  .layer-toggles-title {
+    padding: 8px 0 4px;
+  }
+
+  .layer-toggles label {
+    min-height: 44px;
+    gap: 12px;
+  }
+
+  .layer-toggles input {
+    width: 22px;
+    height: 22px;
+  }
+
+  .panel-close {
+    top: 6px;
+    right: 6px;
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+  }
+
+  .iiwiki-link {
+    margin-top: 8px;
+    padding: 12px 0;
+    font-size: 15px;
+  }
+
+  .suggest-edit,
+  .suggest-actions button {
+    min-height: 44px;
+    padding: 8px 16px;
+    font-size: 15px;
+  }
+
+  /* 44 px targets; 16 px text stops iOS zooming into the field */
+  .suggest-dialog input,
+  .suggest-dialog textarea {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .hover-tooltip {
+    font-size: 15px;
+  }
+
+  .climate-card-meta a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* Phones, upright or on their side: the overlay list folds away behind its title */
+@media (max-width: 600px), (max-height: 500px) {
+  .layer-toggles {
+    padding: 0 14px;
+  }
+
+  .layer-toggles-title {
+    pointer-events: auto;
+    cursor: pointer;
+    min-height: var(--control-h);
+    padding: 0;
+    color: #e0e0e0;
+  }
+
+  .layer-toggles:not(.open) label {
+    display: none;
+  }
+
+  .layer-toggles.open {
+    padding-bottom: 6px;
+  }
+}
+
+/* Narrow screens: the climate card goes under the Measure button instead of the top centre */
+@media (max-width: 600px) {
+  .climate-card {
+    top: calc(var(--edge-top) + var(--control-h) + 12px);
+    left: var(--edge-left);
+    transform: none;
+  }
+}
+
+/* Upright phones: the nation panel is a sheet at the bottom, so the map stays visible above it */
+@media (max-width: 600px) {
+  .nation-panel {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    max-height: 45vh;
+    max-height: 45dvh;
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px 14px 0 0;
+    padding: 18px 20px max(18px, env(safe-area-inset-bottom));
+    animation-name: slideUp;
+  }
+
+  .nation-panel h2 {
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+
+  .suggest-dialog {
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 16px;
+  }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}

@@ -1,0 +1,383 @@
+{
+  "Ahrana": {
+    "capital": null,
+    "color": "#fecb07",
+    "gdppc": 19999,
+    "iiwikiLink": "https://iiwiki.com/w/Ahrana",
+    "landArea": 715000,
+    "name": "Ahrana",
+    "population": 100000000
+  },
+  "Aldace": {
+    "capital": null,
+    "color": "#f4ca14",
+    "gdppc": 26532,
+    "iiwikiLink": "https://iiwiki.com/w/Aldace",
+    "landArea": 411365,
+    "name": "Aldace",
+    "population": 34642780
+  },
+  "Arneland": {
+    "capital": null,
+    "color": "#bd0b31",
+    "gdppc": 28911,
+    "iiwikiLink": "https://iiwiki.com/w/Arneland",
+    "landArea": 249000,
+    "name": "Arneland",
+    "population": 42537851
+  },
+  "Aurora": {
+    "capital": "Tavares",
+    "color": "#ff8b00",
+    "gdppc": 51005,
+    "iiwikiLink": "https://iiwiki.com/w/Aurora",
+    "landArea": 91636,
+    "name": "Republic of Aurora",
+    "population": 42427468
+  },
+  "Baltica": {
+    "capital": "Kauni",
+    "color": "#fdba0b",
+    "gdppc": 11942,
+    "iiwikiLink": "https://iiwiki.com/w/Baltica",
+    "landArea": 262000,
+    "name": "United Federation of Baltica",
+    "population": 28512444
+  },
+  "Bamraland": {
+    "capital": null,
+    "color": "#1f41b4",
+    "gdppc": 7915,
+    "iiwikiLink": "https://iiwiki.com/w/Bamraland",
+    "landArea": 699908,
+    "name": "Bamraland",
+    "population": 75311923
+  },
+  "Centennia-Cardina": {
+    "capital": "Verrone, the Stronghold City",
+    "color": "#ee5c6d",
+    "gdppc": 29500,
+    "iiwikiLink": "https://iiwiki.com/w/Centennia_Cardina",
+    "landArea": 430000,
+    "name": "Democratic Republic of Centennia Cardina",
+    "population": 34000000
+  },
+  "Charkov": {
+    "capital": "Kovchi",
+    "color": "#0064ac",
+    "gdppc": 14407,
+    "iiwikiLink": "https://iiwiki.com/w/Charkov",
+    "landArea": 245000,
+    "name": "Second Federal Democratic Republic of Charkov",
+    "population": 23378665
+  },
+  "Cruciastada": {
+    "capital": null,
+    "color": "#480d27",
+    "gdppc": 26152.24,
+    "iiwikiLink": "https://iiwiki.com/w/Cruciastada",
+    "landArea": 553881,
+    "name": "Cruciastada",
+    "population": 74741200
+  },
+  "Denawar": {
+    "capital": null,
+    "color": "#05772a",
+    "gdppc": 23750,
+    "iiwikiLink": "https://iiwiki.com/w/Denawar",
+    "landArea": 171448.23,
+    "name": "Denawar",
+    "population": 31546774
+  },
+  "Eemsmerschen": {
+    "capital": "Rendsborg",
+    "color": "#822436",
+    "gdppc": 17800,
+    "iiwikiLink": "https://iiwiki.com/w/Eemsmerschen",
+    "landArea": 670000,
+    "name": "Dolch Free State",
+    "population": 37998000
+  },
+  "Erisoria": {
+    "capital": null,
+    "color": "#f48314",
+    "gdppc": 29500,
+    "iiwikiLink": "https://iiwiki.com/w/Erisoria",
+    "landArea": 488900,
+    "name": "Erisoria",
+    "population": 34348293
+  },
+  "Esonice": {
+    "capital": null,
+    "color": "#9f2bf2",
+    "gdppc": 38312,
+    "iiwikiLink": "https://iiwiki.com/w/Esonice",
+    "landArea": 442875,
+    "name": "Esonice",
+    "population": 72145832
+  },
+  "Flaca-Vul": {
+    "capital": "Cavult Metropolis",
+    "color": "#0d406d",
+    "gdppc": 29653,
+    "iiwikiLink": "https://iiwiki.com/w/Flaca_Vul",
+    "landArea": 281239,
+    "name": "Most Serene Republic of Flaca Vul",
+    "population": 49836821
+  },
+  "Garindina": {
+    "capital": null,
+    "color": "#7d0c0d",
+    "gdppc": 36550,
+    "iiwikiLink": "https://iiwiki.com/w/Garindina",
+    "landArea": 366296,
+    "name": "Garindina",
+    "population": 23247742
+  },
+  "Goankok": {
+    "capital": null,
+    "color": "#00788c",
+    "gdppc": 16452,
+    "iiwikiLink": "https://iiwiki.com/w/Goankok",
+    "landArea": null,
+    "name": "Goankok",
+    "npc": true,
+    "population": null
+  },
+  "Helsium": {
+    "capital": null,
+    "color": "#b52a18",
+    "gdppc": 59000,
+    "iiwikiLink": "https://iiwiki.com/w/Helsium",
+    "landArea": 250000,
+    "name": "Helsium",
+    "population": 48700000
+  },
+  "Ionio": {
+    "capital": "San Foca",
+    "color": "#0e78e4",
+    "gdppc": 29879,
+    "iiwikiLink": "https://iiwiki.com/w/Ionio",
+    "landArea": 314212,
+    "name": "Federal Republic of Ionio",
+    "population": 65784985
+  },
+  "Iverica": {
+    "capital": null,
+    "color": "#f8c91a",
+    "gdppc": 48532,
+    "iiwikiLink": "https://iiwiki.com/w/Iverica",
+    "landArea": 563257,
+    "name": "Iverica",
+    "population": 152187090
+  },
+  "Kirvina": {
+    "capital": null,
+    "color": "#bfc5c3",
+    "gdppc": 27788,
+    "iiwikiLink": "https://iiwiki.com/w/Kirvina",
+    "landArea": 180000,
+    "name": "Kirvina",
+    "npc": true,
+    "population": 14003548
+  },
+  "Kiziauke": {
+    "capital": "Pachetan",
+    "color": "#b71137",
+    "gdppc": 39916,
+    "iiwikiLink": "https://iiwiki.com/w/Kíziáuke",
+    "landArea": 222000,
+    "name": "Kīzināpe Sintezan Socialist Republics",
+    "population": 48132950
+  },
+  "Kolhar": {
+    "capital": null,
+    "color": "#0a8700",
+    "gdppc": 21337,
+    "iiwikiLink": "https://iiwiki.com/w/Kolhar",
+    "landArea": 239930,
+    "name": "Kolhar",
+    "population": 51596834
+  },
+  "Lenelia": {
+    "capital": null,
+    "color": "#fbc61f",
+    "gdppc": 27331,
+    "iiwikiLink": "https://iiwiki.com/w/Lenelia",
+    "landArea": 672516,
+    "name": "Lenelia",
+    "population": 59800000
+  },
+  "Marchyydion": {
+    "capital": null,
+    "color": "#cb6625",
+    "gdppc": 19000,
+    "iiwikiLink": "https://iiwiki.com/w/Marchyydion",
+    "landArea": 800000,
+    "name": "Marchyydion",
+    "population": 39724000
+  },
+  "Mikochi": {
+    "capital": "Umikyo",
+    "color": "#003f89",
+    "gdppc": 38653.89,
+    "iiwikiLink": "https://iiwiki.com/w/Mikochi",
+    "landArea": 192532,
+    "name": "Democratic People's Republic of Mikochi",
+    "population": 68291582
+  },
+  "Mito": {
+    "capital": null,
+    "color": "#890101",
+    "gdppc": null,
+    "iiwikiLink": "https://iiwiki.com/w/Mito",
+    "landArea": null,
+    "name": "Mito",
+    "npc": true,
+    "population": 13723000
+  },
+  "Nova-Occidentalis": {
+    "capital": "Treipoduri",
+    "color": "#1b1b1b",
+    "gdppc": 18450,
+    "iiwikiLink": "https://iiwiki.com/w/Nova_Occidentalis",
+    "landArea": 475000,
+    "name": "Nova Occidentalis",
+    "population": 73245000
+  },
+  "Orioni": {
+    "capital": "O'polis",
+    "color": "#010066",
+    "gdppc": 58297.29,
+    "iiwikiLink": "https://iiwiki.com/w/Orioni",
+    "landArea": 1320687,
+    "name": "Beautiful Empire of Orioni",
+    "population": 147478008
+  },
+  "Pentium": {
+    "capital": null,
+    "color": "#27556f",
+    "gdppc": 37542,
+    "iiwikiLink": "https://iiwiki.com/w/Pentium",
+    "landArea": 389287,
+    "name": "Pentium",
+    "population": 95456345
+  },
+  "Piekinigaje": {
+    "capital": "Goresk",
+    "color": "#c0b446",
+    "gdppc": 37825,
+    "iiwikiLink": "https://iiwiki.com/w/Piekinigaje",
+    "landArea": 228053,
+    "name": "United Federal Republics of Piekinigaje",
+    "population": 14572581
+  },
+  "Poja": {
+    "capital": null,
+    "color": "#303097",
+    "gdppc": 26901,
+    "iiwikiLink": "https://iiwiki.com/w/Poja",
+    "landArea": 504767,
+    "name": "Poja",
+    "population": 69773930
+  },
+  "Ralzawr": {
+    "capital": null,
+    "color": "#01356a",
+    "gdppc": 58973,
+    "iiwikiLink": "https://iiwiki.com/w/Ralzawr",
+    "landArea": 1500000,
+    "name": "Ralzawr",
+    "population": 12815308
+  },
+  "Rhodellia": {
+    "capital": null,
+    "color": "#f5be51",
+    "gdppc": 59500,
+    "iiwikiLink": "https://iiwiki.com/w/Rhodellia",
+    "landArea": 89200,
+    "name": "Rhodellia",
+    "population": 24900000
+  },
+  "Sahra": {
+    "capital": null,
+    "color": "#d5750e",
+    "gdppc": 18000,
+    "iiwikiLink": "https://iiwiki.com/w/Sahra",
+    "landArea": 846377,
+    "name": "Sahra",
+    "population": 40000000
+  },
+  "Stedoria": {
+    "capital": null,
+    "color": "#102b5d",
+    "gdppc": 21161,
+    "iiwikiLink": "https://iiwiki.com/w/Stedoria",
+    "landArea": 296300,
+    "name": "Stedoria",
+    "population": 26409216
+  },
+  "Sunseong": {
+    "capital": "Wonchon",
+    "color": "#008c45",
+    "gdppc": 29369,
+    "iiwikiLink": "https://iiwiki.com/w/Sunseong",
+    "landArea": 182292,
+    "name": "Kingdom of Sunseong",
+    "population": 47600000
+  },
+  "Tagmatium": {
+    "capital": "Tagmatika",
+    "color": "#a547a5",
+    "gdppc": 37457,
+    "iiwikiLink": "https://iiwiki.com/w/Tagmatium",
+    "landArea": 1499825,
+    "name": "Greater Holy Empire of the Aromans",
+    "population": 274651624
+  },
+  "Tavok": {
+    "capital": "Tyyrik",
+    "color": "#0a3d2a",
+    "gdppc": 39500,
+    "iiwikiLink": "https://iiwiki.com/w/Tavok",
+    "landArea": 248153,
+    "name": "Republic of Tavok",
+    "population": 48000000
+  },
+  "Verraine": {
+    "capital": null,
+    "color": "#a98702",
+    "gdppc": 19571,
+    "iiwikiLink": "https://iiwiki.com/w/Verraine",
+    "landArea": 329176,
+    "name": "Verraine",
+    "population": 21000000
+  },
+  "Volhynia": {
+    "capital": null,
+    "color": "#ce182a",
+    "gdppc": 23200,
+    "iiwikiLink": "https://iiwiki.com/w/Volhynia",
+    "landArea": null,
+    "name": "Volhynia",
+    "population": 12400000
+  },
+  "Welkija": {
+    "capital": "Nowostolicna",
+    "color": "#417745",
+    "gdppc": 26000,
+    "iiwikiLink": "https://iiwiki.com/w/Welkija",
+    "landArea": 650000,
+    "name": "Socialist Commonwealth of Welkija",
+    "population": 40000000
+  },
+  "Ymutz-Mizlan": {
+    "capital": null,
+    "color": "#23672c",
+    "gdppc": 15000,
+    "iiwikiLink": "https://iiwiki.com/w/Ymutz_Mizlan",
+    "landArea": 645100,
+    "name": "Ymutz Mizlan",
+    "population": 60000000
+  }
+}

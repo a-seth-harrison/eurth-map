@@ -1,0 +1,287 @@
+{
+  "Adaptus": {
+    "color": "#7b0528"
+  },
+  "Volsci": {
+    "color": "#370000"
+  },
+  "Gaellicia": {
+    "color": "#029a63"
+  },
+  "Deltannia": {
+    "color": "#216bac"
+  },
+  "Lysia": {
+    "color": "#09224e"
+  },
+  "Great-Anglia": {
+    "color": "#f4ca52"
+  },
+  "Suminto": {
+    "color": "#5ab1bb"
+  },
+  "Zuydland": {
+    "color": "#ff7d07"
+  },
+  "Manamana": {
+    "color": "#267842",
+    "population": 18361225
+  },
+  "Sunset-Sea-Islands": {
+    "color": "#000000"
+  },
+  "Florentia": {
+    "color": "#540203"
+  },
+  "Andalla": {
+    "color": "#b71f32"
+  },
+  "Giokto": {
+    "color": "#00752b"
+  },
+  "Prymont": {
+    "color": "#0094ff"
+  },
+  "Iwenland": {
+    "color": "#df8352"
+  },
+  "Dolchland": {
+    "color": "#000000"
+  },
+  "Leimurya": {
+    "name": "Leimurya",
+    "iiwikiLink": "https://iiwiki.com/w/Leimurya",
+    "capital": "Mu",
+    "color": "#2490ff"
+  },
+  "Breugua": {
+    "name": "Breugua",
+    "iiwikiLink": "https://iiwiki.com/w/Breugua",
+    "capital": "Montelago",
+    "color": "#1183c4"
+  },
+  "West-Anglia": {
+    "color": "#146590"
+  },
+  "Westland": {
+    "name": "Westland",
+    "iiwikiLink": "https://iiwiki.com/w/Westland",
+    "capital": "Ballylomasna",
+    "color": "#f2a800"
+  },
+  "Luterna": {
+    "color": "#00a2e8"
+  },
+  "Neusrya": {
+    "color": "#ac2a29"
+  },
+  "North-Dniester": {
+    "name": "North Dniester",
+    "iiwikiLink": "https://iiwiki.com/w/North_Dniester",
+    "capital": "Tiraspol",
+    "color": "#cc0000"
+  },
+  "Variota": {
+    "color": "#18981f"
+  },
+  "Gallambria": {
+    "color": "#1d2e4d"
+  },
+  "Salvia": {
+    "color": "#ffda00"
+  },
+  "Suverina": {
+    "color": "#e14743"
+  },
+  "Cherkessk": {
+    "color": "#006a33"
+  },
+  "Ide-Jima": {
+    "color": "#0e8769"
+  },
+  "Eidolmanta": {
+    "color": "#000000"
+  },
+  "Red-Iberos": {
+    "color": "#b9112a"
+  },
+  "Sokhanistan": {
+    "color": "#951009"
+  },
+  "Yuropa": {
+    "color": "#eb934e"
+  },
+  "Afropa": {
+    "color": "#ffffff"
+  },
+  "Bashan": {
+    "color": "#0e073d"
+  },
+  "Qubdi": {
+    "color": "#eece05"
+  },
+  "Miiros": {
+    "color": "#4dac71"
+  },
+  "Bamraland": {
+    "capital": "Langpauya"
+  },
+  "Mekabiri": {
+    "color": "#e14743"
+  },
+  "Tamurin": {
+    "color": "#dc0000"
+  },
+  "Kotowari": {
+    "color": "#216bac"
+  },
+  "Astrini": {
+    "name": "Astrini",
+    "iiwikiLink": "https://iiwiki.com/w/Astrini",
+    "color": "#b50000"
+  },
+  "Damak-Var": {
+    "color": "#1a66a9"
+  },
+  "Yien": {
+    "color": "#008b2e"
+  },
+  "Abantium": {
+    "color": "#000000"
+  },
+  "Ayubi": {
+    "color": "#ffffff"
+  },
+  "Bainbridge-Islands": {
+    "color": "#06166c"
+  },
+  "Sa-Ma-Khom": {
+    "color": "#e0dd47"
+  },
+  "Girkmand": {
+    "color": "#bdc0c9"
+  },
+  "Kalnija": {
+    "color": "#0d8ce7"
+  },
+  "Ulfheimr": {
+    "name": "Ulfheimr",
+    "iiwikiLink": "https://iiwiki.com/w/Ulfheimr",
+    "capital": "Ulfar",
+    "color": "#000000"
+  },
+  "Korinon": {
+    "name": "Korinon",
+    "iiwikiLink": "https://iiwiki.com/w/Korinon",
+    "capital": "Verlucio",
+    "color": "#ae001b"
+  },
+  "Zekistan": {
+    "color": "#5d8d10"
+  },
+  "Caliveis": {
+    "name": "Caliveis",
+    "iiwikiLink": "https://iiwiki.com/w/Caliveis",
+    "capital": "Colina Marron",
+    "color": "#ebbe2d"
+  },
+  "San-Giorgio": {
+    "color": "#160e69"
+  },
+  "San-Jorge": {
+    "color": "#c6000e"
+  },
+  "Galahinda": {
+    "color": "#abcae9"
+  },
+  "Coedana": {
+    "name": "Coedana",
+    "iiwikiLink": "https://iiwiki.com/w/Coedana",
+    "capital": "Baile na nOilean",
+    "color": "#0c692a"
+  },
+  "Tabaristan": {
+    "color": "#16ff00"
+  },
+  "Ealis": {
+    "color": "#892d2d"
+  },
+  "Marcendy": {
+    "name": "Marcendy",
+    "iiwikiLink": "https://iiwiki.com/w/Marcendy",
+    "capital": "Argentan",
+    "color": "#0034a6"
+  },
+  "Nanto": {
+    "color": "#fffa03"
+  },
+  "Doria": {
+    "name": "Doria",
+    "iiwikiLink": "https://iiwiki.com/w/Doria",
+    "capital": "Byalgrad",
+    "color": "#3b741f"
+  },
+  "Sentist-State": {
+    "name": "Sentist State",
+    "iiwikiLink": "https://iiwiki.com/w/Sentist_State",
+    "capital": "Ashein City",
+    "color": "#790917"
+  },
+  "Parvaquilee": {
+    "name": "Parvaquilee",
+    "iiwikiLink": "https://iiwiki.com/w/Parvaquilee",
+    "capital": "Fort Liberte",
+    "color": "#4d1d63"
+  },
+  "Ionio": {
+    "color": "#ffffff"
+  },
+  "Aldace": {
+    "color": "#001b4b"
+  },
+  "Kirvina": {
+    "color": "#ffffff"
+  },
+  "Oyussa": {
+    "name": "Oyussa",
+    "iiwikiLink": "https://iiwiki.com/w/Oyussa",
+    "capital": "Yulaa",
+    "color": "#eef2c1"
+  },
+  "Elbenau": {
+    "name": "Elbenauer Republic",
+    "iiwikiLink": "https://iiwiki.com/w/Elbenau",
+    "capital": "Grestin",
+    "color": "#0c7123"
+  },
+  "Veldoria": {
+    "name": "Veldorian Democratic Republic",
+    "iiwikiLink": "https://iiwiki.com/w/Veldoria",
+    "capital": "Vertia",
+    "color": "#000000"
+  },
+  "Obereland": {
+    "name": "Provisional Administration of Obereland",
+    "iiwikiLink": "https://iiwiki.com/w/Obereland",
+    "capital": "Durven",
+    "color": "#ffce00"
+  },
+  "Galicia": {
+    "color": "#002e5e"
+  },
+  "Narva": {
+    "color": "#117a65"
+  },
+  "Vasqqa": {
+    "color": "#ffffff"
+  },
+  "Duchy-of-Verde": {
+    "color": "#217919"
+  },
+  "Akwisia": {
+    "name": "Akwisia",
+    "iiwikiLink": "https://iiwiki.com/w/Akwisia",
+    "capital": "Brandhaefen",
+    "color": "#47aaff"
+  }
+}
