@@ -18,3 +18,8 @@ __pycache__/
 # Local environment files (tokens, dry-run switches); never committed
 .env
 .env.*
+
+# The community sheet's full export and the old full-sheet workbook stay local;
+# the repository keeps nation-data/Countries on Eurth.csv (see data-tools/compare_sheet.py)
+nation-data/Countries on Eurth.xlsx
+nation-data/Countries of Eurth vs map.xlsx

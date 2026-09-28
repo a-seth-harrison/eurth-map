@@ -1,12 +1,16 @@
 """Compare the community "Countries on Eurth" Google Sheet with the map's nations.js.
 
-    python data-tools/compare_sheet.py [path/to/Countries on Eurth.xlsx]
+    python data-tools/compare_sheet.py                      # compare the stored CSV
+    python data-tools/compare_sheet.py path/to/export.xlsx   # refresh the CSV from the sheet first
 
-Export the Google Sheet as Excel (File > Download > Microsoft Excel) and pass the file. The
-script copies it to nation-data/Countries on Eurth.xlsx (the default input) and writes
-nation-data/Countries on Eurth vs map.xlsx: the export itself, with all of its tabs, formulas
-and formatting untouched, plus two tabs inserted after "Countries of Eurth":
+The repository keeps only what the comparison reads from the sheet: nation-data/Countries on
+Eurth.csv, with the sheet's row number and five columns (Country, Capital, Area, Population,
+GDPPC). To refresh it, export the Google Sheet as Excel (File > Download > Microsoft Excel) and
+pass the file: the script rewrites the CSV from it and does not keep the export.
 
+It writes nation-data/Countries on Eurth vs map.xlsx with three tabs:
+
+  "Countries of Eurth"  the CSV's values at the sheet's own rows and columns (A, B, E, F, G)
   "Map data"  nations.js laid out in the sheet's own columns and style (cyan header, Arial,
               #,##0, the wikitext columns C:D and the derived columns H:J as the same formulas),
               plus map-only columns at the right (key, full name, highlight colour, territory,
@@ -16,15 +20,16 @@ and formatting untouched, plus two tabs inserted after "Countries of Eurth":
               one side only in grey; most-different nations first. Values, not formulas: it is a
               snapshot, so re-run after either side changes.
 
+and nation-data/Countries on Eurth - differences.xlsx, the short version for the sheet's keeper.
+
 Nations are matched by nations.js key (make_key of the sheet's Country column, same rule as
 fill_from_secondary.py). A renamed nation shows up as one "only in sheet" and one "only on map" row.
 """
+import csv
 import json
 import re
-import shutil
 import sys
 import urllib.parse
-from copy import copy
 from pathlib import Path
 
 from openpyxl import Workbook, load_workbook
@@ -35,7 +40,15 @@ from openpyxl.utils import get_column_letter
 from nations_file import NATIONS_JS, ROOT, make_key, parse_nations
 
 SHEET = "Countries of Eurth"
-XLSX_DEFAULT = ROOT / "nation-data" / "Countries on Eurth.xlsx"
+CSV_DEFAULT = ROOT / "nation-data" / "Countries on Eurth.csv"
+# The sheet's columns (0-based) that the comparison reads, under their names in the CSV
+KEPT = [(0, "Country"), (1, "Capital"), (4, "Area (km2)"), (5, "Population"), (6, "GDPPC")]
+# The sheet's header row and column widths, so "Map data" can be laid out like the sheet
+SHEET_HEAD = ["Country", "Capital", "Country", "Capital", "Area (km2)", "Population",
+              "{{Tooltip|GDPPC|GDP per capita}}<br/>(nominal)", "Complete data?", "GDP (nominal)",
+              "Density per km2", "IIWiki bytes", "Main contributor"]
+SHEET_WIDTHS = {"A": 15.13, "B": 13.88, "C": 3.0, "D": 3.38, "E": 12.13, "G": 22.38, "H": 11.0,
+                "I": 18.5, "J": 9.88, "L": 12.38}
 OUT = ROOT / "nation-data" / "Countries on Eurth vs map.xlsx"
 SIMPLE_OUT = ROOT / "nation-data" / "Countries on Eurth - differences.xlsx"
 TRACED = ROOT / "eurth-map" / "src" / "data" / "traced-areas.json"
@@ -104,16 +117,74 @@ def widths(ws, values):
             ws.column_dimensions[get_column_letter(i)].width = w
 
 
-def read_sheet(src):
-    """Header, [(row number, [12 cell values])] with the sheet's cached formula results."""
-    ws = load_workbook(src, data_only=True)[SHEET]
-    head = [c.value for c in ws[1]][:12]
+def read_export(src):
+    """[(sheet row number, [12 values])] from the Excel export, only the KEPT columns filled."""
+    wb = load_workbook(src, data_only=True)  # cached formula results
+    if SHEET not in wb.sheetnames:
+        sys.exit(f"no tab named {SHEET!r} in {src}")
+    ws = wb[SHEET]
     rows = []
     for r in range(2, ws.max_row + 1):
-        vals = [ws.cell(row=r, column=c).value for c in range(1, 13)]
+        vals = [None] * 12
+        for col, _ in KEPT:
+            vals[col] = ws.cell(row=r, column=col + 1).value
         if vals[0] is not None and str(vals[0]).strip():
             rows.append((r, vals))
-    return head, rows
+    return rows
+
+
+def write_csv(rows, path):
+    def text(v):
+        if v is None:
+            return ""
+        if isinstance(v, float):
+            return str(int(v)) if v.is_integer() else repr(v)
+        return str(v)
+
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["Sheet row"] + [name for _, name in KEPT])
+        for rownum, vals in rows:
+            w.writerow([rownum] + [text(vals[col]) for col, _ in KEPT])
+
+
+def read_csv(path):
+    """The same rows as read_export, from the stored CSV. Numbers come back as numbers; a cell
+    that is not one ("{{No|N/A}}") stays text, as in the sheet."""
+    rows = []
+    with open(path, newline="", encoding="utf-8") as f:
+        for rec in csv.DictReader(f):
+            vals = [None] * 12
+            for col, name in KEPT:
+                v = rec[name]
+                if col >= 4:
+                    n = number(v)
+                    v = n if n is not None else v
+                vals[col] = v if v != "" else None
+            rows.append((int(rec["Sheet row"]), vals))
+    return rows
+
+
+def write_sheet_tab(wb, rows):
+    """The sheet's values as stored, at the sheet's own rows and columns."""
+    ws = wb.active
+    ws.title = SHEET
+    for col, name in KEPT:
+        cell = ws.cell(row=1, column=col + 1, value=name)
+        cell.font, cell.fill, cell.alignment = BODY, HEADER_FILL, HEADER_ALIGN
+    for rownum, vals in rows:
+        for col, _ in KEPT:
+            cell = ws.cell(row=rownum, column=col + 1, value=vals[col])
+            cell.font = BODY
+            if isinstance(vals[col], (int, float)):
+                cell.number_format = NUM
+                cell.alignment = Alignment(horizontal="right")
+    ws["I1"] = ("From nation-data/Countries on Eurth.csv: the columns of the Google Sheet that the "
+                "comparison reads, at the sheet's own rows and columns.")
+    ws["I1"].font = ITALIC
+    widths(ws, [22, 22, 3, 3, 12, 14, 12])
+    ws.freeze_panes = "A2"
+    return ws
 
 
 def map_rows(nations):
@@ -134,15 +205,13 @@ def map_rows(nations):
     return rows
 
 
-def write_map_tab(wb, src_ws, head, rows, index):
+def write_map_tab(wb, rows, index):
     ws = wb.create_sheet("Map data", index)
     extra = ["Key (nations.js)", "Full name", "Highlight colour", "Has territory on the map?",
              "Area shown on map (km2)", "Fields from secondary source", "NPC"]
-    header(ws, 1, list(head) + extra)
-    for col in "ABCDEFGHIJKL":  # the sheet's own column widths
-        dim = src_ws.column_dimensions.get(col)
-        if dim is not None and dim.width:
-            ws.column_dimensions[col].width = dim.width
+    header(ws, 1, SHEET_HEAD + extra)
+    for col, width in SHEET_WIDTHS.items():  # the sheet's own column widths
+        ws.column_dimensions[col].width = width
     widths(ws, [None] * 12 + [20, 34, 15, 12, 14, 26, 6])
     for i, r in enumerate(rows, start=2):
         cells = [r["name"], r["capital"], f'=CONCATENATE("{{{{flag|",A{i},"}}}}")', f'=CONCATENATE("[[",B{i},"]]")',
@@ -430,29 +499,25 @@ def write_simple(sheet_rows, entries, path):
 
 
 def main():
-    src = Path(sys.argv[1]) if len(sys.argv) > 1 else XLSX_DEFAULT
-    if src.suffix.lower() != ".xlsx":
-        sys.exit("pass the Google Sheet exported as .xlsx (File > Download > Microsoft Excel)")
-    if src.resolve() != XLSX_DEFAULT.resolve():
-        XLSX_DEFAULT.parent.mkdir(exist_ok=True)
-        shutil.copyfile(src, XLSX_DEFAULT)
-        print(f"copied {src} -> {XLSX_DEFAULT}")
+    src = Path(sys.argv[1]) if len(sys.argv) > 1 else CSV_DEFAULT
+    if src.suffix.lower() == ".xlsx":
+        CSV_DEFAULT.parent.mkdir(exist_ok=True)
+        write_csv(read_export(src), CSV_DEFAULT)
+        print(f"wrote {CSV_DEFAULT} from {src}")
+        src = CSV_DEFAULT
+    elif src.suffix.lower() != ".csv":
+        sys.exit("pass the Google Sheet exported as .xlsx (File > Download > Microsoft Excel), "
+                 "or nothing to use the stored CSV")
+    if not src.exists():
+        sys.exit(f"{src} does not exist: pass the Google Sheet exported as .xlsx to create it")
+    sheet_rows = read_csv(src)  # always the CSV, so both inputs give the same result
 
-    head, sheet_rows = read_sheet(src)
-    wb = load_workbook(src)  # formulas, formatting and the other tabs stay as exported
-    if SHEET not in wb.sheetnames:
-        sys.exit(f"no tab named {SHEET!r} in {src}")
-    for name in ("Map data", "Diff"):
-        if name in wb.sheetnames:
-            del wb[name]
-    src_ws = wb[SHEET]
-    wb.move_sheet(src_ws, offset=-wb.sheetnames.index(SHEET))  # the sheet first, as asked
-    wb.active = 0
-
+    wb = Workbook()
+    write_sheet_tab(wb, sheet_rows)
     nations = parse_nations(NATIONS_JS.read_text(encoding="utf-8"))
     mrows = map_rows(nations)
     entries = compare(sheet_rows, mrows)
-    write_map_tab(wb, src_ws, head, mrows, 1)
+    write_map_tab(wb, mrows, 1)
     write_diff_tab(wb, entries, 2)
     wb.save(OUT)
     write_simple(sheet_rows, entries, SIMPLE_OUT)
