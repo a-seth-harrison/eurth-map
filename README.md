@@ -19,6 +19,7 @@ An interactive map of the world of Eurth, as a flat map and as a globe. Live at 
 | `Overlays/`, `*.png` | Source map art the layers and shapes are built from |
 | `nation-data/` | Snapshots, reports and spreadsheet comparisons written by the data scripts |
 | `DEPLOY.md` | How to build and host the site, written for someone other than the owner |
+| `LICENSE` | MIT licence for the code (not the map imagery, see below) |
 | `CLAUDE.md` | Detailed technical notes: architecture, pipelines, design decisions |
 
 ## Run it locally
@@ -39,6 +40,8 @@ Building, hosting, the one secret the site needs, and how to update the map art 
 
 Use "Suggest an edit" in a nation's panel on the live site. If a nation is missing, drawn with the wrong territory, or has no territory yet, open an issue here.
 
-## Credits and licence
+## Licence and credits
 
-The map art and the nation statistics come from the Eurth community and its members. No licence has been chosen for the code yet; until one is, please ask before reusing it.
+The code in this repository is released under the MIT licence; see `LICENSE`.
+
+The licence covers the code only. The map imagery (the base map, the overlay images and the files generated from them) is derived from the Eurth community's official map and is not covered by it. The nation statistics come from the Eurth community and its members.
