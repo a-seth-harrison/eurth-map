@@ -3,13 +3,18 @@
 // review. Runs on Vercel and under `vercel dev`; plain `npm run dev` has no /api.
 //
 // Env: SUGGEST_GITHUB_TOKEN = fine-grained PAT with Issues: read & write on REPO.
+//      SUGGEST_GITHUB_REPO = "owner/name" to file the issues on, for a fork (default below).
+//      SUGGEST_ALLOWED_HOSTS = extra hostnames the form may post from, comma-separated
+//        (only needed when the site is served through a proxy, see originOk).
 //      SUGGEST_DRY_RUN = any value: log the issue instead of filing it (local testing).
 
 // Node ESM needs the extension; Vercel's file tracer bundles the import with the function
 import nations from "../src/data/nations.js";
 
-const REPO = "a-seth-harrison/eurth-map";
+const REPO = process.env.SUGGEST_GITHUB_REPO || "a-seth-harrison/eurth-map";
 const LABEL = "suggested-edit";
+// Hosts the form may always post from, besides the deployment's own (see originOk)
+const KNOWN_HOSTS = ["eurth-map.vercel.app", "localhost", "127.0.0.1"];
 const BODY_MAX = 10_000;
 const HANDLE_MAX = 60;
 const NOTE_MAX = 1000;
@@ -27,7 +32,19 @@ const json = (data, status) => Response.json(data, { status });
 const bad = (field) => json({ error: `Invalid ${field}` }, 400);
 const clip = (s, max) => (typeof s === "string" ? s.trim().slice(0, max) : "");
 
-// Cheap spam guard: only the map itself (live, Vercel previews, local dev) may post
+// "https://Example.org:3000/x" or "example.org:3000" -> "example.org"
+const hostOf = (value) =>
+  String(value || "")
+    .split(",")[0]
+    .trim()
+    .toLowerCase()
+    .replace(/^[a-z]+:\/\//, "")
+    .replace(/[/:].*$/, "");
+
+// Cheap spam guard: only the map itself may post. "Itself" is the host this request was
+// served on (so any Vercel project name or custom domain works without a code change), the
+// hosts Vercel reports for this deployment, the known hosts above, and SUGGEST_ALLOWED_HOSTS
+// for a site behind a proxy, where the browser's host and the function's host differ.
 function originOk(request) {
   const src = request.headers.get("origin") || request.headers.get("referer") || "";
   let host;
@@ -36,12 +53,16 @@ function originOk(request) {
   } catch {
     return false;
   }
-  return (
-    host === "eurth-map.vercel.app" ||
-    (host.startsWith("eurth-map-") && host.endsWith(".vercel.app")) ||
-    host === "localhost" ||
-    host === "127.0.0.1"
-  );
+  const own = [
+    request.headers.get("x-forwarded-host"),
+    request.headers.get("host"),
+    process.env.VERCEL_URL,
+    process.env.VERCEL_BRANCH_URL,
+    process.env.VERCEL_PROJECT_PRODUCTION_URL,
+  ];
+  const extra = (process.env.SUGGEST_ALLOWED_HOSTS || "").split(",");
+  const allowed = [...KNOWN_HOSTS, ...own.map(hostOf), ...extra.map(hostOf)].filter(Boolean);
+  return allowed.includes(host) || (host.startsWith("eurth-map-") && host.endsWith(".vercel.app"));
 }
 
 // Validate one proposed value. Returns the cleaned value, or undefined when it is not acceptable.

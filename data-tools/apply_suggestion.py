@@ -14,6 +14,7 @@ against older data.
 """
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -22,7 +23,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import nations_file as nf
 
-REPO = "a-seth-harrison/eurth-map"
+# Same variable and default as eurth-map/api/suggest.js
+REPO = os.environ.get("SUGGEST_GITHUB_REPO") or "a-seth-harrison/eurth-map"
 LABEL = "suggested-edit"
 JSON_BLOCK = re.compile(r"```json\s*\n(.*?)\n```", flags=re.S)
 CURRENT_ROW = re.compile(r"^\| (\w+) \| (.*?) \| .*? \|$", flags=re.M)

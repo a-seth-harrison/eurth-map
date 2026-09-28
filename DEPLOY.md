@@ -29,21 +29,46 @@ Vercel is a free static host that also runs the function. Steps for a fresh Verc
 1. Sign in to https://vercel.com with GitHub, "Add New → Project", pick the repository.
 2. **Root Directory**: `eurth-map`. Vercel then detects Vite by itself: build command `npm run build`, output `dist`. Leave those.
 3. Deploy. The `api/` folder inside the root directory is picked up automatically: `api/suggest.js` becomes `POST /api/suggest`. No `vercel.json` is needed.
-4. Add the environment variable in section 3, then redeploy (a deployment only sees the variables that existed when it was built).
+4. Add the environment variables in section 3, then redeploy (a deployment only sees the variables that existed when it was built).
 
-Once the project is linked to the GitHub repository, every push to the default branch deploys automatically. The owner also deploys from the command line with `vercel --prod --yes` in `eurth-map/`, which needs the Vercel CLI (`npm i -g vercel`, `vercel login`) and the project link that `vercel link` creates in the gitignored `eurth-map/.vercel/`.
+The project can have any name: the site and the suggest form work under whatever `*.vercel.app` address Vercel gives it.
 
-## 3. The one secret: the GitHub token for the suggest form
+A project created this way is connected to the GitHub repository, and every push to the default branch deploys automatically. The original site is **not** connected: its owner deploys from the command line with `vercel --prod --yes` in `eurth-map/`, which needs the Vercel CLI (`npm i -g vercel`, `vercel login`) and the project link that `vercel link` creates in the gitignored `eurth-map/.vercel/`. To connect an existing project: project → Settings → Git → connect the repository, Root Directory `eurth-map`.
 
-The function files issues on the repository named in `REPO` at the top of `eurth-map/api/suggest.js` (`a-seth-harrison/eurth-map`). To do so it needs a token:
+## 3. Settings for the suggest form
+
+All of these are environment variables of the Vercel project (Settings → Environment Variables, Production environment). Only the token is required on the original site; a fork needs the first two.
+
+| Variable | Needed | What it is |
+|---|---|---|
+| `SUGGEST_GITHUB_TOKEN` | always | The secret that lets the function file issues (below) |
+| `SUGGEST_GITHUB_REPO` | on a fork | `owner/name` of the repository the issues go to. Without it they go to `a-seth-harrison/eurth-map`, where a fork's token is refused |
+| `SUGGEST_ALLOWED_HOSTS` | behind a proxy only | Extra hostnames the form may post from, comma-separated (see "Who may post") |
+| `SUGGEST_DRY_RUN` | never in production | Any value: log the would-be issue instead of filing it (section 4) |
+
+### The token
 
 1. GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens** → Generate new token.
-2. Repository access: **Only select repositories**, pick this repository. Permissions: **Issues: Read and write**. Nothing else.
-3. In the Vercel project: Settings → Environment Variables → add `SUGGEST_GITHUB_TOKEN` with the token, for the Production environment. Redeploy.
+2. Repository access: **Only select repositories**, pick the repository the issues go to. Permissions: **Issues: Read and write**. Nothing else.
+3. Add it to the Vercel project as `SUGGEST_GITHUB_TOKEN`. Redeploy.
 
-Without the variable the function answers 503 and the form reports it. When the token expires GitHub answers 401; the function logs it and viewers see "Could not file the suggestion". Rotate by generating a new token and replacing the variable. The token is never committed: `.env` is in `.gitignore` and `.vercelignore`.
+Without the variable the function answers 503 and the form reports it. When the token expires GitHub answers 401; the function logs it and viewers see "Could not file the suggestion". Rotate by generating a new token and replacing the variable. The token is never committed: `.env` and `.env.*` are in `.gitignore` and `.vercelignore`.
 
-If you deploy from a fork, change `REPO` to your repository, or the issues will be filed (or refused) on the original one. `data-tools/apply_suggestion.py` has the same constant.
+Issues must be switched on for that repository (a fork has them off by default: repository → Settings → General → Features → Issues). The function labels each issue `suggested-edit`; create the label once with `gh label create suggested-edit` so the first issues carry it.
+
+To apply suggestions from a fork with `data-tools/apply_suggestion.py`, set the same `SUGGEST_GITHUB_REPO` in the shell you run it from.
+
+### Who may post
+
+As a spam guard the function answers 403 unless the request comes from the map itself. It accepts a request whose `Origin` (or `Referer`) host is:
+
+- the host the request was served on, so any Vercel project name and any custom domain added in Vercel work with no setting at all;
+- one of the addresses Vercel reports for the deployment (production, branch and deployment URLs);
+- `eurth-map.vercel.app` or one of its `eurth-map-…vercel.app` previews;
+- `localhost` or `127.0.0.1`;
+- a host listed in `SUGGEST_ALLOWED_HOSTS`, for example `map.eurth.org,www.eurth.org`.
+
+The last one is only needed when the browser's address is not the address the function is reached at, which happens when the site is served through a proxy (section 5).
 
 ## 4. Testing the suggest form locally
 
@@ -57,18 +82,15 @@ With `SUGGEST_DRY_RUN` set the function prints the issue to the terminal and the
 
 ## 5. A custom domain (for example map.eurth.org)
 
-Two things, one on each side:
+In Vercel: project → Settings → Domains → add the domain. Vercel shows the DNS record it wants, normally a CNAME to `cname.vercel-dns.com`. Create that record in the domain's DNS (in Cloudflare it can stay proxied or be DNS-only; both work). Vercel issues the HTTPS certificate itself. The suggest form works on the new domain without further setup.
 
-1. **Vercel**: project → Settings → Domains → add the domain. Vercel shows the DNS record it wants, normally a CNAME to `cname.vercel-dns.com`. Create that record in the domain's DNS (in Cloudflare it can stay proxied or be DNS-only; both work). Vercel issues the HTTPS certificate itself.
-2. **The origin check in the function**: `originOk()` in `eurth-map/api/suggest.js` only accepts requests from `eurth-map.vercel.app`, Vercel preview URLs and localhost, as a spam guard. Add the new hostname to that list, or the form will get a 403 on the new domain while everything else works.
-
-If the domain is instead served through a proxy (a Cloudflare Worker fetching from the Vercel deployment), the same two steps apply: the browser still sends the custom domain as the Origin, so the hostname must be in the list.
+If the domain is instead served through a proxy that fetches from the Vercel deployment (a Cloudflare Worker, for example), the browser sends the custom domain as the Origin while the function is reached at the Vercel address. Add the custom domain to `SUGGEST_ALLOWED_HOSTS` (section 3) and redeploy, or the form gets a 403 while everything else works.
 
 ## 6. Hosting somewhere other than Vercel
 
 The static part runs anywhere: Cloudflare Pages, GitHub Pages, Netlify, a plain web server. Build settings are always the same: root `eurth-map`, build `npm run build`, publish `dist`. The site expects to be served from the root of its domain (asset paths start with `/`); to serve it from a sub-path, set `base` in `eurth-map/vite.config.js` and rebuild.
 
-The suggest function is written against the standard `Request` / `Response` API (one exported `POST` handler that calls GitHub's issues endpoint), so it ports to a Cloudflare Worker or a Netlify function with small changes: mount it at `/api/suggest`, give it the token as a secret, and keep the origin list current. Or leave it out and accept that the button reports an error; to hide the button instead, remove it from `eurth-map/src/components/NationPanel.jsx`.
+The suggest function is written against the standard `Request` / `Response` API (one exported `POST` handler that calls GitHub's issues endpoint), so it ports to a Cloudflare Worker or a Netlify function with small changes: mount it at `/api/suggest` and give it the variables in section 3. Or leave it out and accept that the button reports an error; to hide the button instead, remove it from `eurth-map/src/components/NationPanel.jsx`.
 
 ## 7. Updating the content
 
@@ -83,4 +105,4 @@ The generated files in `eurth-map/public/` and `eurth-map/src/data/` are marked 
 
 ## 8. What is not in git
 
-`eurth-map/.env` (local secrets), `eurth-map/.vercel/` (the CLI's project link), `node_modules/`, `dist/`, and the Affinity project files (`*.af`). Everything needed to build and deploy is in the repository apart from the token in section 3.
+`eurth-map/.env` (local secrets), `eurth-map/.vercel/` (the CLI's project link), `node_modules/`, `dist/`, and the Affinity project files (`*.af`). Everything needed to build and deploy is in the repository apart from the settings in section 3.
