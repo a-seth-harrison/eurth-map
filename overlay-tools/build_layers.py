@@ -16,8 +16,9 @@ Writes to eurth-map/public/:
     apple-touch-icon.png       home-screen icon, a small copy of the middle of the map
 and eurth-map/src/data/map-layers.json (where the legend crops sit on the map).
 
-Every image wider than HALF_ABOVE also gets a half-size "-half.webp" copy, which phones load
+Every overlay wider than HALF_ABOVE also gets a half-size "-half.webp" copy, which phones load
 instead (src/data/layers.js): a quarter of the memory, and iOS closes tabs that use too much.
+The base map has no half copy: its text is what people read, so every device loads it full size.
 
 Opacity is baked into the images so the flat map (stacked <img>) and the globe (one composited
 texture) look the same. Change the constants below and re-run to tune it.
@@ -51,7 +52,7 @@ CURRENTS_BACKGROUND = [(219, 227, 236), (243, 197, 167), (232, 142, 92), (255, 2
 CURRENTS_INK = [(0, 0, 0), (255, 0, 0), (0, 15, 255)]                                      # neutral, warm, cold
 TECTONIC_FILL_OPACITY = 0.45
 TECTONIC_INK_OPACITY = 0.9
-HALF_ABOVE = 4000          # px; wider images also get a half-size copy for phones
+HALF_ABOVE = 4000          # px; wider overlays also get a half-size copy for phones
 BASE_MAP_QUALITY = 90      # lossy WebP; the overlays are lossless (flat colours, clean alpha edges)
 
 
@@ -63,8 +64,7 @@ def write_webp(img, path, **options):
 def halved(img):
     # The overlays are flat colours: nearest-neighbour keeps them flat, which lossless WebP packs
     # ten times smaller than smoothed edges, and no colour bleeds in from transparent pixels
-    smooth = img.mode != "RGBA"
-    return img.resize((img.width // 2, img.height // 2), Image.LANCZOS if smooth else Image.NEAREST)
+    return img.resize((img.width // 2, img.height // 2), Image.NEAREST)
 
 
 def save(arr, name):
@@ -79,7 +79,6 @@ def build_base_map():
     print("  background.png             <- " + GEO_MAP_NO_LEGEND.name)
     img = Image.open(GEO_MAP_NO_LEGEND).convert("RGB")
     write_webp(img, PUBLIC / "background.webp", quality=BASE_MAP_QUALITY)
-    write_webp(halved(img), PUBLIC / "background-half.webp", quality=BASE_MAP_QUALITY)
     side = img.height
     left = (img.width - side) // 2
     img.crop((left, 0, left + side, side)).resize((180, 180), Image.LANCZOS).save(PUBLIC / "apple-touch-icon.png")
