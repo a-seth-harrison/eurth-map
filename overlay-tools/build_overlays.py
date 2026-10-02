@@ -23,7 +23,7 @@ Inputs:
                                      become land again, for borders the blank map has in the
                                      wrong place; the red lines still apply
     overlay-tools/manual-overlays.svg  hand-drawn shapes (Affinity export cleaned by
-                                     extract_overlays.py), used for nations marked "manual"
+                                     legacy/extract_overlays.py), used for nations marked "manual"
 """
 
 import json
