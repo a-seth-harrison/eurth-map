@@ -71,6 +71,15 @@
 /* Opacity is set on the whole nation group (not per path) so overlapping paths don't darken */
 .map-overlay .overlay-svg [data-nation] {
   opacity: 0;
+  /* Not painted at all while unlit: at opacity 0 the browser still drew every shape again
+     at each zoom step. `pointer-events: all` above ignores visibility, so they stay hittable.
+     Hidden only once the fade-out is over */
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0s 0.2s;
+}
+
+.map-overlay .overlay-svg [data-nation]:is(.org, .hovered, .selected) {
+  visibility: visible;
   transition: opacity 0.2s ease;
 }
 

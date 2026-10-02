@@ -191,7 +191,7 @@ The user runs this project across several chats, sometimes more than one at a ti
 - SVG loaded via fetch + DOMParser (not as React component) so we can use `getElementById` and direct DOM manipulation for performance
 - Suggested edits go to GitHub issues rather than a database or email: no new service, the owner gets notifications and a structured record, and the JSON block in each issue keeps a scripted apply possible later
 - Pan and pinch use window-level pointermove/pointerup (not pointer capture) to avoid stealing events from SVG paths
-- Nation groups have `opacity: 0` and their paths `pointer-events: all`, so they are invisible but hittable; group opacity transitions on hover/select (group-level so overlapping paths do not darken)
+- Nation groups have `opacity: 0` and `visibility: hidden`, and their paths `pointer-events: all` (which ignores visibility), so they are not painted but hittable; group opacity transitions on hover/select (group-level so overlapping paths do not darken). The visibility matters for speed (since 2026-10-02): at opacity 0 alone the browser redrew all ~400 shapes at every zoom step. The globe does the same thing its own way: an unlit nation's cap gets `HIDDEN_CAP`, a material with `visible: false`, which three.js does not draw but still raycasts, and polygons have no sides or stroke. With a clear colour instead, the globe made 1,567 draw calls a frame (20 ms of CPU); now 2 plus the lit nations
 - Currency is "A$" (Adaptus Solidus), equivalent to USD
 
 ## Data Formatting Rules (from spreadsheet notes)

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from "react";
 import Globe from "globe.gl";
-import { CanvasTexture, SRGBColorSpace, ShaderChunk } from "three";
+import { CanvasTexture, SRGBColorSpace, ShaderChunk, MeshBasicMaterial, DoubleSide } from "three";
 import nations from "../data/nations";
 import { landAreaOf } from "../data/landArea";
 import NationPanel from "./NationPanel";
@@ -33,6 +33,10 @@ function rgba(hex, opacity) {
 const highlightColor = (id, opacity) => rgba(nations[id]?.color ?? DEFAULT_COLOR, opacity);
 
 const CLEAR = "rgba(0, 0, 0, 0)";
+// The cap of a nation that is not lit. three.js skips a material that is not visible but
+// still raycasts against it, so hover and click work while nothing is drawn. With a clear
+// colour instead, every piece of every nation was a draw call each frame (about 1,500)
+const HIDDEN_CAP = new MeshBasicMaterial({ visible: false, side: DoubleSide });
 const MEASURE_FILL_OPACITY = 0.3;
 // Heights above the surface, in globe radii. Anything drawn above the map shifts against it
 // when seen from the side, so these are as low as they can go: the highlight sits 0.03 units
@@ -177,9 +181,12 @@ export default function GlobeViewer({ overlays }) {
       .backgroundColor("#1a1a2e")
       .atmosphereColor("#9fd4ff")
       .atmosphereAltitude(0.12)
-      .polygonSideColor(() => CLEAR)
-      .polygonStrokeColor(() => CLEAR)
+      // No sides and no outline: at this height they would not show, and each is geometry to
+      // draw and to raycast
+      .polygonSideColor(() => null)
+      .polygonStrokeColor(() => null)
       .polygonCapColor(() => CLEAR)
+      .polygonCapMaterial(() => HIDDEN_CAP)
       .polygonsTransitionDuration(0)
       .polygonAltitude((feature) => (feature.measureColor ? MEASURE_FILL_ALT : NATION_ALT))
       .polygonCapCurvatureResolution(CAP_RESOLUTION)
@@ -409,7 +416,9 @@ export default function GlobeViewer({ overlays }) {
     globe.polygonCapMaterial((feature) => {
       const s = stateRef.current;
       const colors = s.orgColors[feature.id];
-      if (!colors || colors.length < 2 || feature.id === s.selected) return undefined;
+      if (feature.measureColor || feature.id === s.selected) return undefined;
+      if (!colors) return feature.id === s.hovered ? undefined : HIDDEN_CAP;
+      if (colors.length < 2) return undefined;
       return stripeMaterial(colors, memberOpacity(s, feature.id));
     });
     globe.polygonCapColor((feature) => {
