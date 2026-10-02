@@ -1,7 +1,7 @@
 import manifest from "./map-layers.json";
 import { IS_PHONE } from "../utils/device";
 
-// The 8000 px wide images also exist at half size (build_layers.py). Phones load the half
+// The 8000 px wide overlays also exist at half size (build_layers.py). Phones load the half
 // climate overlay: a quarter of the memory, and iOS closes tabs that use too much. The base
 // map is always full size, because its text is what people read (half size was blurry).
 // Every image is laid out at the full map size whatever its resolution.
