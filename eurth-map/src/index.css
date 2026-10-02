@@ -35,3 +35,10 @@ html, body {
     --control-h: 44px;
   }
 }
+
+/* The feedback site (utils/preview.js) has a banner across the top: the fixed controls
+   start under it */
+:root.preview {
+  --banner-h: 30px;
+  --edge-top: calc(env(safe-area-inset-top) + var(--banner-h) + 12px);
+}

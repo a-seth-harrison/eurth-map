@@ -74,12 +74,35 @@
   transition: opacity 0.2s ease;
 }
 
+/* Members of an enabled international organization (MapViewer.jsx sets .org and --org-color):
+   lit in the organization's colour without hovering. Under the cursor they keep that colour,
+   a little stronger; selected they turn the plain red. The nation's own colour is never
+   used, so two highlights never blend. !important beats the inline per-nation fill. Kept
+   above .hovered/.selected, which have the same specificity and must win */
+.map-overlay .overlay-svg [data-nation].org {
+  opacity: 0.60;
+}
+
+.map-overlay .overlay-svg [data-nation].org path {
+  fill: var(--org-color) !important;
+}
+
+.map-overlay .overlay-svg [data-nation].org.selected path {
+  fill: #d81e1e !important;
+}
+
 .map-overlay .overlay-svg [data-nation].hovered {
   opacity: 0.35;
 }
 
 .map-overlay .overlay-svg [data-nation].selected {
   opacity: 0.5;
+}
+
+/* A member under the cursor: a step up from its idle 60%. Not while selected, which keeps
+   the red at the usual strength. Same value as ORG_HOVER_OPACITY in GlobeViewer.jsx */
+.map-overlay .overlay-svg [data-nation].org.hovered:not(.selected) {
+  opacity: 0.7;
 }
 
 /* Image overlays and the legend, stacked on the base map */
@@ -97,6 +120,11 @@
 .layer-toggles {
   position: fixed;
   bottom: calc(var(--edge-bottom) + var(--control-h) + 15px);
+  /* The list grows with every organization: stop under the Measure button and scroll */
+  max-height: calc(100dvh - var(--edge-bottom) - var(--edge-top) - 2 * var(--control-h) - 25px);
+  overflow-y: auto;
+  /* Organizations are listed by their full name: long ones wrap instead of widening the box */
+  max-width: min(300px, calc(100vw - 2 * var(--edge-left)));
   left: var(--edge-left);
   z-index: 150;
   display: flex;
@@ -109,14 +137,13 @@
   font-size: 14px;
 }
 
-/* A button only on small screens, where it folds the list away (see the end of this file) */
+/* The title folds the list away (see the end of this file) */
 .layer-toggles-title {
   background: none;
   border: none;
   padding: 0;
   font: inherit;
   text-align: left;
-  pointer-events: none;
   font-size: 12px;
   color: #999;
   text-transform: uppercase;
@@ -132,6 +159,54 @@
 
 .layer-toggles input {
   accent-color: #ffd24a;
+  flex: none;
+}
+
+/* "Display all organizations": set off from the image overlays above it */
+.layer-toggles .all-organizations {
+  margin-top: 2px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Opens the list of organizations under it, which starts folded */
+.org-list-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex: none;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #e0e0e0;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.org-list-toggle:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.org-list-toggle::after {
+  content: "\25B8"; /* right: folded */
+  font-size: 14px;
+}
+
+.org-list-toggle[aria-expanded="true"]::after {
+  content: "\25BE"; /* down: the list is open */
+}
+
+.org-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  flex: none;
 }
 
 /* Measure mode */
@@ -157,6 +232,7 @@
   stroke-linejoin: round;
 }
 
+/* Lines, fills and points take their measurement's colour inline */
 .measure-line {
   fill: none;
   stroke: #ffd24a;
@@ -165,7 +241,8 @@
 }
 
 .measure-fill {
-  fill: rgba(255, 210, 74, 0.25);
+  fill: #ffd24a;
+  fill-opacity: 0.25;
   stroke: none;
 }
 
@@ -211,6 +288,28 @@
 .measure-controls button:hover {
   color: #fff;
   border-color: rgba(255, 255, 255, 0.35);
+}
+
+.measure-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.measure-fold::after {
+  content: " \25B4"; /* up: folds the readout away */
+}
+
+.measure-fold[aria-expanded="false"]::after {
+  content: " \25BE";
+}
+
+/* The readout folded down to the figure being measured */
+.measure-controls .measure-compact {
+  min-width: 0;
+  padding: 6px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
 }
 
 .measure-controls .measure-toggle.active {
@@ -266,6 +365,58 @@
 .measure-hint {
   font-size: 13px;
   color: #999;
+}
+
+.measure-swatch {
+  display: inline-block;
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin-right: 8px;
+  border-radius: 50%;
+}
+
+/* Finished measurements, kept on the map */
+.measure-list {
+  list-style: none;
+  margin: 0 0 8px;
+  padding: 0 0 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  color: #e0e0e0;
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
+.measure-list li {
+  display: flex;
+  align-items: center;
+}
+
+.measure-list-name {
+  color: #999;
+  margin-right: 12px;
+}
+
+.measure-list-value {
+  flex: 1;
+  text-align: right;
+  font-weight: 600;
+}
+
+.measure-controls .measure-list button {
+  min-height: 0;
+  margin-left: 6px;
+  padding: 0 6px;
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.measure-controls .measure-list button:hover {
+  color: #fff;
 }
 
 .measure-actions {
@@ -433,6 +584,33 @@
 .climate-card-hint {
   color: #999;
   font-size: 13px;
+}
+
+/* Feedback site only: the strip across the top. Under the nation panel and the dialogs,
+   over the map */
+.preview-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 140;
+  box-sizing: content-box;
+  height: var(--banner-h);
+  padding-top: env(safe-area-inset-top);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #ffd24a;
+  color: #1a1a2e;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.preview-banner span {
+  text-decoration: underline;
 }
 
 /* Side panel for nation stats */
@@ -674,6 +852,12 @@
     padding: 8px 0 4px;
   }
 
+  .org-list-toggle {
+    min-height: 44px;
+    margin: 4px 0;
+    font-size: 15px;
+  }
+
   .layer-toggles label {
     min-height: 44px;
     gap: 12px;
@@ -723,27 +907,39 @@
   }
 }
 
-/* Phones, upright or on their side: the overlay list folds away behind its title */
-@media (max-width: 600px), (max-height: 500px) {
-  .layer-toggles {
-    padding: 0 14px;
-  }
+/* The overlay list folds away behind its title, on every screen. Kept at the end of the
+   file so it also applies on touch screens, whose rules are above */
+.layer-toggles {
+  padding: 0 14px;
+}
 
-  .layer-toggles-title {
-    pointer-events: auto;
-    cursor: pointer;
-    min-height: var(--control-h);
-    padding: 0;
-    color: #e0e0e0;
-  }
+.layer-toggles-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  min-height: var(--control-h);
+  padding: 0;
+  color: #e0e0e0;
+}
 
-  .layer-toggles:not(.open) label {
-    display: none;
-  }
+.layer-toggles-title::after {
+  content: "\25BE"; /* down: the list is open */
+  font-size: 14px;
+}
 
-  .layer-toggles.open {
-    padding-bottom: 6px;
-  }
+.layer-toggles:not(.open) .layer-toggles-title::after {
+  content: "\25B8"; /* right: folded */
+}
+
+.layer-toggles:not(.open) label,
+.layer-toggles:not(.open) .org-list-toggle {
+  display: none;
+}
+
+.layer-toggles.open {
+  padding-bottom: 8px;
 }
 
 /* Narrow screens: the climate card goes under the Measure button instead of the top centre */

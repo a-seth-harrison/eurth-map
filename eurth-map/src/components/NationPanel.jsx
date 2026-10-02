@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { formatPopulation, formatGdppc, formatGdp, formatLandArea, MISSING } from "../utils/format";
 import SuggestEditForm from "./SuggestEditForm";
+import { IS_PREVIEW } from "../utils/preview";
 
 export default function NationPanel({ nationKey, nation, landArea, onClose }) {
   // Which nation the form is open for: picking another nation closes it without an effect
@@ -26,7 +27,10 @@ export default function NationPanel({ nationKey, nation, landArea, onClose }) {
       <a className="iiwiki-link" href={nation.iiwikiLink} target="_blank" rel="noopener noreferrer">
         View on IIWiki →
       </a>
-      <button className="suggest-edit" onClick={() => setOpenFor(nationKey)}>Suggest an edit</button>
+      {/* The feedback site has no GitHub token to file suggestions with */}
+      {!IS_PREVIEW && (
+        <button className="suggest-edit" onClick={() => setOpenFor(nationKey)}>Suggest an edit</button>
+      )}
       {/* Mounted only while open, so every opening starts with a fresh form for this nation */}
       {suggesting && <SuggestEditForm nationKey={nationKey} nation={nation} onClose={() => setOpenFor(null)} />}
     </div>

@@ -11,7 +11,9 @@ import useClimateReadout, { LONG_PRESS_MS } from "../hooks/useClimateReadout";
 import HoverTooltip from "./HoverTooltip";
 import ClimateCard from "./ClimateCard";
 import { MAP_WIDTH, pixelToLonLat, lonLatToPixel } from "../utils/geo";
-import { BASE_MAP, imageLayers } from "../data/layers";
+import { BASE_MAP, OVERLAYS, imageLayers } from "../data/layers";
+import { memberColors } from "../data/organizations";
+import { stripeMaterial, disposeStripeMaterials } from "../utils/stripeMaterial";
 import { formatDistance } from "../utils/format";
 import { COARSE_POINTER } from "../utils/device";
 
@@ -19,17 +21,28 @@ import { COARSE_POINTER } from "../utils/device";
 const DEFAULT_COLOR = "#d81e1e"; // nations without a `color` in nations.js; same as App.css
 const HOVER_OPACITY = 0.35;
 const SELECTED_OPACITY = 0.5;
+// Members of an enabled organization, idle and under the cursor; same as .org in App.css
+const ORG_OPACITY = 0.6;
+const ORG_HOVER_OPACITY = 0.7;
 
-function highlightColor(id, opacity) {
-  const hex = nations[id]?.color ?? DEFAULT_COLOR;
+function rgba(hex, opacity) {
   const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
 
+const highlightColor = (id, opacity) => rgba(nations[id]?.color ?? DEFAULT_COLOR, opacity);
+
 const CLEAR = "rgba(0, 0, 0, 0)";
-const MEASURE_COLOR = "#ffd24a";
-const MEASURE_FILL = "rgba(255, 210, 74, 0.3)";
-const MEASURE_ID = "__measure"; // id of the area-fill polygon, which shares polygonsData with the nations
+const MEASURE_FILL_OPACITY = 0.3;
+// Heights above the surface, in globe radii. Anything drawn above the map shifts against it
+// when seen from the side, so these are as low as they can go: the highlight sits 0.03 units
+// up (about 2 km on Eurth), where the shift is under a pixel. That takes caps that follow
+// the sphere closely (CAP_RESOLUTION) and a near plane that follows the camera (see below)
+const NATION_ALT = 0.0003;
+const MEASURE_FILL_ALT = 0.0004;
+const MEASURE_LINE_ALT = 0.0005;
+const GLOBE_RADIUS = 100; // globe.gl's own unit
+const CAP_RESOLUTION = 1; // degrees between cap vertices: a flat facet dips 0.004 units at most
 const KM_PER_DEGREE = 111.19;
 // A finger wobbles more than a mouse before it counts as a drag
 const clickThreshold = (pointerType) => (pointerType === "mouse" ? 5 : 10);
@@ -78,8 +91,20 @@ async function composeTexture(overlayImages, maxSize) {
   }
 }
 
-// The area ring as a polygon feature. globe.gl wants clockwise rings (see the loader below)
-function measureFeature(outline) {
+// An area ring as a polygon feature (they share polygonsData with the nations; `measureColor`
+// tells them apart). globe.gl wants clockwise rings (see the loader below). One feature per
+// outline, so a finished area keeps its identity and globe.gl does not rebuild it
+const measureFeatures = new WeakMap();
+function measureFeature({ outline, color }) {
+  let feature = measureFeatures.get(outline);
+  if (!feature) {
+    feature = { measureColor: rgba(color, MEASURE_FILL_OPACITY), geometry: { type: "Polygon", coordinates: [lonLatRing(outline)] } };
+    measureFeatures.set(outline, feature);
+  }
+  return feature;
+}
+
+function lonLatRing(outline) {
   const ring = outline.map((p) => {
     const { lon, lat } = pixelToLonLat(p);
     return [lon, lat];
@@ -90,7 +115,7 @@ function measureFeature(outline) {
     signed += ring[i - 1][0] * ring[i][1] - ring[i][0] * ring[i - 1][1];
   }
   if (signed > 0) ring.reverse();
-  return { id: MEASURE_ID, geometry: { type: "Polygon", coordinates: [ring] } };
+  return ring;
 }
 
 // Markers and labels are DOM elements, so they stay the same size at any zoom
@@ -98,6 +123,7 @@ function measureElement(d) {
   const el = document.createElement("div");
   el.className = d.text ? "globe-measure-label" : "globe-measure-point";
   if (d.text) el.textContent = d.text;
+  else el.style.background = d.color;
   return el;
 }
 
@@ -106,7 +132,7 @@ export default function GlobeViewer({ overlays }) {
   const [hovered, setHovered] = useState(null);
   const containerRef = useRef(null);
   const globeRef = useRef(null);
-  const stateRef = useRef({ hovered: null, selected: null });
+  const stateRef = useRef({ hovered: null, selected: null, orgColors: {} });
   const nationFeatures = useRef([]);
   const m = useMeasurement({
     onEnter: () => {
@@ -114,8 +140,14 @@ export default function GlobeViewer({ overlays }) {
       setHovered(null);
     },
   });
-  const overlayImages = useMemo(() => imageLayers(overlays), [overlays]);
-  const { measuring, measuringRef, points, addPoint, setCursor, unit, ring, drawn } = m;
+  // Keyed on the image overlays only: an organization toggle must not recompose the texture
+  const imageKey = OVERLAYS.filter((o) => overlays[o.id]).map((o) => o.id).join(",");
+  const overlayImages = useMemo(
+    () => imageLayers(Object.fromEntries(imageKey.split(",").filter(Boolean).map((id) => [id, true]))),
+    [imageKey]
+  );
+  const orgColors = useMemo(() => memberColors(overlays), [overlays]);
+  const { measuring, measuringRef, addPoint, setCursor, unit, rings, drawn, markers } = m;
   const climate = useClimateReadout(!!overlays.climate);
   const climateRef = useRef(climate); // for the handlers inside the globe effect
   const tipRef = useRef(null); // HoverTooltip: moveTo(clientX, clientY)
@@ -149,7 +181,8 @@ export default function GlobeViewer({ overlays }) {
       .polygonStrokeColor(() => CLEAR)
       .polygonCapColor(() => CLEAR)
       .polygonsTransitionDuration(0)
-      .polygonAltitude((feature) => (feature.id === MEASURE_ID ? 0.005 : 0.004))
+      .polygonAltitude((feature) => (feature.measureColor ? MEASURE_FILL_ALT : NATION_ALT))
+      .polygonCapCurvatureResolution(CAP_RESOLUTION)
       // Only a mouse hovers: globe.gl also reports a hover on every tap, and the highlight
       // would stay behind
       .onPolygonHover((feature) => {
@@ -165,8 +198,8 @@ export default function GlobeViewer({ overlays }) {
       .pathPoints("samples")
       .pathPointLat((p) => pixelToLonLat(p).lat)
       .pathPointLng((p) => pixelToLonLat(p).lon)
-      .pathPointAlt(0.006)
-      .pathColor(() => MEASURE_COLOR)
+      .pathPointAlt(MEASURE_LINE_ALT)
+      .pathColor((seg) => seg.color)
       .pathStroke(2.5)
       // Dashes are a fraction of the path's length: keep them about 1.5 degrees long
       .pathDashLength((seg) => (seg.isPreview ? Math.min(1, (1.5 * KM_PER_DEGREE) / seg.km) : 1))
@@ -174,10 +207,10 @@ export default function GlobeViewer({ overlays }) {
       .pathTransitionDuration(0)
       .htmlLat((d) => pixelToLonLat(d.at).lat)
       .htmlLng((d) => pixelToLonLat(d.at).lon)
-      .htmlAltitude(0.006)
+      .htmlAltitude(MEASURE_LINE_ALT)
       .htmlElement(measureElement)
       .htmlTransitionDuration(0);
-    globe.controls().minDistance = 115; // globe radius is 100
+    globe.controls().minDistance = GLOBE_RADIUS + 15;
     globe.controls().zoomSpeed = 2;
     // globe.gl's directional light sits straight above the north pole, so the south was
     // lit by the ambient light alone. Keep it at the camera instead: whatever faces the
@@ -186,6 +219,16 @@ export default function GlobeViewer({ overlays }) {
     const followCamera = () => sun?.position.copy(globe.camera().position);
     followCamera();
     globe.controls().addEventListener("change", followCamera);
+    // globe.gl's fixed near plane (0.05) leaves too little depth precision to tell the
+    // highlight from the surface under it once zoomed out. Half the distance to the surface
+    // keeps them apart at any zoom. Set before every frame, so it can never lag behind the
+    // camera and clip the globe
+    globe.scene().onBeforeRender = (renderer, scene, camera) => {
+      const near = Math.max(0.05, (camera.position.length() - GLOBE_RADIUS) / 2);
+      if (near === camera.near) return;
+      camera.near = near;
+      camera.updateProjectionMatrix();
+    };
     globeRef.current = globe;
     if (import.meta.env.DEV) window.__globe = globe; // for poking at it from the console
 
@@ -331,6 +374,7 @@ export default function GlobeViewer({ overlays }) {
       cancelAnimationFrame(frame);
       cancelPressTimer();
       globe._destructor();
+      disposeStripeMaterials();
       el.innerHTML = "";
       globeRef.current = null;
     };
@@ -353,16 +397,32 @@ export default function GlobeViewer({ overlays }) {
     if (at) climate.readAt(screenToMap(at.x, at.y));
   });
 
-  // Re-setting the accessor makes globe.gl recolor the polygons
+  // Re-setting the accessors makes globe.gl recolor the polygons. Members of an enabled
+  // organization are lit in its colour, a little stronger under the cursor, and turn the
+  // plain red when selected (same rule as App.css on the flat map). A member of several is
+  // striped: its cap gets a material, which globe.gl uses instead of the cap colour
   useEffect(() => {
-    stateRef.current = { hovered, selected };
-    globeRef.current?.polygonCapColor((feature) => {
+    stateRef.current = { hovered, selected, orgColors };
+    const globe = globeRef.current;
+    if (!globe) return;
+    const memberOpacity = (s, id) => (id === s.hovered ? ORG_HOVER_OPACITY : ORG_OPACITY);
+    globe.polygonCapMaterial((feature) => {
       const s = stateRef.current;
-      if (feature.id === s.selected) return highlightColor(feature.id, SELECTED_OPACITY);
-      if (feature.id === s.hovered) return highlightColor(feature.id, HOVER_OPACITY);
-      return feature.id === MEASURE_ID ? MEASURE_FILL : CLEAR;
+      const colors = s.orgColors[feature.id];
+      if (!colors || colors.length < 2 || feature.id === s.selected) return undefined;
+      return stripeMaterial(colors, memberOpacity(s, feature.id));
     });
-  }, [hovered, selected]);
+    globe.polygonCapColor((feature) => {
+      const s = stateRef.current;
+      const colors = s.orgColors[feature.id];
+      if (feature.id === s.selected) {
+        return colors ? rgba(DEFAULT_COLOR, SELECTED_OPACITY) : highlightColor(feature.id, SELECTED_OPACITY);
+      }
+      if (colors) return rgba(colors[0], memberOpacity(s, feature.id));
+      if (feature.id === s.hovered) return highlightColor(feature.id, HOVER_OPACITY);
+      return feature.measureColor ?? CLEAR;
+    });
+  }, [hovered, selected, orgColors]);
 
   // Globe texture: base map + legend + image overlays
   useEffect(() => {
@@ -409,17 +469,18 @@ export default function GlobeViewer({ overlays }) {
     if (!globe) return;
     globe.pathsData(drawn);
     globe.htmlElementsData([
-      ...points.map((p) => ({ at: p })),
+      ...markers,
       ...drawn.map((seg) => ({ at: seg.mid, text: formatDistance(seg.km, unit) })),
     ]);
-  }, [drawn, points, unit]);
+  }, [drawn, markers, unit]);
 
-  // Area fill. The nation features keep their identity, so globe.gl only rebuilds this one polygon
+  // Area fills. The nation features and the finished areas keep their identity, so globe.gl
+  // only rebuilds the one being drawn
   useEffect(() => {
     const features = nationFeatures.current;
     if (!globeRef.current || !features.length) return;
-    globeRef.current.polygonsData(ring ? [...features, measureFeature(ring.outline)] : features);
-  }, [ring]);
+    globeRef.current.polygonsData(rings.length ? [...features, ...rings.map(measureFeature)] : features);
+  }, [rings]);
 
   return (
     <div className={"map-container" + (measuring ? " measuring" : "")}>

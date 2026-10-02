@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useRef, useMemo } from "react";
 import nations from "../data/nations";
 import NationPanel from "./NationPanel";
 import { landAreaOf } from "../data/landArea";
@@ -10,6 +10,7 @@ import HoverTooltip from "./HoverTooltip";
 import ClimateCard from "./ClimateCard";
 import { MAP_WIDTH, MAP_HEIGHT } from "../utils/geo";
 import { BASE_MAP, imageLayers } from "../data/layers";
+import { memberColors, STRIPE_PERIOD_DEG } from "../data/organizations";
 import { formatDistance } from "../utils/format";
 import { COARSE_POINTER } from "../utils/device";
 
@@ -21,6 +22,40 @@ const MIN_SCALE = 0.5; // lowered on screens where that would not show the whole
 // so its centre is always over the middle copy
 const WORLD_COPIES = [-MAP_WIDTH, 0, MAP_WIDTH];
 const wrapX = (x) => ((x % MAP_WIDTH) + MAP_WIDTH) % MAP_WIDTH;
+
+// Fill for a nation in several enabled organizations: diagonal stripes of their colours, as
+// a repeating gradient with hard stops (a <pattern> shows hairlines between its tiles). It
+// runs from (0, 0) to (v, v) in map pixels, so one set of stripes spans 2v of x + y, which
+// is STRIPE_PERIOD_DEG of longitude - latitude: the globe draws the same stripes
+// (stripeMaterial.js). Made on first use and kept in the overlay SVG's <defs>.
+const SVG_NS = "http://www.w3.org/2000/svg";
+const STRIPE_VECTOR = ((STRIPE_PERIOD_DEG / 2) * MAP_WIDTH) / 360;
+function stripeFill(svg, colors) {
+  const id = "org-stripes-" + colors.map((c) => c.slice(1).toLowerCase()).join("-");
+  if (!svg.querySelector(`[id="${id}"]`)) {
+    const doc = svg.ownerDocument;
+    let defs = svg.querySelector("defs");
+    if (!defs) defs = svg.insertBefore(doc.createElementNS(SVG_NS, "defs"), svg.firstChild);
+    const gradient = doc.createElementNS(SVG_NS, "linearGradient");
+    gradient.setAttribute("id", id);
+    gradient.setAttribute("gradientUnits", "userSpaceOnUse");
+    gradient.setAttribute("spreadMethod", "repeat");
+    gradient.setAttribute("x1", 0);
+    gradient.setAttribute("y1", 0);
+    gradient.setAttribute("x2", STRIPE_VECTOR);
+    gradient.setAttribute("y2", STRIPE_VECTOR);
+    colors.forEach((color, i) => {
+      for (const offset of [i, i + 1]) {
+        const stop = doc.createElementNS(SVG_NS, "stop");
+        stop.setAttribute("offset", offset / colors.length);
+        stop.setAttribute("stop-color", color);
+        gradient.appendChild(stop);
+      }
+    });
+    defs.appendChild(gradient);
+  }
+  return `url(#${id})`;
+}
 
 // A finger wobbles more than a mouse before it counts as a drag
 const clickThreshold = (pointerType) => (pointerType === "mouse" ? 5 : 10);
@@ -50,6 +85,8 @@ function clampPan(t, w, h) {
 export default function MapViewer({ overlays }) {
   const [selected, setSelected] = useState(null);
   const [hovered, setHovered] = useState(null);
+  const [svgReady, setSvgReady] = useState(false); // the overlay SVG is in the page
+  const orgColors = useMemo(() => memberColors(overlays), [overlays]);
   const [transform, setTransform] = useState({ x: 0, y: 0, scale: 1 });
   const [fitted, setFitted] = useState(false); // the opening view has been worked out
   const m = useMeasurement({
@@ -58,7 +95,7 @@ export default function MapViewer({ overlays }) {
       setHovered(null);
     },
   });
-  const { measuring, measuringRef, points, addPoint, setCursor, unit, ring, drawn } = m;
+  const { measuring, measuringRef, addPoint, setCursor, unit, rings, drawn, markers } = m;
   const climate = useClimateReadout(!!overlays.climate);
   const { readAt: readClimate, pressingRef, endPress } = climate;
   const tipRef = useRef(null); // HoverTooltip: moveTo(clientX, clientY)
@@ -174,6 +211,7 @@ export default function MapViewer({ overlays }) {
 
         svgRef.current.innerHTML = "";
         svgRef.current.appendChild(svg);
+        setSvgReady(true);
       });
   }, []);
 
@@ -209,15 +247,23 @@ export default function MapViewer({ overlays }) {
     };
   }, [measuringRef]);
 
-  // Apply highlight classes
+  // Apply highlight classes. Every [data-nation] group is visited, so the world copies
+  // follow. Members of an enabled organization get .org and its colour (App.css), or
+  // stripes when they are in several
   useEffect(() => {
     const svg = svgRef.current?.querySelector(".overlay-svg");
     if (!svg) return;
     for (const group of svg.querySelectorAll("[data-nation]")) {
-      group.classList.toggle("hovered", group.dataset.nation === hovered);
-      group.classList.toggle("selected", group.dataset.nation === selected);
+      const key = group.dataset.nation;
+      group.classList.toggle("hovered", key === hovered);
+      group.classList.toggle("selected", key === selected);
+      const colors = orgColors[key];
+      group.classList.toggle("org", !!colors);
+      if (colors) {
+        group.style.setProperty("--org-color", colors.length > 1 ? stripeFill(svg, colors) : colors[0]);
+      } else group.style.removeProperty("--org-color");
     }
-  }, [hovered, selected]);
+  }, [hovered, selected, orgColors, svgReady]);
 
   // Where the two fingers are: distance apart and midpoint, in viewport coordinates
   function pinchState() {
@@ -482,17 +528,19 @@ export default function MapViewer({ overlays }) {
           <div ref={svgRef} className="map-overlay" />
           {measuring && (
             <svg className="measure-svg" viewBox={`${-MAP_WIDTH} 0 ${3 * MAP_WIDTH} ${MAP_HEIGHT}`}>
-              {ring &&
+              {rings.map((ring, i) =>
                 // Once per world copy, plus one further out each way: the outline can run past the
                 // antimeridian. Kept out of the copies below so that no two fills stack
                 [-2, -1, 0, 1, 2].map((n) => (
                   <polygon
-                    key={n}
+                    key={`${i}:${n}`}
                     className="measure-fill"
                     points={toPolyline(ring.outline)}
                     transform={`translate(${n * MAP_WIDTH} 0)`}
+                    style={{ fill: ring.color }}
                   />
-                ))}
+                ))
+              )}
               {WORLD_COPIES.map((copyDx) => (
                 <g key={copyDx} transform={`translate(${copyDx} 0)`}>
                   {drawn.map((seg, i) => (
@@ -504,6 +552,7 @@ export default function MapViewer({ overlays }) {
                             className="measure-line"
                             points={toPolyline(line)}
                             strokeWidth={2.5 * px}
+                            style={{ stroke: seg.color }}
                             strokeDasharray={seg.isPreview ? `${8 * px} ${6 * px}` : undefined}
                           />
                         </g>
@@ -519,8 +568,16 @@ export default function MapViewer({ overlays }) {
                       </text>
                     </g>
                   ))}
-                  {points.map((p, i) => (
-                    <circle key={i} className="measure-point" cx={p.x} cy={p.y} r={5 * px} strokeWidth={2 * px} />
+                  {markers.map(({ at, color }, i) => (
+                    <circle
+                      key={i}
+                      className="measure-point"
+                      cx={at.x}
+                      cy={at.y}
+                      r={5 * px}
+                      strokeWidth={2 * px}
+                      style={{ fill: color }}
+                    />
                   ))}
                 </g>
               ))}
