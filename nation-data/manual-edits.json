@@ -48,12 +48,6 @@
   "Dolchland": {
     "color": "#000000"
   },
-  "Leimurya": {
-    "name": "Leimurya",
-    "iiwikiLink": "https://iiwiki.com/w/Leimurya",
-    "capital": "Mu",
-    "color": "#2490ff"
-  },
   "Breugua": {
     "name": "Breugua",
     "iiwikiLink": "https://iiwiki.com/w/Breugua",
@@ -124,7 +118,8 @@
     "color": "#4dac71"
   },
   "Bamraland": {
-    "capital": "Langpauya"
+    "capital": "Langpauya",
+    "color": "#be0026"
   },
   "Mekabiri": {
     "color": "#e14743"
@@ -134,11 +129,6 @@
   },
   "Kotowari": {
     "color": "#216bac"
-  },
-  "Astrini": {
-    "name": "Astrini",
-    "iiwikiLink": "https://iiwiki.com/w/Astrini",
-    "color": "#b50000"
   },
   "Damak-Var": {
     "color": "#1a66a9"
@@ -283,5 +273,20 @@
     "iiwikiLink": "https://iiwiki.com/w/Akwisia",
     "capital": "Brandhaefen",
     "color": "#47aaff"
+  },
+  "Niederoestereich": {
+    "color": "#b50000"
+  },
+  "Kalei": {
+    "name": "Kalei",
+    "iiwikiLink": "https://iiwiki.com/w/Kalei",
+    "color": "#1e4785"
+  },
+  "Tetlacatian": {
+    "name": "Peoples Republic of Tetlacatian",
+    "iiwikiLink": "https://iiwiki.com/w/Tetlacatian",
+    "population": 7300000,
+    "gdppc": 8600,
+    "color": "#b91313"
   }
 }

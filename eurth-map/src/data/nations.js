@@ -253,7 +253,7 @@ const nations = {
   },
   Bamraland: {
     name: "Bamraland",
-    color: "#1f41b4",
+    color: "#be0026",
     population: 75311923,
     gdppc: 7915,
     landArea: 699908,
@@ -839,6 +839,7 @@ const nations = {
   },
   Niederoestereich: {
     name: "Niederoestereich",
+    color: "#b50000",
     population: 14906117,
     gdppc: 59178,
     landArea: 295393,
@@ -1094,15 +1095,6 @@ const nations = {
   },
 
   // --- Added with the review page (overlay-tools/review_server.py). ---
-  Leimurya: {
-    name: "Leimurya",
-    color: "#2490ff",
-    population: null,
-    gdppc: null,
-    landArea: null,
-    capital: "Mu",
-    iiwikiLink: "https://iiwiki.com/w/Leimurya",
-  },
   Breugua: {
     name: "Breugua",
     color: "#1183c4",
@@ -1129,15 +1121,6 @@ const nations = {
     landArea: null,
     capital: "Tiraspol",
     iiwikiLink: "https://iiwiki.com/w/North_Dniester",
-  },
-  Astrini: {
-    name: "Astrini",
-    color: "#b50000",
-    population: null,
-    gdppc: null,
-    landArea: null,
-    capital: null,
-    iiwikiLink: "https://iiwiki.com/w/Astrini",
   },
   Ulfheimr: {
     name: "Ulfheimr",
@@ -1255,6 +1238,25 @@ const nations = {
     landArea: null,
     capital: "Brandhaefen",
     iiwikiLink: "https://iiwiki.com/w/Akwisia",
+  },
+  Kalei: {
+    name: "Kalei",
+    color: "#1e4785",
+    population: null,
+    gdppc: null,
+    landArea: null,
+    capital: null,
+    iiwikiLink: "https://iiwiki.com/w/Kalei",
+  },
+  Tetlacatian: {
+    name: "Peoples Republic of Tetlacatian",
+    color: "#b91313",
+    population: 7300000,
+    gdppc: 8600,
+    landArea: null,
+    capital: null,
+    iiwikiLink: "https://iiwiki.com/w/Tetlacatian",
+    npc: true,
   },
 };
 

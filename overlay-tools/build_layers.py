@@ -35,8 +35,8 @@ Image.MAX_IMAGE_PIXELS = None
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "Overlays"
-GEO_MAP = ROOT / "Eurth-Geography-Map-5-29.png"
-GEO_MAP_NO_LEGEND = SRC / "Eurth-Geography-Map-5-29 No Legend.png"
+GEO_MAP = ROOT / "Eurth-Geography-Map-10-3-2026.png"
+GEO_MAP_NO_LEGEND = SRC / "Eurth-Geography-Map-10-3-2026 No Legend.png"
 CLIMATE_MAP = SRC / "Eurth-Climate-Map.png"
 CLIMATE_KEY = SRC / "Eurth-Climate-Key.png"
 CURRENTS_MAP = SRC / "Ocean_currents_of_Eurth.png"

@@ -43,8 +43,15 @@ def find_leak(a, b):
     while cell:
         path.append(cell)
         cell = prev[cell]
-    gap = min(path, key=lambda c: width[c])
-    return f"region {ra} leaks at x={gap[1] + x}, y={gap[0] + y} (gap about {2 * width[gap]:.0f} px wide)"
+    narrowest = min(width[c] for c in path)
+    # The route is as wide as its narrowest spot and no wider, so it may brush past other borders at
+    # that same clearance: report every spot that narrow (at most one per 40 px), the gap is one of them
+    spots = []
+    for c in path:
+        if width[c] <= narrowest + 0.5 and not any(abs(c[0] - s[0]) + abs(c[1] - s[1]) < 40 for s in spots):
+            spots.append(c)
+    where = ", ".join(f"({c[1] + x}, {c[0] + y})" for c in spots)
+    return f"region {ra} leaks through a gap about {2 * narrowest:.0f} px wide, at one of: {where}"
 
 
 if __name__ == "__main__":

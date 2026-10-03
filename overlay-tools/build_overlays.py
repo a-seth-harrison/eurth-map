@@ -12,7 +12,7 @@ Usage (from the project root):
 
 Inputs:
     Eurth Blank Map Borders.png      grey land, white sea + borders (8000x4000)
-    Eurth-Geography-Map-5-29.png     current geography map; its thin red lines add borders
+    Eurth-Geography-Map-10-3-2026.png  current geography map; its thin red lines add borders
                                      that the blank map is missing
     overlay-tools/nation-seeds.json  { "Tavok": [[x, y], ...], ... }
                                      "manual" reuses the hand-drawn shape instead, and
@@ -43,7 +43,7 @@ ROOT = Path(__file__).resolve().parent.parent
 TOOLS = ROOT / "overlay-tools"
 OUT = TOOLS / "out"
 BLANK_MAP = ROOT / "Eurth Blank Map Borders.png"
-GEO_MAP = ROOT / "Eurth-Geography-Map-5-29.png"
+GEO_MAP = ROOT / "Eurth-Geography-Map-10-3-2026.png"
 NATIONS_JS = ROOT / "eurth-map" / "src" / "data" / "nations.js"
 SEEDS = TOOLS / "nation-seeds.json"
 PATCHES = TOOLS / "border-patches.json"

@@ -58,3 +58,13 @@ Nations that got their color in the review page later are not listed here: see `
 | Volhynia | Volhynia | `#ce182a` | red; blue is Poja/Charkov nearby |
 | Erisoria | Erisoria | `#f48314` | orange stripe (red/white/orange are equal thirds) |
 | Iverica | Iverica | `#f8c91a` | yellow chevron, as suggested; blue is everywhere |
+
+## Changed with the 2026-10-03 map
+
+| id (nations.js key) | Name | Hex color | Why |
+|---|---|---|---|
+| Bamraland | Bamraland | `#be0026` | the new flag is yellow with a red emblem; its yellow (`#ffd706`, 87% of the flag) is the colour of Sa-Ma-Khom next door, so the emblem's red is used |
+| Kalei | Kalei | `#1e4785` | new nation; blue, white and yellow share the flag equally, and Arneland next door is red |
+| Tetlacatian | Peoples Republic of Tetlacatian | `#b91313` | new NPC nation; the flag's red field (74%). Close to the selected red, like The Third Transnational's |
+| Niederoestereich | Niederoestereich | `#b50000` | Astrini's colour, carried over with its island (the map now labels it Niederoestereich; same flag) |
+| Leimurya | — | `#2490ff` | removed from the map; its entry is kept in `legacy/removed-nations.md` |
