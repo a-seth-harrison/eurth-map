@@ -1254,7 +1254,7 @@ const nations = {
     population: 7300000,
     gdppc: 8600,
     landArea: null,
-    capital: null,
+    capital: "Besalu",
     iiwikiLink: "https://iiwiki.com/w/Tetlacatian",
     npc: true,
   },
