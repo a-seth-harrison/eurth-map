@@ -1,10 +1,10 @@
-549 regions, 116 of 129 nations drawn, overlays.svg = 340 KB, nations.geojson = 495 KB
+549 regions, 116 of 129 nations drawn, overlays.svg = 343 KB, nations.geojson = 500 KB
 Hand-drawn shapes reused: Aurora
 Regions drawn but left out of the traced area: Tagmatium (1)
 No shape yet: Alvernia, Burkini, Cristina, Dniester, Euandria, Great-Media, Hexanesa, Kori-Chi, Llalta, Rohini, Sporsia, Velaheria, Vosarkia
 Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wrong/leaking region or a generous stat:
   Rhodellia             0.38x  <-- check
-  Volsci                0.43x  <-- check
+  Volsci                0.42x  <-- check
   Great-Anglia          0.47x  <-- check
   Verraine              0.47x  <-- check
   Kirvina               0.52x  <-- check
@@ -71,6 +71,7 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Qubdi                 1.03x
   Bashan                1.04x
   Mekabiri              1.04x
+  Bamraland             1.04x
   Manamana              1.04x
   Narva                 1.04x
   Poja                  1.05x
@@ -95,7 +96,6 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Tabaristan            1.47x
   Nanto                 1.58x
   Andalla               1.64x  <-- check
-  Bamraland             1.75x  <-- check
   West-Anglia           1.75x  <-- check
   Iverica               1.87x  <-- check
   Variota               2.01x  <-- check
