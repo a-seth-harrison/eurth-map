@@ -14,17 +14,6 @@
       "autoPort": true
     },
     {
-      "name": "eurth-map-orgs",
-      "runtimeExecutable": "node",
-      "runtimeArgs": [
-        "../Interactive Map orgs/eurth-map/node_modules/vite/bin/vite.js",
-        "../Interactive Map orgs/eurth-map",
-        "--port",
-        "5174"
-      ],
-      "port": 5174
-    },
-    {
       "name": "eurth-map-vercel",
       "runtimeExecutable": "vercel",
       "runtimeArgs": [
