@@ -40,8 +40,8 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Niederoestereich      0.97x
   Suminto               0.98x
   Red-Iberos            0.98x
-  Tavok                 0.98x
   Ayubi                 0.98x
+  Tavok                 0.98x
   Esonice               0.98x
   Gaellicia             0.98x
   Tamurin               0.98x
