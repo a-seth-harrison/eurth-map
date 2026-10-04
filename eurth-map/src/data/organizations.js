@@ -11,7 +11,8 @@ export const ORGANIZATIONS = [
     id: "aurelian-league",
     name: "Aurelian League (AL)",
     color: "#f6aa27",
-    members: ["Cruciastada", "Esonice", "Ionio", "Kirvina", "Mikochi", "Mito", "Rhodellia"],
+    // Cruciastada was a member until 2026-10-03, when it was expelled
+    members: ["Esonice", "Ionio", "Kirvina", "Mikochi", "Mito", "Rhodellia"],
   },
   {
     id: "oriental-states",
