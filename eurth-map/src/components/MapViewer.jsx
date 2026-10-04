@@ -9,7 +9,8 @@ import useClimateReadout, { LONG_PRESS_MS } from "../hooks/useClimateReadout";
 import HoverTooltip from "./HoverTooltip";
 import ClimateCard from "./ClimateCard";
 import { MAP_WIDTH, MAP_HEIGHT } from "../utils/geo";
-import { BASE_MAP, imageLayers } from "../data/layers";
+import { imageLayers } from "../data/layers";
+import useBaseMap from "../hooks/useBaseMap";
 import { memberColors, STRIPE_PERIOD_DEG } from "../data/organizations";
 import { formatDistance } from "../utils/format";
 import { COARSE_POINTER } from "../utils/device";
@@ -83,6 +84,7 @@ function clampPan(t, w, h) {
 }
 
 export default function MapViewer({ overlays }) {
+  const baseSrc = useBaseMap(overlays); // colour or grey, once the image is decoded
   const [selected, setSelected] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [svgReady, setSvgReady] = useState(false); // the overlay SVG is in the page
@@ -512,7 +514,7 @@ export default function MapViewer({ overlays }) {
         >
           {WORLD_COPIES.map((dx) => (
             <div key={dx} className="map-world" style={{ left: dx }}>
-              <img src={BASE_MAP} alt={dx ? "" : "Eurth map"} className="map-bg" draggable={false} />
+              <img src={baseSrc} alt={dx ? "" : "Eurth map"} className="map-bg" draggable={false} />
               {imageLayers(overlays).map(({ src, box }) => (
                 <img
                   key={src}

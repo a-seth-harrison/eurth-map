@@ -11,7 +11,7 @@ import useClimateReadout, { LONG_PRESS_MS } from "../hooks/useClimateReadout";
 import HoverTooltip from "./HoverTooltip";
 import ClimateCard from "./ClimateCard";
 import { MAP_WIDTH, pixelToLonLat, lonLatToPixel } from "../utils/geo";
-import { BASE_MAP, OVERLAYS, imageLayers } from "../data/layers";
+import { OVERLAYS, GRAYSCALE, baseMap, imageLayers } from "../data/layers";
 import { memberColors } from "../data/organizations";
 import { stripeMaterial, disposeStripeMaterials } from "../utils/stripeMaterial";
 import { formatDistance } from "../utils/format";
@@ -72,8 +72,7 @@ function loadImage(src) {
 
 // The globe takes a single texture, so the base map, legend and image overlays are flattened
 // into one canvas. maxSize is the GPU's texture limit (below 8000 on some phones).
-async function composeTexture(overlayImages, maxSize) {
-  const layers = [{ src: BASE_MAP }, ...overlayImages];
+async function composeTexture(layers, maxSize) {
   const images = await Promise.all(layers.map((layer) => loadImage(layer.src)));
   let width = Math.min(MAP_WIDTH, maxSize);
   for (;;) {
@@ -144,12 +143,13 @@ export default function GlobeViewer({ overlays }) {
       setHovered(null);
     },
   });
-  // Keyed on the image overlays only: an organization toggle must not recompose the texture
-  const imageKey = OVERLAYS.filter((o) => overlays[o.id]).map((o) => o.id).join(",");
-  const overlayImages = useMemo(
-    () => imageLayers(Object.fromEntries(imageKey.split(",").filter(Boolean).map((id) => [id, true]))),
-    [imageKey]
-  );
+  // Keyed on the image switches only (overlays and grayscale): an organization toggle must
+  // not recompose the texture
+  const imageKey = [...OVERLAYS, GRAYSCALE].filter((o) => overlays[o.id]).map((o) => o.id).join(",");
+  const textureLayers = useMemo(() => {
+    const on = Object.fromEntries(imageKey.split(",").filter(Boolean).map((id) => [id, true]));
+    return [{ src: baseMap(on) }, ...imageLayers(on)];
+  }, [imageKey]);
   const orgColors = useMemo(() => memberColors(overlays), [overlays]);
   const { measuring, measuringRef, addPoint, setCursor, unit, rings, drawn, markers } = m;
   const climate = useClimateReadout(!!overlays.climate);
@@ -439,7 +439,7 @@ export default function GlobeViewer({ overlays }) {
     if (!globe) return;
     let cancelled = false;
     const capabilities = globe.renderer().capabilities;
-    composeTexture(overlayImages, capabilities.maxTextureSize).then((canvas) => {
+    composeTexture(textureLayers, capabilities.maxTextureSize).then((canvas) => {
       if (cancelled) return;
       const texture = new CanvasTexture(canvas);
       texture.colorSpace = SRGBColorSpace;
@@ -470,7 +470,7 @@ export default function GlobeViewer({ overlays }) {
     return () => {
       cancelled = true;
     };
-  }, [overlayImages]);
+  }, [textureLayers]);
 
   // Measurement lines, markers and labels
   useEffect(() => {

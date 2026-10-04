@@ -8,6 +8,8 @@ Writes to eurth-map/public/:
     background.png             geography map WITHOUT its legend (the legend is its own layer, so the
                                climate legend can replace it). Only the review page reads the PNG;
                                the app loads background.webp
+    background-gray.webp       the same map in grey, for the app's "Grayscale map" switch
+    layers/legend-geo-gray.webp the geography legend in the same grey
     layers/legend-geo.webp     the geography legend, cropped out of the full geography map
     layers/legend-climate.webp the climate legend, cropped out of Eurth-Climate-Key.png
     layers/climate.webp        climate zones; sea and the built-in legend made transparent
@@ -74,11 +76,22 @@ def save(arr, name):
         write_webp(halved(img), LAYERS / f"{name}-half.webp", lossless=True)
 
 
+def grayscale(rgb):
+    """Grey = the brightest of the three channels. That is, pixel for pixel, what the owner's
+    Affinity "Black & White" export of the map is (checked 2026-10-03), and it suits the map:
+    the sea comes out near-white and the land in light greys, where luminance would make the
+    sea darker than the land. Takes RGB or RGBA; returns the RGB grey."""
+    value = np.asarray(rgb)[..., :3].max(axis=2)
+    return np.repeat(value[..., None], 3, axis=2)
+
+
 def build_base_map():
     shutil.copyfile(GEO_MAP_NO_LEGEND, PUBLIC / "background.png")
     print("  background.png             <- " + GEO_MAP_NO_LEGEND.name)
     img = Image.open(GEO_MAP_NO_LEGEND).convert("RGB")
     write_webp(img, PUBLIC / "background.webp", quality=BASE_MAP_QUALITY)
+    gray = Image.fromarray(grayscale(np.array(img)).astype(np.uint8), "RGB")
+    write_webp(gray, PUBLIC / "background-gray.webp", quality=BASE_MAP_QUALITY)
     side = img.height
     left = (img.width - side) // 2
     img.crop((left, 0, left + side, side)).resize((180, 180), Image.LANCZOS).save(PUBLIC / "apple-touch-icon.png")
@@ -93,6 +106,7 @@ def build_legends():
 
     geo = np.dstack([full[y0:y1, x0:x1], np.full((y1 - y0, x1 - x0), 255)]).astype(np.uint8)
     save(geo, "legend-geo")
+    save(np.dstack([grayscale(geo), geo[..., 3]]).astype(np.uint8), "legend-geo-gray")
 
     key = np.array(Image.open(CLIMATE_KEY).convert("RGBA"))
     kys, kxs = np.where(key[..., 3] > 0)

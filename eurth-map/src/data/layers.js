@@ -15,23 +15,35 @@ export const OVERLAYS = [
   { id: "tectonic", label: "Tectonic plates", src: "/layers/tectonic.webp" },
 ];
 
+// Listed with the overlays, but it swaps the base map and the geography legend for their grey
+// copies (also from build_layers.py). The overlays and the climate legend stay in colour.
+export const GRAYSCALE = { id: "gray", label: "Grayscale map" };
+
 // Bottom-to-top drawing order of the image overlays
 const STACK = ["tectonic", "climate", "currents"];
 
 export const BASE_MAP = "/background.webp";
+export const BASE_MAP_GRAY = "/background-gray.webp";
 
 // Where the legend sits on the map, in map pixels
 export const LEGEND_BOX = manifest.legend;
 
-// Images to draw over the base map for a set of enabled overlays: [{ src, box? }].
+// The base map image for a set of enabled switches
+export function baseMap(enabled) {
+  return enabled[GRAYSCALE.id] ? BASE_MAP_GRAY : BASE_MAP;
+}
+
+// Images to draw over the base map for a set of enabled switches: [{ src, box? }].
 // The climate map brings its own legend, which replaces the geography one.
 export function imageLayers(enabled) {
   const layers = STACK.filter((id) => enabled[id]).map((id) => ({
     src: OVERLAYS.find((o) => o.id === id).src,
   }));
-  layers.push({
-    src: enabled.climate ? "/layers/legend-climate.webp" : "/layers/legend-geo.webp",
-    box: LEGEND_BOX,
-  });
+  layers.push({ src: legend(enabled), box: LEGEND_BOX });
   return layers;
+}
+
+function legend(enabled) {
+  if (enabled.climate) return "/layers/legend-climate.webp";
+  return enabled[GRAYSCALE.id] ? "/layers/legend-geo-gray.webp" : "/layers/legend-geo.webp";
 }

@@ -3,7 +3,7 @@
 An interactive map of the world of Eurth, as a flat map and as a globe. Live at https://eurth-map.vercel.app.
 
 - Hover a nation to highlight it, click or tap it for its statistics (capital, population, GDP, GDP per capita, land area) and a link to its iiwiki page.
-- Overlays for climate, ocean currents and tectonic plates. With Climate on, the Köppen zone under the pointer is named.
+- Overlays for climate, ocean currents and tectonic plates, and a grayscale version of the map. With Climate on, the Köppen zone under the pointer is named.
 - Measure distances and areas on the sphere (great-circle distance, spherical area), not in pixels.
 - "Suggest an edit" lets anyone propose a correction to a nation's statistics. Proposals are filed as issues on this repository and reviewed before anything changes.
 - Works with a mouse and keyboard, and on phones and tablets.
