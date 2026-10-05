@@ -1,4 +1,4 @@
-549 regions, 115 of 130 nations drawn, overlays.svg = 342 KB, nations.geojson = 499 KB
+549 regions, 115 of 130 nations drawn, overlays.svg = 343 KB, nations.geojson = 499 KB
 Hand-drawn shapes reused: Aurora
 Regions drawn but left out of the traced area: Tagmatium (1)
 No shape yet: Alvernia, Burkini, Cristina, Dniester, Euandria, Great-Media, Hexanesa, Kori-Chi, Llalta, Nanto, Rohini, Sporsia, Velaheria, Vosarkia, Korinon
