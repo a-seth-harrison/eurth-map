@@ -42,3 +42,23 @@ its island is labelled Niederoestereich on the 2026-10-03 map, same flag, same c
 ```
 
 Manual edits it had: `{"name": "Astrini", "iiwikiLink": "https://iiwiki.com/w/Astrini", "color": "#b50000"}`
+
+## Parvaquilee
+
+removed 2026-10-05 at the owner's request (its flag had already vanished from the 2026-10-03 map and its land was reassigned in the review page before the removal).
+
+```json
+{
+  "Parvaquilee": {
+    "name": "Parvaquilee",
+    "color": "#4d1d63",
+    "population": null,
+    "gdppc": null,
+    "landArea": null,
+    "capital": "Fort Liberte",
+    "iiwikiLink": "https://iiwiki.com/w/Parvaquilee"
+  }
+}
+```
+
+Manual edits it had: `{"name": "Parvaquilee", "iiwikiLink": "https://iiwiki.com/w/Parvaquilee", "capital": "Fort Liberte", "color": "#4d1d63"}`

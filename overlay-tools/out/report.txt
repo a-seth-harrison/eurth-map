@@ -1,7 +1,7 @@
-549 regions, 116 of 129 nations drawn, overlays.svg = 343 KB, nations.geojson = 500 KB
+549 regions, 115 of 130 nations drawn, overlays.svg = 342 KB, nations.geojson = 499 KB
 Hand-drawn shapes reused: Aurora
 Regions drawn but left out of the traced area: Tagmatium (1)
-No shape yet: Alvernia, Burkini, Cristina, Dniester, Euandria, Great-Media, Hexanesa, Kori-Chi, Llalta, Rohini, Sporsia, Velaheria, Vosarkia
+No shape yet: Alvernia, Burkini, Cristina, Dniester, Euandria, Great-Media, Hexanesa, Kori-Chi, Llalta, Nanto, Rohini, Sporsia, Velaheria, Vosarkia, Korinon
 Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wrong/leaking region or a generous stat:
   Rhodellia             0.38x  <-- check
   Volsci                0.42x  <-- check
@@ -23,6 +23,8 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Baltica               0.90x
   Orioni                0.91x
   Vasqqa                0.92x
+  Sunseong              0.93x
+  Pentium               0.93x
   San-Giorgio           0.93x
   Arneland              0.93x
   Kolhar                0.94x
@@ -35,7 +37,6 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Bainbridge-Islands    0.96x
   Flaca-Vul             0.96x
   Damak-Var             0.96x
-  Sunseong              0.97x
   Ealis                 0.97x
   Niederoestereich      0.97x
   Tavok                 0.98x
@@ -50,7 +51,6 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Yien                  0.99x
   San-Jorge             1.00x
   Tagmatium             1.00x
-  Pentium               1.00x
   Ide-Jima              1.00x
   Zuydland              1.00x
   Ymutz-Mizlan          1.00x
@@ -71,12 +71,14 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Qubdi                 1.03x
   Bashan                1.04x
   Mekabiri              1.04x
+  Kalei                 1.04x
   Bamraland             1.04x
   Manamana              1.04x
   Narva                 1.04x
   Poja                  1.05x
   Lenelia               1.08x
   Girkmand              1.08x
+  Helsium               1.09x
   Marchyydion           1.09x
   Cherkessk             1.09x
   Denawar               1.10x
@@ -86,7 +88,6 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Mito                  1.12x
   Eemsmerschen          1.13x
   Galicia               1.14x
-  Helsium               1.16x
   Adaptus               1.18x
   Volhynia              1.19x
   Kalnija               1.22x
@@ -94,10 +95,9 @@ Area check (stated km2 per map pixel, median 25.34); far from 1.0x suggests a wr
   Ahrana                1.33x
   Sa-Ma-Khom            1.41x
   Tabaristan            1.47x
-  Nanto                 1.58x
   Andalla               1.64x  <-- check
-  West-Anglia           1.75x  <-- check
-  Iverica               1.87x  <-- check
+  West-Anglia           1.84x  <-- check
+  Iverica               1.88x  <-- check
   Variota               2.01x  <-- check
   Salvia                2.52x  <-- check
   Florentia             3.90x  <-- check

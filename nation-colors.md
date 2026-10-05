@@ -68,3 +68,6 @@ Nations that got their color in the review page later are not listed here: see `
 | Tetlacatian | Peoples Republic of Tetlacatian | `#b91313` | new NPC nation; the flag's red field (74%). Close to the selected red, like The Third Transnational's |
 | Niederoestereich | Niederoestereich | `#b50000` | Astrini's colour, carried over with its island (the map now labels it Niederoestereich; same flag) |
 | Leimurya | — | `#2490ff` | removed from the map; its entry is kept in `legacy/removed-nations.md` |
+| Deseti | Deseti | `#e62d39` | new island nation (2026-10-05), colour picked from its flag in the review page |
+| Rupes-Nigra | Rupes Nigra | `#3268ab` | new polar islet (2026-10-05), the blue of its flag, picked in the review page |
+| Parvaquilee | — | `#4d1d63` | removed 2026-10-05; its entry is kept in `legacy/removed-nations.md` |

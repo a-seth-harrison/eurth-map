@@ -217,12 +217,6 @@
     "capital": "Ashein City",
     "color": "#790917"
   },
-  "Parvaquilee": {
-    "name": "Parvaquilee",
-    "iiwikiLink": "https://iiwiki.com/w/Parvaquilee",
-    "capital": "Fort Liberte",
-    "color": "#4d1d63"
-  },
   "Ionio": {
     "color": "#ffffff"
   },
@@ -280,7 +274,10 @@
   "Kalei": {
     "name": "Kalei",
     "iiwikiLink": "https://iiwiki.com/w/Kalei",
-    "color": "#1e4785"
+    "color": "#1e4785",
+    "population": 49250000,
+    "gdppc": 29000,
+    "landArea": 795000
   },
   "Tetlacatian": {
     "name": "Peoples Republic of Tetlacatian",
@@ -289,5 +286,15 @@
     "gdppc": 8600,
     "color": "#b91313",
     "capital": "Besalu"
+  },
+  "Rupes-Nigra": {
+    "name": "Rupes Nigra",
+    "iiwikiLink": "https://iiwiki.com/w/Rupes_Nigra",
+    "color": "#3268ab"
+  },
+  "Deseti": {
+    "name": "Deseti",
+    "iiwikiLink": "https://iiwiki.com/w/Deseti",
+    "color": "#e62d39"
   }
 }

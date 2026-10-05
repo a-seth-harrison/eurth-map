@@ -18,11 +18,12 @@ export const ORGANIZATIONS = [
     id: "oriental-states",
     name: "Oriental States (OS)",
     color: "#2A57DF",
-    // Cristina and Niederoestereich have no territory on the map yet
+    // Cristina has no territory on the map yet
     members: [
       "Bainbridge-Islands",
       "Cristina",
       "Deltannia",
+      "Deseti",
       "Ide-Jima",
       "Mekabiri",
       "Miiros",

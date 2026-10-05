@@ -1185,15 +1185,6 @@ const nations = {
     capital: "Ashein City",
     iiwikiLink: "https://iiwiki.com/w/Sentist_State",
   },
-  Parvaquilee: {
-    name: "Parvaquilee",
-    color: "#4d1d63",
-    population: null,
-    gdppc: null,
-    landArea: null,
-    capital: "Fort Liberte",
-    iiwikiLink: "https://iiwiki.com/w/Parvaquilee",
-  },
   Oyussa: {
     name: "Oyussa",
     color: "#eef2c1",
@@ -1242,9 +1233,9 @@ const nations = {
   Kalei: {
     name: "Kalei",
     color: "#1e4785",
-    population: null,
-    gdppc: null,
-    landArea: null,
+    population: 49250000,
+    gdppc: 29000,
+    landArea: 795000,
     capital: null,
     iiwikiLink: "https://iiwiki.com/w/Kalei",
   },
@@ -1257,6 +1248,24 @@ const nations = {
     capital: "Besalu",
     iiwikiLink: "https://iiwiki.com/w/Tetlacatian",
     npc: true,
+  },
+  "Rupes-Nigra": {
+    name: "Rupes Nigra",
+    color: "#3268ab",
+    population: null,
+    gdppc: null,
+    landArea: null,
+    capital: null,
+    iiwikiLink: "https://iiwiki.com/w/Rupes_Nigra",
+  },
+  Deseti: {
+    name: "Deseti",
+    color: "#e62d39",
+    population: null,
+    gdppc: null,
+    landArea: null,
+    capital: null,
+    iiwikiLink: "https://iiwiki.com/w/Deseti",
   },
 };
 
