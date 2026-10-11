@@ -90,7 +90,7 @@ Area check (stated km2 per map pixel, median 25.38); far from 1.0x suggests a wr
   Adaptus               1.18x
   Volhynia              1.19x
   Kalnija               1.22x
-  Ionio                 1.24x
+  Ionio                 1.25x
   Duchy-of-Verde        1.31x
   Ahrana                1.33x
   Sa-Ma-Khom            1.41x
