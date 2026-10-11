@@ -541,6 +541,10 @@
   text-decoration: underline;
 }
 
+.credits-short {
+  display: none;
+}
+
 /* Tooltip next to the pointer: hovered nation and/or climate zone. HoverTooltip.jsx sets
    left/top; on touch it sits above the finger after a long press */
 .hover-tooltip {
@@ -985,11 +989,25 @@
   }
 }
 
-/* Narrow screens: the credit line wraps into a block beside the Flat map / Globe switch
-   (up to 165 px wide on a touch screen) instead of running under it */
+/* Narrow screens: the short wording, in smaller and fainter type, wrapped into a block
+   beside the Flat map / Globe switch (up to 165 px wide on a touch screen) instead of
+   running under it */
 @media (max-width: 600px) {
   .credits {
     max-width: calc(100vw - var(--edge-left) - var(--edge-right) - 178px);
+    padding: 3px 6px;
+    background: rgba(20, 20, 40, 0.45);
+    color: rgba(224, 224, 224, 0.55);
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  .credits-full {
+    display: none;
+  }
+
+  .credits-short {
+    display: inline;
   }
 }
 
