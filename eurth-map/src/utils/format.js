@@ -64,14 +64,3 @@ export function parseNum(text) {
 export function formatNumInput(v) {
   return v == null ? "" : Number(v).toLocaleString("en-US", { maximumFractionDigits: 2 });
 }
-
-// "23.45° N, 112.30° E" from a {lon, lat}. Two decimals of a degree is about one map pixel
-// (22.22 px per degree), so the readout is as fine as the map itself
-export function formatLonLat({ lon, lat }) {
-  const wrapped = ((((lon + 180) % 360) + 360) % 360) - 180;
-  const part = (v, positive, negative) => {
-    const r = Math.round(v * 100) / 100;
-    return Math.abs(r).toFixed(2) + "° " + (r < 0 ? negative : positive);
-  };
-  return `${part(lat, "N", "S")}, ${part(wrapped, "E", "W")}`;
-}
