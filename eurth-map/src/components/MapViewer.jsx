@@ -8,6 +8,7 @@ import useKeyboardPan from "../hooks/useKeyboardPan";
 import useClimateReadout, { LONG_PRESS_MS } from "../hooks/useClimateReadout";
 import HoverTooltip from "./HoverTooltip";
 import ClimateCard from "./ClimateCard";
+import CoordReadout from "./CoordReadout";
 import { MAP_WIDTH, MAP_HEIGHT } from "../utils/geo";
 import { imageLayers } from "../data/layers";
 import useBaseMap from "../hooks/useBaseMap";
@@ -101,6 +102,8 @@ export default function MapViewer({ overlays }) {
   const climate = useClimateReadout(!!overlays.climate);
   const { readAt: readClimate, pressingRef, endPress } = climate;
   const tipRef = useRef(null); // HoverTooltip: moveTo(clientX, clientY)
+  const coordRef = useRef(null); // CoordReadout: setLive(map point)
+  const [pinnedCoord, setPinnedCoord] = useState(null); // map point of the last click or tap
   const pressTimer = useRef(0); // long-press timer of a finger held on the map
   const pointers = useRef(new Map()); // pointers held down on the map: pointerId -> { x, y } (client)
   const pinch = useRef(null); // { dist, x, y } of the two fingers at the last move
@@ -165,6 +168,15 @@ export default function MapViewer({ overlays }) {
       x: wrapX((clientX - rect.left - t.x) / t.scale),
       y: Math.min(Math.max((clientY - rect.top - t.y) / t.scale, 0), MAP_HEIGHT),
     };
+  }
+
+  // The same, or null above or below the map (the sea does not wrap that way)
+  function coordAt(clientX, clientY) {
+    const rect = containerRef.current.getBoundingClientRect();
+    const t = transformRef.current;
+    const y = (clientY - rect.top - t.y) / t.scale;
+    if (y < 0 || y > MAP_HEIGHT) return null;
+    return { x: wrapX((clientX - rect.left - t.x) / t.scale), y };
   }
 
   // Load overlay SVG inline
@@ -296,6 +308,7 @@ export default function MapViewer({ overlays }) {
         }
         // The climate under the mouse; none while it is over the controls
         readClimate(overMap ? toMapPoint(e.clientX, e.clientY) : null);
+        coordRef.current?.setLive(overMap ? coordAt(e.clientX, e.clientY) : null);
         if (overMap) tipRef.current?.moveTo(e.clientX, e.clientY);
       }
       if (!pointers.current.has(e.pointerId)) return;
@@ -359,6 +372,9 @@ export default function MapViewer({ overlays }) {
         return;
       }
       if (wasDrag || e.type === "pointercancel") return;
+      // A click or tap, whatever else it does, pins its coordinates in the readout
+      const at = coordAt(e.clientX, e.clientY);
+      if (at) setPinnedCoord(at);
       if (measuringRef.current) {
         addPoint(toMapPoint(e.clientX, e.clientY), { x: e.clientX, y: e.clientY });
         return;
@@ -430,6 +446,7 @@ export default function MapViewer({ overlays }) {
     const at = lastPointer.current;
     if (!at) return;
     readClimate(toMapPoint(at.x, at.y));
+    coordRef.current?.setLive(coordAt(at.x, at.y));
     if (measuringRef.current) {
       setCursor(toMapPoint(at.x, at.y));
       return;
@@ -481,6 +498,7 @@ export default function MapViewer({ overlays }) {
       updateTransform((t) => zoomAt(t, mouseX, mouseY, zoomFactor, minScale()));
       // The map moved under the still mouse
       readClimate(toMapPoint(e.clientX, e.clientY));
+      coordRef.current?.setLive(coordAt(e.clientX, e.clientY));
     }
     // A long press on Android would otherwise open the context menu
     const onContextMenu = (e) => e.preventDefault();
@@ -597,6 +615,7 @@ export default function MapViewer({ overlays }) {
         touch={climate.pressing || climate.pinned}
       />
       {climate.enabled && <ClimateCard zone={climate.lastZone} />}
+      <CoordReadout ref={coordRef} pinned={pinnedCoord} onClear={() => setPinnedCoord(null)} />
 
       <NationPanel
         nationKey={selected}

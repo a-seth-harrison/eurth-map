@@ -10,6 +10,7 @@ import useKeyboardPan from "../hooks/useKeyboardPan";
 import useClimateReadout, { LONG_PRESS_MS } from "../hooks/useClimateReadout";
 import HoverTooltip from "./HoverTooltip";
 import ClimateCard from "./ClimateCard";
+import CoordReadout from "./CoordReadout";
 import { MAP_WIDTH, pixelToLonLat, lonLatToPixel } from "../utils/geo";
 import { OVERLAYS, GRAYSCALE, baseMap, imageLayers } from "../data/layers";
 import { memberColors } from "../data/organizations";
@@ -155,6 +156,8 @@ export default function GlobeViewer({ overlays }) {
   const climate = useClimateReadout(!!overlays.climate);
   const climateRef = useRef(climate); // for the handlers inside the globe effect
   const tipRef = useRef(null); // HoverTooltip: moveTo(clientX, clientY)
+  const coordRef = useRef(null); // CoordReadout: setLive(map point)
+  const [pinnedCoord, setPinnedCoord] = useState(null); // map point of the last click or tap
   const lastMouse = useRef(null); // client position while the mouse is over the globe
   useEffect(() => {
     climateRef.current = climate;
@@ -289,12 +292,15 @@ export default function GlobeViewer({ overlays }) {
         finishPress();
         return;
       }
-      if (!measuringRef.current || !downAt || !e.isPrimary || e.button !== 0) return;
+      if (!downAt || !e.isPrimary || e.button !== 0) return;
       const threshold = clickThreshold(e.pointerType);
       const dragged = Math.abs(e.clientX - downAt.x) > threshold || Math.abs(e.clientY - downAt.y) > threshold;
       downAt = null;
       const p = dragged ? null : toMapPoint(e);
-      if (p) addPoint(p, { x: e.clientX, y: e.clientY });
+      if (!p) return;
+      // A click or tap on the globe, whatever else it does, pins its coordinates in the readout
+      setPinnedCoord(p);
+      if (measuringRef.current) addPoint(p, { x: e.clientX, y: e.clientY });
     }
     function onPointerCancel() {
       cancelPressTimer();
@@ -327,6 +333,7 @@ export default function GlobeViewer({ overlays }) {
         const p = toMapPoint(e);
         if (measuringRef.current) setCursor(p);
         c.readAt(p);
+        coordRef.current?.setLive(p);
         tipRef.current?.moveTo(e.clientX, e.clientY);
       });
     }
@@ -334,6 +341,7 @@ export default function GlobeViewer({ overlays }) {
       lastMouse.current = null;
       setCursor(null);
       climateRef.current.readAt(null);
+      coordRef.current?.setLive(null);
     }
     // A long press on Android would otherwise open the context menu
     const onContextMenu = (e) => e.preventDefault();
@@ -401,7 +409,10 @@ export default function GlobeViewer({ overlays }) {
     });
     // The globe turned under the still mouse
     const at = lastMouse.current;
-    if (at) climate.readAt(screenToMap(at.x, at.y));
+    if (!at) return;
+    const p = screenToMap(at.x, at.y);
+    climate.readAt(p);
+    coordRef.current?.setLive(p);
   });
 
   // Re-setting the accessors makes globe.gl recolor the polygons. Members of an enabled
@@ -504,6 +515,7 @@ export default function GlobeViewer({ overlays }) {
         touch={climate.pressing || climate.pinned}
       />
       {climate.enabled && <ClimateCard zone={climate.lastZone} />}
+      <CoordReadout ref={coordRef} pinned={pinnedCoord} onClear={() => setPinnedCoord(null)} />
 
       <NationPanel
         nationKey={selected}
