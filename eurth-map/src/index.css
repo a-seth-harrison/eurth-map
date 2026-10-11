@@ -25,6 +25,7 @@ html, body {
   /* Distance of the fixed controls from the screen edges, clear of notches and the home bar */
   --edge-top: max(16px, env(safe-area-inset-top));
   --edge-left: max(16px, env(safe-area-inset-left));
+  --edge-right: max(16px, env(safe-area-inset-right));
   --edge-bottom: max(16px, env(safe-area-inset-bottom));
   /* Height of a main button; the layer switches sit on top of the view switch */
   --control-h: 33px;

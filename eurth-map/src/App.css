@@ -516,6 +516,30 @@
   color: #1a1a1a;
 }
 
+/* Credit line, bottom right (Credits.jsx). Under the nation panel, so it is hidden while
+   the panel is open rather than overlapping it; on a phone the bottom sheet covers it the
+   same way */
+.credits {
+  position: fixed;
+  bottom: var(--edge-bottom);
+  right: var(--edge-right);
+  z-index: 150;
+  max-width: calc(100vw - 2 * var(--edge-right));
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(20, 20, 40, 0.6);
+  color: rgba(224, 224, 224, 0.75);
+  font-size: 11px;
+  line-height: 1.3;
+  text-align: right;
+  text-decoration: none;
+}
+
+.credits:hover {
+  color: #e0e0e0;
+  text-decoration: underline;
+}
+
 /* Tooltip next to the pointer: hovered nation and/or climate zone. HoverTooltip.jsx sets
    left/top; on touch it sits above the finger after a long press */
 .hover-tooltip {
@@ -957,6 +981,14 @@
     top: calc(var(--edge-top) + var(--control-h) + 12px);
     left: var(--edge-left);
     transform: none;
+  }
+}
+
+/* Narrow screens: the credit line wraps into a block beside the Flat map / Globe switch
+   (about 200 px wide) instead of running under it */
+@media (max-width: 600px) {
+  .credits {
+    max-width: calc(100vw - var(--edge-left) - var(--edge-right) - 210px);
   }
 }
 

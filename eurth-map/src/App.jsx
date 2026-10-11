@@ -2,6 +2,7 @@ import { lazy, Suspense, useState } from "react";
 import MapViewer from "./components/MapViewer";
 import LayerToggles from "./components/LayerToggles";
 import PreviewBanner from "./components/PreviewBanner";
+import Credits from "./components/Credits";
 import { IS_PREVIEW } from "./utils/preview";
 import "./App.css";
 
@@ -36,6 +37,7 @@ function App() {
           </button>
         ))}
       </div>
+      <Credits />
     </>
   );
 }
