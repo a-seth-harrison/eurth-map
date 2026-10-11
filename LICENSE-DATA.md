@@ -14,7 +14,7 @@ The coastlines, borders, elevation and bathymetry, and everything derived from t
 - the traced nation shapes: `eurth-map/public/overlays.svg`, `eurth-map/public/nations.geojson`, `eurth-map/src/data/traced-areas.json`, `overlay-tools/manual-overlays.svg`, the seed and patch files in `overlay-tools/`, and the intermediate output of the tracing scripts;
 - the vector reference map in `legacy/`.
 
-The official Eurth map is by **Stijn Vogels** and **Conucu Giovanni**. It is used here under the official map's own license terms: [CC license — TODO confirm]. Please consult those terms before reusing any of the imagery or the shapes traced from it.
+The official Eurth map is by **Stijn Vogels** and **Conucu Giovanni** and is published for the community at https://eurth.org/t/map-of-eurth/17693, with its source at https://github.com/eurth-org/eurth-map. It has no public license. Its own terms are that it is maintained for the Eurth.org community and that its assets are not to be reused outside the Eurth project without checking with that repository's owner. This interactive map is part of the Eurth project and uses the map on that basis. If you want to reuse any of the imagery, or the nation shapes traced from it, outside the Eurth project, ask the official map's owner first; nothing in this repository grants that permission.
 
 The custom elevation and climate layers for **Tavok** are the work of the repository owner, Seth Harrison, and are not part of the official map.
 
