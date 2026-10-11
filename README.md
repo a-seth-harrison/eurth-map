@@ -19,7 +19,8 @@ An interactive map of the world of Eurth, as a flat map and as a globe. Live at 
 | `Overlays/`, `*.png` | Source map art the layers and shapes are built from |
 | `nation-data/` | Snapshots, reports and spreadsheet comparisons written by the data scripts |
 | `DEPLOY.md` | How to build and host the site, written for someone other than the owner |
-| `LICENSE` | MIT licence for the code (not the map imagery, see below) |
+| `LICENSE` | MIT license for the application code |
+| `LICENSE-DATA.md` | The terms of the map and nation data, which are not covered by the MIT license |
 | `CLAUDE.md` | Detailed technical notes: architecture, pipelines, design decisions |
 
 ## Run it locally
@@ -40,8 +41,8 @@ Building, hosting, the one secret the site needs, and how to update the map art 
 
 Use "Suggest an edit" in a nation's panel on the live site. If a nation is missing, drawn with the wrong territory, or has no territory yet, open an issue here.
 
-## Licence and credits
+## License
 
-The code in this repository is released under the MIT licence; see `LICENSE`.
+The application code in this repository is released under the MIT license; see `LICENSE`.
 
-The licence covers the code only. The map imagery (the base map, the overlay images and the files generated from them) is derived from the Eurth community's official map and is not covered by it. The nation statistics come from the Eurth community and its members.
+The map data and the nation data are not covered by the MIT license and no rights in them are granted under it. The map geometry (coastlines, borders, elevation, bathymetry) and the overlay art are the work of the Eurth community and the authors of the official Eurth map, and the nation names, statistics, lore and flags belong to their respective players. They are licensed separately; see `LICENSE-DATA.md` for the credits and terms.
