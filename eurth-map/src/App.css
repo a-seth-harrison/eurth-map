@@ -518,12 +518,13 @@
 
 /* Credit line, bottom right (Credits.jsx). Under the nation panel, so it is hidden while
    the panel is open rather than overlapping it; on a phone the bottom sheet covers it the
-   same way */
+   same way. Also under the Overlays box (149 < 150): on a phone the open list reaches
+   its corner */
 .credits {
   position: fixed;
   bottom: var(--edge-bottom);
   right: var(--edge-right);
-  z-index: 150;
+  z-index: 149;
   max-width: calc(100vw - 2 * var(--edge-right));
   padding: 4px 8px;
   border-radius: 4px;
@@ -985,10 +986,10 @@
 }
 
 /* Narrow screens: the credit line wraps into a block beside the Flat map / Globe switch
-   (about 200 px wide) instead of running under it */
+   (up to 165 px wide on a touch screen) instead of running under it */
 @media (max-width: 600px) {
   .credits {
-    max-width: calc(100vw - var(--edge-left) - var(--edge-right) - 210px);
+    max-width: calc(100vw - var(--edge-left) - var(--edge-right) - 178px);
   }
 }
 
